@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Event - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-pencil me-2"></i>Edit Event: {{ event.title }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label for="title" class="form-label">Event Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="title" id="title" required 
+                                       value="{{ event.title }}" placeholder="e.g.: Public Meeting, Election Rally, Seminar">
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <label for="event_type" class="form-label">Event Type <span class="text-danger">*</span></label>
+                                <select class="form-select" name="event_type" id="event_type" required>
+                                    <option value="">Select Type...</option>
+                                    <option value="RALLY" {% if event.event_type == 'RALLY' %}selected{% endif %}>Rally</option>
+                                    <option value="MEETING" {% if event.event_type == 'MEETING' %}selected{% endif %}>Public Meeting</option>
+                                    <option value="SEMINAR" {% if event.event_type == 'SEMINAR' %}selected{% endif %}>Seminar</option>
+                                    <option value="WORKSHOP" {% if event.event_type == 'WORKSHOP' %}selected{% endif %}>Workshop</option>
+                                    <option value="CONFERENCE" {% if event.event_type == 'CONFERENCE' %}selected{% endif %}>Conference</option>
+                                    <option value="DOOR_TO_DOOR" {% if event.event_type == 'DOOR_TO_DOOR' %}selected{% endif %}>Door-to-Door Campaign</option>
+                                    <option value="BOAT_CAMPAIGN" {% if event.event_type == 'BOAT_CAMPAIGN' %}selected{% endif %}>Boat Campaign</option>
+                                    <option value="FISHING_DEMO" {% if event.event_type == 'FISHING_DEMO' %}selected{% endif %}>Fishing Demonstration</option>
+                                    <option value="COMMUNITY_FEAST" {% if event.event_type == 'COMMUNITY_FEAST' %}selected{% endif %}>Community Feast</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
+                            <textarea class="form-control" name="description" id="description" rows="4" required
+                                      placeholder="Detailed information about the event...">{{ event.description }}</textarea>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="date_time" class="form-label">Event Date and Time <span class="text-danger">*</span></label>
+                                <input type="datetime-local" class="form-control" name="date_time" id="date_time" required
+                                       value="{{ event.date_time|date:'Y-m-d\TH:i' }}">
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="end_time" class="form-label">End Time</label>
+                                <input type="datetime-local" class="form-control" name="end_time" id="end_time"
+                                       {% if event.end_time %}value="{{ event.end_time|date:'Y-m-d\TH:i' }}"{% endif %}>
+                                <div class="form-text">Optional - if specific duration is required</div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="venue" class="form-label">Venue <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="venue" id="venue" required 
+                                       value="{{ event.venue }}" placeholder="e.g.: Community Hall, Park, School">
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="contact_phone" class="form-label">Contact Number</label>
+                                <input type="tel" class="form-control" name="contact_phone" id="contact_phone" 
+                                       value="{{ event.contact_phone }}" placeholder="Phone number for contact">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Complete Address <span class="text-danger">*</span></label>
+                            <textarea class="form-control" name="address" id="address" rows="2" required
+                                      placeholder="Complete address of the venue...">{{ event.address }}</textarea>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="max_attendees" class="form-label">Maximum Attendees</label>
+                                <input type="number" class="form-control" name="max_attendees" id="max_attendees" 
+                                       min="0" value="{{ event.max_attendees }}" placeholder="0 = Unlimited">
+                                <div class="form-text">0 = Unlimited attendees</div>
+                            </div>
+                            
+                            <div class="col-md-3 mb-3">
+                                <label for="estimated_cost" class="form-label">Estimated Cost (₹)</label>
+                                <input type="number" class="form-control" name="estimated_cost" id="estimated_cost" 
+                                       min="0" step="0.01" value="{{ event.estimated_cost }}" placeholder="0.00">
+                            </div>
+                            
+                            <div class="col-md-3 mb-3">
+                                <label for="status" class="form-label">Event Status</label>
+                                <select class="form-select" name="status" id="status">
+                                    <option value="SCHEDULED" {% if event.status == 'SCHEDULED' %}selected{% endif %}>Scheduled</option>
+                                    <option value="ONGOING" {% if event.status == 'ONGOING' %}selected{% endif %}>Ongoing</option>
+                                    <option value="COMPLETED" {% if event.status == 'COMPLETED' %}selected{% endif %}>Completed</option>
+                                    <option value="CANCELLED" {% if event.status == 'CANCELLED' %}selected{% endif %}>Cancelled</option>
+                                    <option value="POSTPONED" {% if event.status == 'POSTPONED' %}selected{% endif %}>Postponed</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-3 mb-3">
+                                <label for="campaign_id" class="form-label">Link to Campaign</label>
+                                <select class="form-select" name="campaign_id" id="campaign_id">
+                                    <option value="">No Campaign</option>
+                                    {% for campaign in campaigns %}
+                                    <option value="{{ campaign.id }}" 
+                                            {% if event.campaign and event.campaign.id == campaign.id %}selected{% endif %}>
+                                        {{ campaign.title }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="registration_required" id="registration_required" 
+                                           {% if event.registration_required %}checked{% endif %}>
+                                    <label class="form-check-label" for="registration_required">
+                                        Registration Required
+                                    </label>
+                                </div>
+                                
+                                <div id="registration_deadline_group">
+                                    <label for="registration_deadline" class="form-label">Registration Deadline</label>
+                                    <input type="datetime-local" class="form-control" name="registration_deadline" id="registration_deadline"
+                                           {% if event.registration_deadline %}value="{{ event.registration_deadline|date:'Y-m-d\TH:i' }}"{% endif %}>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="is_public" id="is_public" 
+                                           {% if event.is_public %}checked{% endif %}>
+                                    <label class="form-check-label" for="is_public">
+                                        Public Event
+                                    </label>
+                                </div>
+                                
+                                <label for="image" class="form-label">Event Image</label>
+                                <input type="file" class="form-control" name="image" id="image" accept="image/*">
+                                {% if event.image %}
+                                    <div class="form-text text-success">
+                                        <i class="bi bi-check me-1"></i>Current Image: {{ event.image.name }}
+                                    </div>
+                                {% endif %}
+                                <div class="form-text">JPG, PNG, GIF files are acceptable.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="requirements" class="form-label">Requirements or Special Instructions</label>
+                            <textarea class="form-control" name="requirements" id="requirements" rows="3"
+                                      placeholder="Any special requirements or instructions for participants...">{{ event.requirements }}</textarea>
+                        </div>
+                        
+                        {% if event.image %}
+                        <div class="mb-3">
+                            <label class="form-label">Current Image</label><br>
+                            <img src="{{ event.image.url }}" alt="{{ event.title }}" 
+                                 class="img-thumbnail" style="max-width: 200px; max-height: 150px;">
+                        </div>
+                        {% endif %}
+                        
+                        <div class="alert alert-info">
+                            <h6><i class="bi bi-info-circle me-2"></i>Event Information</h6>
+                            <div class="row small">
+                                <div class="col-md-4">
+                                    <strong>Slug:</strong> {{ event.slug }}
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Creation Date:</strong> {{ event.created_at|date:"d M Y, H:i" }}
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Last Update:</strong> {{ event.updated_at|date:"d M Y, H:i" }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'campaigns:admin_events_dashboard' %}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Go Back
+                            </a>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="bi bi-pencil me-1"></i>Update Event
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const registrationRequired = document.getElementById('registration_required');
+    const registrationDeadlineGroup = document.getElementById('registration_deadline_group');
+    const dateTimeInput = document.getElementById('date_time');
+    const endTimeInput = document.getElementById('end_time');
+    
+    // Toggle registration deadline field
+    function toggleRegistrationDeadline() {
+        if (registrationRequired.checked) {
+            registrationDeadlineGroup.style.display = 'block';
+        } else {
+            registrationDeadlineGroup.style.display = 'none';
+        }
+    }
+    
+    registrationRequired.addEventListener('change', toggleRegistrationDeadline);
+    toggleRegistrationDeadline(); // Initialize
+    
+    // Update end time minimum when event date changes
+    dateTimeInput.addEventListener('change', function() {
+        endTimeInput.min = this.value;
+    });
+});
+</script>
+{% endblock %}

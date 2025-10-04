@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}Return Asset - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-arrow-return-left me-2"></i>Return Asset
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <h6><i class="bi bi-info-circle me-2"></i>Asset Information</h6>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <strong>Asset:</strong><br>
+                                {{ assignment.asset.name }}<br>
+                                <small class="text-muted">Code: {{ assignment.asset.asset_code }}</small>
+                            </div>
+                            <div class="col-sm-6">
+                                <strong>Assignment Date:</strong><br>
+                                {{ assignment.assignment_date|date:"d M Y" }}<br>
+                                <small class="text-muted">{{ assignment.days_assigned }} days in use</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if assignment.is_overdue %}
+                    <div class="alert alert-danger">
+                        <h6><i class="bi bi-exclamation-triangle me-2"></i>Late Return</h6>
+                        <p class="mb-0">This asset was supposed to be returned on {{ assignment.expected_return_date|date:"d M Y" }}.</p>
+                    </div>
+                    {% endif %}
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="condition" class="form-label">Asset Condition at Return <span class="text-danger">*</span></label>
+                            <select class="form-select" name="condition" id="condition" required>
+                                <option value="">Select Condition...</option>
+                                <option value="EXCELLENT">Excellent</option>
+                                <option value="GOOD">Good</option>
+                                <option value="FAIR">Fair</option>
+                                <option value="POOR">Poor</option>
+                                <option value="DAMAGED">Damaged</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="damage_reported" id="damage_reported">
+                                <label class="form-check-label text-danger" for="damage_reported">
+                                    <strong>Asset has been damaged</strong>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3" id="damage_details" style="display: none;">
+                            <label for="damage_description" class="form-label">Damage Description <span class="text-danger">*</span></label>
+                            <textarea class="form-control" name="damage_description" id="damage_description" rows="3"
+                                      placeholder="Please provide detailed description of the damage..."></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="return_notes" class="form-label">Return Notes</label>
+                            <textarea class="form-control" name="return_notes" id="return_notes" rows="3"
+                                      placeholder="Information about asset usage or any special notes..."></textarea>
+                        </div>
+                        
+                        <div class="alert alert-warning">
+                            <h6><i class="bi bi-exclamation-triangle me-2"></i>Important</h6>
+                            <ul class="mb-0 small">
+                                <li>After returning the asset, you will no longer be responsible for it.</li>
+                                <li>Please provide accurate condition information so the asset can be properly evaluated.</li>
+                                <li>If there is any damage, please report it honestly.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'accounts:dashboard' %}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Go Back
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check me-1"></i>Return Asset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const damageCheckbox = document.getElementById('damage_reported');
+    const damageDetails = document.getElementById('damage_details');
+    const damageDescription = document.getElementById('damage_description');
+    
+    damageCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            damageDetails.style.display = 'block';
+            damageDescription.required = true;
+        } else {
+            damageDetails.style.display = 'none';
+            damageDescription.required = false;
+            damageDescription.value = '';
+        }
+    });
+});
+</script>
+{% endblock %}

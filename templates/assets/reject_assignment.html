@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Reject Asset Assignment - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-x-circle me-2"></i>Reject Asset Assignment
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <h6><i class="bi bi-info-circle me-2"></i>Asset Information</h6>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <strong>Asset:</strong><br>
+                                {{ assignment.asset.name }}<br>
+                                <small class="text-muted">Code: {{ assignment.asset.asset_code }}</small>
+                            </div>
+                            <div class="col-sm-6">
+                                <strong>Purpose:</strong><br>
+                                {{ assignment.purpose }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="rejection_reason" class="form-label">Reason for Rejection <span class="text-danger">*</span></label>
+                            <textarea class="form-control" name="rejection_reason" id="rejection_reason" rows="4" required
+                                      placeholder="Please explain why you are rejecting this asset assignment..."></textarea>
+                            <div class="form-text">This information will be sent to administrators.</div>
+                        </div>
+                        
+                        <div class="alert alert-warning">
+                            <h6><i class="bi bi-exclamation-triangle me-2"></i>Confirm</h6>
+                            <p class="mb-0">Do you really want to reject this asset assignment? This action cannot be undone.</p>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'accounts:dashboard' %}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Go Back
+                            </a>
+                            <div>
+                                <a href="{% url 'assets:accept' assignment.id %}" class="btn btn-success me-2">
+                                    <i class="bi bi-check me-1"></i>Accept
+                                </a>
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-x me-1"></i>Reject
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

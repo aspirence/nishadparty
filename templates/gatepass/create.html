@@ -1,0 +1,404 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Gate Pass - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">
+                            <i class="bi bi-plus-circle"></i>
+                            Create New Gate Pass
+                        </h4>
+                        <a href="{% url 'gatepass:dashboard' %}" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i>
+                            Back to Dashboard
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Form Errors Display -->
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <strong>❌ Form Errors:</strong>
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+                    
+                    {% if form.errors %}
+                        <div class="alert alert-warning">
+                            <strong>⚠️ Please fix the following issues:</strong>
+                            <ul class="mb-0 mt-2">
+                                {% for field, errors in form.errors.items %}
+                                    {% for error in errors %}
+                                        <li><strong>{{ field }}:</strong> {{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    
+                    <form method="post" class="needs-validation" novalidate id="gatepass-form">
+                        {% csrf_token %}
+                        
+                        <!-- Visitor Information -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="border-bottom pb-2">
+                                    <i class="bi bi-person"></i>
+                                    Visitor Information
+                                </h5>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.visitor_name.id_for_label }}" class="form-label">
+                                    Visitor Name <span class="text-danger">*</span>
+                                </label>
+                                {{ form.visitor_name }}
+                                {% if form.visitor_name.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.visitor_name.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.visitor_phone.id_for_label }}" class="form-label">
+                                    Phone Number <span class="text-danger">*</span>
+                                </label>
+                                {{ form.visitor_phone }}
+                                {% if form.visitor_phone.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.visitor_phone.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.visitor_email.id_for_label }}" class="form-label">
+                                    Email Address
+                                </label>
+                                {{ form.visitor_email }}
+                                {% if form.visitor_email.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.visitor_email.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.visitor_id_proof.id_for_label }}" class="form-label">
+                                    ID Proof Number <span class="text-danger">*</span>
+                                </label>
+                                {{ form.visitor_id_proof }}
+                                <div class="form-text">Aadhaar, PAN, Driving License, etc.</div>
+                                {% if form.visitor_id_proof.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.visitor_id_proof.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label for="{{ form.company_organization.id_for_label }}" class="form-label">
+                                    Company/Organization
+                                </label>
+                                {{ form.company_organization }}
+                                {% if form.company_organization.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.company_organization.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Pass Details -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="border-bottom pb-2">
+                                    <i class="bi bi-card-text"></i>
+                                    Pass Details
+                                </h5>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="{{ form.pass_type.id_for_label }}" class="form-label">
+                                    Pass Type <span class="text-danger">*</span>
+                                </label>
+                                {{ form.pass_type }}
+                                {% if form.pass_type.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.pass_type.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="{{ form.valid_from.id_for_label }}" class="form-label">
+                                    Valid From <span class="text-danger">*</span>
+                                </label>
+                                {{ form.valid_from }}
+                                {% if form.valid_from.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.valid_from.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="{{ form.valid_until.id_for_label }}" class="form-label">
+                                    Valid Until <span class="text-danger">*</span>
+                                </label>
+                                {{ form.valid_until }}
+                                {% if form.valid_until.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.valid_until.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label for="{{ form.purpose.id_for_label }}" class="form-label">
+                                    Purpose of Visit <span class="text-danger">*</span>
+                                </label>
+                                {{ form.purpose }}
+                                {% if form.purpose.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.purpose.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label for="{{ form.authorized_areas.id_for_label }}" class="form-label">
+                                    Authorized Areas
+                                </label>
+                                {{ form.authorized_areas }}
+                                <div class="form-text">Specify which areas the visitor can access</div>
+                                {% if form.authorized_areas.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.authorized_areas.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Escort Information -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="border-bottom pb-2">
+                                    <i class="bi bi-people"></i>
+                                    Escort Information
+                                </h5>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="form-check">
+                                    {{ form.escort_required }}
+                                    <label class="form-check-label" for="{{ form.escort_required.id_for_label }}">
+                                        Escort Required
+                                    </label>
+                                </div>
+                                {% if form.escort_required.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.escort_required.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4 mb-3" id="escort-name-field">
+                                <label for="{{ form.escort_name.id_for_label }}" class="form-label">
+                                    Escort Name
+                                </label>
+                                {{ form.escort_name }}
+                                {% if form.escort_name.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.escort_name.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4 mb-3" id="escort-phone-field">
+                                <label for="{{ form.escort_phone.id_for_label }}" class="form-label">
+                                    Escort Phone
+                                </label>
+                                {{ form.escort_phone }}
+                                {% if form.escort_phone.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.escort_phone.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Additional Notes -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="border-bottom pb-2">
+                                    <i class="bi bi-chat-text"></i>
+                                    Additional Information
+                                </h5>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label for="{{ form.notes.id_for_label }}" class="form-label">
+                                    Additional Notes
+                                </label>
+                                {{ form.notes }}
+                                {% if form.notes.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.notes.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Submit Buttons -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a href="{% url 'gatepass:dashboard' %}" class="btn btn-outline-secondary">
+                                        <i class="bi bi-x"></i>
+                                        Cancel
+                                    </a>
+                                    <button type="submit" class="btn btn-primary" id="submit-btn">
+                                        <span id="submit-text">
+                                            <i class="bi bi-check"></i>
+                                            Create Gate Pass
+                                        </span>
+                                        <span id="submit-loading" style="display: none;">
+                                            <span class="spinner-border spinner-border-sm me-2"></span>
+                                            Creating...
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const escortRequiredCheckbox = document.getElementById('{{ form.escort_required.id_for_label }}');
+    const escortNameField = document.getElementById('escort-name-field');
+    const escortPhoneField = document.getElementById('escort-phone-field');
+    const form = document.getElementById('gatepass-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const submitText = document.getElementById('submit-text');
+    const submitLoading = document.getElementById('submit-loading');
+    
+    // Toggle escort fields
+    function toggleEscortFields() {
+        if (escortRequiredCheckbox.checked) {
+            escortNameField.style.display = 'block';
+            escortPhoneField.style.display = 'block';
+            // Make escort fields required
+            document.getElementById('{{ form.escort_name.id_for_label }}').setAttribute('required', 'required');
+            document.getElementById('{{ form.escort_phone.id_for_label }}').setAttribute('required', 'required');
+        } else {
+            escortNameField.style.display = 'none';
+            escortPhoneField.style.display = 'none';
+            // Remove required from escort fields
+            document.getElementById('{{ form.escort_name.id_for_label }}').removeAttribute('required');
+            document.getElementById('{{ form.escort_phone.id_for_label }}').removeAttribute('required');
+        }
+    }
+    
+    escortRequiredCheckbox.addEventListener('change', toggleEscortFields);
+    toggleEscortFields(); // Initial call
+    
+    // Form validation and submission
+    form.addEventListener('submit', function(e) {
+        let isValid = true;
+        const requiredFields = form.querySelectorAll('input[required], select[required], textarea[required]');
+        
+        // Clear previous validation styles
+        document.querySelectorAll('.is-invalid').forEach(field => {
+            field.classList.remove('is-invalid');
+        });
+        
+        // Validate required fields
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                field.classList.add('is-invalid');
+                isValid = false;
+            }
+        });
+        
+        // Validate date fields
+        const validFrom = document.getElementById('{{ form.valid_from.id_for_label }}');
+        const validUntil = document.getElementById('{{ form.valid_until.id_for_label }}');
+        
+        if (validFrom.value && validUntil.value) {
+            const fromDate = new Date(validFrom.value);
+            const untilDate = new Date(validUntil.value);
+            const now = new Date();
+            
+            if (fromDate >= untilDate) {
+                validUntil.classList.add('is-invalid');
+                isValid = false;
+                alert('Valid until date must be after valid from date');
+            }
+            
+            if (fromDate < now && (now - fromDate) > 3600000) { // Allow 1 hour buffer
+                validFrom.classList.add('is-invalid');
+                isValid = false;
+                alert('Valid from date cannot be in the past');
+            }
+        }
+        
+        // Phone number validation
+        const phoneField = document.getElementById('{{ form.visitor_phone.id_for_label }}');
+        const phonePattern = /^[6-9]\d{9}$/;
+        if (phoneField.value && !phonePattern.test(phoneField.value)) {
+            phoneField.classList.add('is-invalid');
+            isValid = false;
+            alert('Please enter a valid 10-digit phone number');
+        }
+        
+        if (!isValid) {
+            e.preventDefault();
+            return false;
+        }
+        
+        // Show loading state
+        submitText.style.display = 'none';
+        submitLoading.style.display = 'inline';
+        submitBtn.disabled = true;
+        
+        // Re-enable button after 10 seconds (in case of network issues)
+        setTimeout(function() {
+            submitText.style.display = 'inline';
+            submitLoading.style.display = 'none';
+            submitBtn.disabled = false;
+        }, 10000);
+    });
+    
+    // Real-time validation
+    document.querySelectorAll('input, select, textarea').forEach(field => {
+        field.addEventListener('blur', function() {
+            if (this.hasAttribute('required') && !this.value.trim()) {
+                this.classList.add('is-invalid');
+            } else {
+                this.classList.remove('is-invalid');
+            }
+        });
+        
+        field.addEventListener('input', function() {
+            if (this.classList.contains('is-invalid') && this.value.trim()) {
+                this.classList.remove('is-invalid');
+            }
+        });
+    });
+    
+    // Set default dates (valid from: now, valid until: 24 hours from now)
+    const now = new Date();
+    const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+    
+    const formatDate = (date) => {
+        return date.toISOString().slice(0, 16);
+    };
+    
+    if (!document.getElementById('{{ form.valid_from.id_for_label }}').value) {
+        document.getElementById('{{ form.valid_from.id_for_label }}').value = formatDate(now);
+    }
+    
+    if (!document.getElementById('{{ form.valid_until.id_for_label }}').value) {
+        document.getElementById('{{ form.valid_until.id_for_label }}').value = formatDate(tomorrow);
+    }
+});
+</script>
+{% endblock %}

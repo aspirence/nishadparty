@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Asset - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-trash me-2"></i>Delete Asset
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <h6><i class="bi bi-exclamation-triangle me-2"></i>Warning</h6>
+                        <p class="mb-0">You are about to permanently delete the following asset. This action cannot be undone.</p>
+                    </div>
+                    
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                {% if asset.image %}
+                                    <img src="{{ asset.image.url }}" alt="{{ asset.name }}" 
+                                         class="rounded me-3" style="width: 80px; height: 80px; object-fit: cover;">
+                                {% else %}
+                                    <div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" 
+                                         style="width: 80px; height: 80px;">
+                                        <i class="bi bi-box text-muted fs-2"></i>
+                                    </div>
+                                {% endif %}
+                                <div>
+                                    <h6 class="mb-1">{{ asset.name }}</h6>
+                                    <p class="mb-1"><strong>Code:</strong> {{ asset.asset_code }}</p>
+                                    <p class="mb-1"><strong>Type:</strong> {{ asset.get_asset_type_display }}</p>
+                                    <p class="mb-0"><strong>Condition:</strong> {{ asset.get_condition_display }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h6>Detailed Asset Information:</h6>
+                        <div class="row small">
+                            <div class="col-sm-6">
+                                <strong>Current Status:</strong> {{ asset.get_status_display }}
+                            </div>
+                            <div class="col-sm-6">
+                                <strong>Location:</strong> {{ asset.current_location|default:"Unknown" }}
+                            </div>
+                            {% if asset.manufacturer %}
+                            <div class="col-sm-6 mt-2">
+                                <strong>Manufacturer:</strong> {{ asset.manufacturer }}
+                            </div>
+                            {% endif %}
+                            {% if asset.model_number %}
+                            <div class="col-sm-6 mt-2">
+                                <strong>Model:</strong> {{ asset.model_number }}
+                            </div>
+                            {% endif %}
+                            {% if asset.purchase_cost %}
+                            <div class="col-sm-6 mt-2">
+                                <strong>Cost:</strong> ₹{{ asset.purchase_cost }}
+                            </div>
+                            {% endif %}
+                            <div class="col-sm-6 mt-2">
+                                <strong>Creation Date:</strong> {{ asset.created_at|date:"d M Y" }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Check for active assignments -->
+                    {% if asset.checkouts.count > 0 %}
+                    <div class="alert alert-danger">
+                        <h6><i class="bi bi-exclamation-circle me-2"></i>Important</h6>
+                        <p class="mb-0">
+                            This asset has <strong>{{ asset.checkouts.count }} assignment history</strong>. 
+                            Deleting the asset will also delete all related records.
+                        </p>
+                    </div>
+                    {% endif %}
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="alert alert-danger">
+                            <h6><i class="bi bi-exclamation-triangle me-2"></i>Confirm</h6>
+                            <p class="mb-0">
+                                Do you really want to permanently delete the asset "<strong>{{ asset.name }} ({{ asset.asset_code }})</strong>"?
+                            </p>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'assets:list' %}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash me-1"></i>Delete Asset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

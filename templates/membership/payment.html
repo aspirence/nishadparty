@@ -1,0 +1,492 @@
+{% extends 'base.html' %}
+
+{% block title %}Payment - Nishad Party Membership{% endblock %}
+
+{% block extra_css %}
+<style>
+.payment-hero {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    padding: 3rem 0;
+    margin-bottom: 3rem;
+}
+
+.payment-hero h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.payment-hero .hero-icon {
+    font-size: 3rem;
+    background: rgba(255, 215, 0, 0.2);
+    padding: 1rem;
+    border-radius: 15px;
+}
+
+.payment-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.payment-card {
+    background: var(--secondary-white);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 2rem;
+}
+
+.payment-header {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 2rem;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.payment-header h2 {
+    color: var(--dark-gray);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.payment-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.detail-value {
+    font-weight: 700;
+    color: var(--dark-gray);
+}
+
+.amount-highlight {
+    color: var(--primary-red);
+    font-size: 1.25rem;
+}
+
+.payment-body {
+    padding: 3rem;
+}
+
+.payment-methods {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+.qr-section {
+    text-align: center;
+}
+
+.qr-section h3 {
+    color: var(--dark-gray);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.qr-code-container {
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    border: 3px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+}
+
+.qr-code-image {
+    max-width: 250px;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+}
+
+.qr-instructions {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    border: 2px solid #2196f3;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.qr-instructions h4 {
+    color: #1565c0;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.qr-instructions ol {
+    margin: 0;
+    padding-left: 1.5rem;
+    color: #1565c0;
+}
+
+.qr-instructions li {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.manual-section {
+    background: linear-gradient(135deg, #fff8e1, #fff3c4);
+    border: 2px solid #ffc107;
+    border-radius: 20px;
+    padding: 2rem;
+}
+
+.manual-section h3 {
+    color: #f57c00;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.manual-details {
+    background: var(--secondary-white);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.manual-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f1f5f9;
+    font-weight: 500;
+}
+
+.manual-item:last-child {
+    border-bottom: none;
+}
+
+.manual-item .label {
+    color: var(--text-muted);
+}
+
+.manual-item .value {
+    color: var(--dark-gray);
+    font-weight: 700;
+    text-align: right;
+}
+
+.copy-btn {
+    background: linear-gradient(135deg, #ffc107, #ffcd39);
+    color: #856404;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.copy-btn:hover {
+    background: linear-gradient(135deg, #ffb300, #ffc107);
+    transform: translateY(-1px);
+}
+
+.payment-actions {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid #f1f5f9;
+}
+
+.confirm-btn {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: var(--secondary-white);
+    border: none;
+    padding: 1.25rem 3rem;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 250px;
+    justify-content: center;
+    margin-right: 1rem;
+}
+
+.confirm-btn:hover {
+    background: linear-gradient(135deg, #218838, #28a745);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.cancel-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: 2px solid #e2e8f0;
+    padding: 1.25rem 3rem;
+    border-radius: 16px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 200px;
+    justify-content: center;
+}
+
+.cancel-btn:hover {
+    border-color: var(--primary-red);
+    color: var(--primary-red);
+    text-decoration: none;
+}
+
+.payment-note {
+    background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+    border: 2px solid #dc3545;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.payment-note p {
+    color: #721c24;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .payment-hero {
+        padding: 2rem 0;
+        text-align: center;
+    }
+
+    .payment-hero h1 {
+        font-size: 2rem;
+        flex-direction: column;
+    }
+
+    .payment-details {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .payment-methods {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .payment-body {
+        padding: 2rem;
+    }
+
+    .payment-actions .confirm-btn,
+    .payment-actions .cancel-btn {
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Payment Hero -->
+<div class="payment-hero">
+    <div class="container">
+        <div class="text-center">
+            <h1>
+                <i class="bi bi-credit-card hero-icon"></i>
+                Complete Your Payment
+            </h1>
+            <p class="lead">Secure payment for your Nishad Party membership</p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="payment-container">
+        <!-- Payment Summary Card -->
+        <div class="payment-card">
+            <div class="payment-header">
+                <h2><i class="bi bi-receipt"></i>Payment Summary</h2>
+                <div class="payment-details">
+                    <div>
+                        <div class="detail-item">
+                            <span class="detail-label">Member Name:</span>
+                            <span class="detail-value">{{ membership.full_name }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Membership ID:</span>
+                            <span class="detail-value">{{ membership.membership_id }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Payment ID:</span>
+                            <span class="detail-value">{{ payment_id }}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="detail-item">
+                            <span class="detail-label">Validity:</span>
+                            <span class="detail-value">12 Months</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Valid Until:</span>
+                            <span class="detail-value">{{ membership.end_date|date:"d M Y" }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Amount:</span>
+                            <span class="detail-value amount-highlight">₹{{ membership.amount_paid }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment-body">
+                <div class="payment-methods">
+                    <!-- QR Code Section -->
+                    <div class="qr-section">
+                        <h3><i class="bi bi-qr-code-scan"></i>Scan QR Code</h3>
+                        <div class="qr-code-container">
+                            <img src="data:image/png;base64,{{ qr_code_base64 }}" alt="Payment QR Code" class="qr-code-image">
+                        </div>
+                        <div class="qr-instructions">
+                            <h4><i class="bi bi-info-circle"></i>How to Pay</h4>
+                            <ol>
+                                <li>Open any UPI app (PhonePe, Paytm, Google Pay, etc.)</li>
+                                <li>Scan the QR code above</li>
+                                <li>Verify amount: ₹{{ membership.amount_paid }}</li>
+                                <li>Complete the payment</li>
+                                <li>Click "I've Paid" button below</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Manual Payment Section -->
+                    <div class="manual-section">
+                        <h3><i class="bi bi-phone"></i>Manual Payment</h3>
+                        <div class="manual-details">
+                            <div class="manual-item">
+                                <span class="label">UPI ID:</span>
+                                <span class="value">
+                                    nishadparty@upi
+                                    <button class="copy-btn" onclick="copyToClipboard('nishadparty@upi')">Copy</button>
+                                </span>
+                            </div>
+                            <div class="manual-item">
+                                <span class="label">Payment ID:</span>
+                                <span class="value">
+                                    {{ payment_id }}
+                                    <button class="copy-btn" onclick="copyToClipboard('{{ payment_id }}')">Copy</button>
+                                </span>
+                            </div>
+                            <div class="manual-item">
+                                <span class="label">Amount:</span>
+                                <span class="value amount-highlight">₹{{ membership.amount_paid }}</span>
+                            </div>
+                            <div class="manual-item">
+                                <span class="label">Note:</span>
+                                <span class="value">Membership Payment</span>
+                            </div>
+                        </div>
+                        <p style="color: #f57c00; font-weight: 600; margin: 0; font-size: 0.9rem;">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            Please mention the Payment ID in the transaction note
+                        </p>
+                    </div>
+                </div>
+
+                <div class="payment-actions">
+                    <form method="post" action="{% url 'membership:payment_complete' membership.id %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="confirm-btn">
+                            <i class="bi bi-check-circle-fill"></i>
+                            I've Completed Payment
+                        </button>
+                    </form>
+                    <a href="{% url 'membership:home' %}" class="cancel-btn">
+                        <i class="bi bi-arrow-left"></i>
+                        Cancel & Go Back
+                    </a>
+                </div>
+
+                <div class="payment-note">
+                    <p>
+                        <i class="bi bi-shield-check"></i>
+                        Your payment is secure. After confirmation, your membership will be activated within 24 hours.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        // Show success feedback
+        const event = new CustomEvent('show-toast', {
+            detail: { message: 'Copied to clipboard!', type: 'success' }
+        });
+        document.dispatchEvent(event);
+    }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+    });
+}
+
+// Auto-refresh payment status (in a real app, you might want to check payment status)
+let refreshTimer;
+function startPaymentStatusCheck() {
+    refreshTimer = setInterval(function() {
+        // In a real implementation, you would check payment status here
+        console.log('Checking payment status...');
+    }, 30000); // Check every 30 seconds
+}
+
+// Start checking when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    startPaymentStatusCheck();
+});
+
+// Clean up timer when page unloads
+window.addEventListener('beforeunload', function() {
+    if (refreshTimer) {
+        clearInterval(refreshTimer);
+    }
+});
+</script>
+{% endblock %}

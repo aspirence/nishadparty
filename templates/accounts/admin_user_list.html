@@ -1,0 +1,1374 @@
+{% extends 'base.html' %}
+
+{% block title %}User Management - Nishad Party{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Admin Layout */
+.admin-container {
+    min-height: calc(100vh - 140px);
+    padding: 1rem 0;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+/* Left Sidebar - Analytics */
+.analytics-sidebar {
+    background: var(--secondary-white);
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-lg);
+    position: sticky;
+    top: 2rem;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+}
+
+.sidebar-title {
+    color: var(--dark-gray);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.sidebar-icon {
+    color: var(--primary-red);
+    font-size: 1.5rem;
+}
+
+.analytics-section {
+    margin-bottom: 2rem;
+}
+
+.analytics-section h4 {
+    color: var(--dark-gray);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    border: 2px solid #f1f5f9;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    border-color: var(--primary-red);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-card.primary {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    border-color: var(--primary-red);
+}
+
+.stat-card.success {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: var(--secondary-white);
+    border-color: #28a745;
+}
+
+.stat-card.info {
+    background: linear-gradient(135deg, #17a2b8, #20c997);
+    color: var(--secondary-white);
+    border-color: #17a2b8;
+}
+
+.stat-card.warning {
+    background: linear-gradient(135deg, #ffc107, #ffcd39);
+    color: #856404;
+    border-color: #ffc107;
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.stat-icon {
+    font-size: 2rem;
+    opacity: 0.7;
+    float: right;
+    margin-top: -0.5rem;
+}
+
+.chart-container {
+    background: var(--secondary-white);
+    border-radius: 12px;
+    padding: 1rem;
+    border: 1px solid #f1f5f9;
+    margin-top: 1rem;
+}
+
+.progress-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.progress-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--dark-gray);
+}
+
+.progress-bar-container {
+    flex: 1;
+    margin: 0 1rem;
+    height: 8px;
+    background: #f1f5f9;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.progress-bar.supporter { background: linear-gradient(90deg, #6f42c1, #8a63d2); }
+.progress-bar.member { background: linear-gradient(90deg, #28a745, #20c997); }
+.progress-bar.volunteer { background: linear-gradient(90deg, #17a2b8, #20c997); }
+.progress-bar.coordinator { background: linear-gradient(90deg, #ffc107, #ffcd39); }
+.progress-bar.administrator { background: linear-gradient(90deg, var(--primary-red), #FF1744); }
+
+.progress-value {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    min-width: 30px;
+    text-align: right;
+}
+
+/* Right Content - User List */
+.content-area {
+    background: var(--secondary-white);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+.content-header {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 1.5rem;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.content-title {
+    color: var(--dark-gray);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.filter-section {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.filter-form {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 1rem;
+    align-items: end;
+}
+
+.filter-group {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--dark-gray);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.modern-input {
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    background: var(--secondary-white);
+    transition: all 0.3s ease;
+}
+
+.modern-input:focus {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px rgba(213, 0, 0, 0.1);
+    outline: none;
+}
+
+.modern-select {
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    background: var(--secondary-white);
+    transition: all 0.3s ease;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+}
+
+.modern-select:focus {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px rgba(213, 0, 0, 0.1);
+    outline: none;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-modern {
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 48px;
+}
+
+.btn-primary-modern {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+}
+
+.btn-primary-modern:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    background: linear-gradient(135deg, #B71C1C, var(--primary-red));
+}
+
+.btn-secondary-modern {
+    background: #6c757d;
+    color: var(--secondary-white);
+}
+
+.btn-secondary-modern:hover {
+    background: #5a6268;
+    transform: translateY(-1px);
+}
+
+/* Users Table */
+.users-table-container {
+    padding: 0;
+    overflow: hidden;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+}
+
+.users-table thead {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+.users-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--dark-gray);
+    border-bottom: 2px solid #f1f5f9;
+    font-size: 0.9rem;
+}
+
+.users-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+.users-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.users-table tbody tr:hover {
+    background: rgba(213, 0, 0, 0.02);
+    transform: scale(1.001);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #f1f5f9;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-avatar .avatar-icon {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+}
+
+.user-details h6 {
+    margin: 0 0 0.25rem 0;
+    font-weight: 600;
+    color: var(--dark-gray);
+}
+
+.user-id {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: 'Monaco', 'Consolas', monospace;
+}
+
+.contact-info {
+    line-height: 1.4;
+}
+
+.contact-info i {
+    color: var(--primary-red);
+    margin-right: 0.5rem;
+}
+
+.contact-item {
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+}
+
+.user-type-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 2px solid;
+}
+
+.badge-supporter {
+    background: linear-gradient(135deg, #6f42c1, #8a63d2);
+    color: var(--secondary-white);
+    border-color: #6f42c1;
+}
+
+.badge-member {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: var(--secondary-white);
+    border-color: #28a745;
+}
+
+.badge-volunteer {
+    background: linear-gradient(135deg, #17a2b8, #20c997);
+    color: var(--secondary-white);
+    border-color: #17a2b8;
+}
+
+.badge-coordinator {
+    background: linear-gradient(135deg, #ffc107, #ffcd39);
+    color: #856404;
+    border-color: #ffc107;
+}
+
+.badge-administrator {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    border-color: var(--primary-red);
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.status-active .status-dot {
+    background: #28a745;
+    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.2);
+}
+
+.status-inactive .status-dot {
+    background: #dc3545;
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.2);
+}
+
+.status-active {
+    color: #28a745;
+}
+
+.status-inactive {
+    color: #dc3545;
+}
+
+.registration-date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.user-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-btn {
+    padding: 0.5rem;
+    border: 2px solid;
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    min-width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn.view {
+    color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.action-btn.view:hover {
+    background: #17a2b8;
+    color: var(--secondary-white);
+    transform: translateY(-1px);
+}
+
+.action-btn.edit {
+    color: var(--primary-red);
+    border-color: var(--primary-red);
+}
+
+.action-btn.edit:hover {
+    background: var(--primary-red);
+    color: var(--secondary-white);
+    transform: translateY(-1px);
+}
+
+.action-btn.toggle {
+    color: #ffc107;
+    border-color: #ffc107;
+}
+
+.action-btn.toggle:hover {
+    background: #ffc107;
+    color: #856404;
+    transform: translateY(-1px);
+}
+
+.action-btn.toggle.success {
+    color: #28a745;
+    border-color: #28a745;
+}
+
+.action-btn.toggle.success:hover {
+    background: #28a745;
+    color: var(--secondary-white);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-muted);
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.5;
+}
+
+.empty-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--dark-gray);
+    margin-bottom: 0.5rem;
+}
+
+.empty-description {
+    font-size: 1rem;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Pagination */
+.pagination-container {
+    padding: 1.5rem;
+    border-top: 1px solid #f1f5f9;
+    background: #f8f9fa;
+    text-align: center;
+}
+
+.pagination-modern {
+    display: inline-flex;
+    gap: 0.5rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.pagination-modern li {
+    margin: 0;
+}
+
+.pagination-modern a,
+.pagination-modern span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0.5rem 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background: var(--secondary-white);
+    color: var(--dark-gray);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.pagination-modern a:hover {
+    border-color: var(--primary-red);
+    background: var(--primary-red);
+    color: var(--secondary-white);
+    transform: translateY(-1px);
+}
+
+.pagination-modern .active span {
+    background: var(--primary-red);
+    color: var(--secondary-white);
+    border-color: var(--primary-red);
+}
+
+/* Modal Updates */
+.modern-modal .modal-content {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+}
+
+.modern-modal .modal-header {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    border: none;
+    padding: 1.5rem;
+}
+
+.modern-modal .modal-title {
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.modern-modal .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+.modern-modal .modal-body {
+    padding: 2rem;
+}
+
+.modern-modal .modal-footer {
+    border: none;
+    padding: 1rem 2rem 2rem;
+    background: #f8f9fa;
+}
+
+.modern-modal .alert {
+    border: none;
+    border-radius: 12px;
+    border-left: 4px solid #ffc107;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .main-grid {
+        grid-template-columns: 300px 1fr;
+        gap: 1.5rem;
+    }
+    
+    .analytics-sidebar {
+        padding: 1rem;
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .analytics-sidebar {
+        position: relative;
+        max-height: none;
+        order: 2;
+    }
+    
+    .content-area {
+        order: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-container {
+        padding: 1rem 0;
+    }
+    
+    /* Header Responsive */
+    .d-flex.justify-content-between {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .filter-form {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .filter-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .filter-actions {
+        justify-content: center;
+    }
+    
+    .users-table {
+        font-size: 0.85rem;
+    }
+    
+    .users-table th,
+    .users-table td {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .user-actions {
+        flex-direction: column;
+    }
+    
+    .user-info {
+        gap: 0.5rem;
+    }
+    
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="container-fluid">
+
+        <!-- Page Header -->
+        <div class="container mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-1" style="color: var(--dark-gray); font-weight: 700;">
+                        <i class="bi bi-people-fill me-2" style="color: var(--primary-red);"></i>
+                        User Management
+                    </h1>
+                    <p class="text-muted mb-0">
+                        <i class="bi bi-house me-1"></i>Dashboard / User Management
+                    </p>
+                </div>
+                <a href="{% url 'dashboard' %}" class="btn" style="
+                    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+                    color: var(--secondary-white);
+                    border: none;
+                    border-radius: 12px;
+                    padding: 0.75rem 1.5rem;
+                    font-weight: 600;
+                    text-decoration: none;
+                    transition: all 0.3s ease;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-lg)'" 
+                   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Dashboard
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Grid Layout -->
+        <div class="container">
+            <div class="main-grid">
+                <!-- Left Sidebar - Analytics -->
+                <div class="analytics-sidebar">
+                    <div class="sidebar-title">
+                        <i class="bi bi-graph-up sidebar-icon"></i>
+                        Analytics Overview
+                    </div>
+                    
+                    <!-- Key Statistics -->
+                    <div class="analytics-section">
+                        <h4><i class="bi bi-bar-chart me-2"></i>Key Statistics</h4>
+                        
+                        <div class="stat-card primary">
+                            <div class="stat-value">{{ total_users }}</div>
+                            <div class="stat-label">Total Registered Users</div>
+                            <i class="bi bi-people-fill stat-icon"></i>
+                        </div>
+                        
+                        <div class="stat-card success">
+                            <div class="stat-value">{{ users|length }}</div>
+                            <div class="stat-label">Filtered Results</div>
+                            <i class="bi bi-funnel-fill stat-icon"></i>
+                        </div>
+                        
+                        <div class="stat-card info">
+                            <div class="stat-value">{% now "d" %}</div>
+                            <div class="stat-label">Today's Date</div>
+                            <i class="bi bi-calendar3 stat-icon"></i>
+                        </div>
+                        
+                        <div class="stat-card warning">
+                            <div class="stat-value">{{ page_obj.paginator.num_pages }}</div>
+                            <div class="stat-label">Total Pages</div>
+                            <i class="bi bi-file-earmark-text stat-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- User Distribution -->
+                    <div class="analytics-section">
+                        <h4><i class="bi bi-pie-chart me-2"></i>User Distribution</h4>
+                        <div class="chart-container">
+                            <div class="progress-item">
+                                <span class="progress-label">Supporters</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar supporter" style="width: 35%;"></div>
+                                </div>
+                                <span class="progress-value">35%</span>
+                            </div>
+                            <div class="progress-item">
+                                <span class="progress-label">Members</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar member" style="width: 40%;"></div>
+                                </div>
+                                <span class="progress-value">40%</span>
+                            </div>
+                            <div class="progress-item">
+                                <span class="progress-label">Volunteers</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar volunteer" style="width: 15%;"></div>
+                                </div>
+                                <span class="progress-value">15%</span>
+                            </div>
+                            <div class="progress-item">
+                                <span class="progress-label">Coordinators</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar coordinator" style="width: 8%;"></div>
+                                </div>
+                                <span class="progress-value">8%</span>
+                            </div>
+                            <div class="progress-item">
+                                <span class="progress-label">Administrators</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar administrator" style="width: 2%;"></div>
+                                </div>
+                                <span class="progress-value">2%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activity -->
+                    <div class="analytics-section">
+                        <h4><i class="bi bi-activity me-2"></i>Quick Stats</h4>
+                        <div class="stat-card">
+                            <div class="stat-value" style="font-size: 1.5rem;">{{ total_users|add:"-5" }}</div>
+                            <div class="stat-label">Active This Month</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" style="font-size: 1.5rem;">12</div>
+                            <div class="stat-label">New This Week</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Content - User List -->
+                <div class="content-area">
+                    <div class="content-header">
+                        <h2 class="content-title">
+                            <i class="bi bi-list-ul"></i>
+                            User Directory
+                        </h2>
+                    </div>
+                    
+                    <!-- Filter Section -->
+                    <div class="filter-section">
+                        <form method="get" class="filter-form">
+                            <div class="filter-group">
+                                <div>
+                                    <label class="form-label">Search Users</label>
+                                    <input type="text" name="search" class="modern-input" 
+                                           value="{{ search_query }}" 
+                                           placeholder="Search by name, phone, email...">
+                                </div>
+                                <div>
+                                    <label class="form-label">Filter by Type</label>
+                                    <select name="user_type" class="modern-select">
+                                        <option value="">All User Types</option>
+                                        {% for code, label in user_types %}
+                                            <option value="{{ code }}" {% if user_type_filter == code %}selected{% endif %}>
+                                                {% if code == 'SUPPORTER' %}Supporter
+                                                {% elif code == 'MEMBER' %}Member
+                                                {% elif code == 'VOLUNTEER' %}Volunteer
+                                                {% elif code == 'COORDINATOR' %}Coordinator
+                                                {% elif code == 'ADMINISTRATOR' %}Administrator
+                                                {% else %}{{ label }}
+                                                {% endif %}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="filter-actions">
+                                <button type="submit" class="btn-modern btn-primary-modern" title="Apply Filters">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                                <a href="{% url 'admin_user_list' %}" class="btn-modern btn-secondary-modern" title="Clear Filters">
+                                    <i class="bi bi-x-lg"></i>
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Users Table -->
+                    <div class="users-table-container">
+                        {% if users %}
+                            <div class="table-responsive">
+                                <table class="users-table">
+                                    <thead>
+                                        <tr>
+                                            <th>User Information</th>
+                                            <th>Contact Details</th>
+                                            <th>User Type</th>
+                                            <th>Status</th>
+                                            <th>Joined</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for user_item in users %}
+                                        <tr id="user-row-{{ user_item.id }}">
+                                            <td>
+                                                <div class="user-info">
+                                                    <div class="user-avatar">
+                                                        {% if user_item.userprofile.avatar %}
+                                                            <img src="{{ user_item.userprofile.avatar.url }}" 
+                                                                 alt="{{ user_item.get_full_name }}">
+                                                        {% else %}
+                                                            <i class="bi bi-person-fill avatar-icon"></i>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="user-details">
+                                                        <h6>{{ user_item.get_full_name|default:"Name not updated" }}</h6>
+                                                        <div class="user-id">ID: {{ user_item.id }}</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="contact-info">
+                                                    <div class="contact-item">
+                                                        <i class="bi bi-telephone"></i>{{ user_item.phone_number }}
+                                                    </div>
+                                                    {% if user_item.email %}
+                                                        <div class="contact-item">
+                                                            <i class="bi bi-envelope"></i>{{ user_item.email }}
+                                                        </div>
+                                                    {% endif %}
+                                                    {% if user_item.constituency %}
+                                                        <div class="contact-item" style="color: var(--text-muted); font-size: 0.8rem;">
+                                                            <i class="bi bi-geo-alt"></i>{{ user_item.constituency }}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="user-type-badge badge-{{ user_item.user_type|lower }}" 
+                                                      id="user-type-{{ user_item.id }}">
+                                                    {% if user_item.user_type == 'SUPPORTER' %}Supporter
+                                                    {% elif user_item.user_type == 'MEMBER' %}Member
+                                                    {% elif user_item.user_type == 'VOLUNTEER' %}Volunteer
+                                                    {% elif user_item.user_type == 'COORDINATOR' %}Coordinator
+                                                    {% elif user_item.user_type == 'ADMINISTRATOR' %}Administrator
+                                                    {% endif %}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div class="status-indicator {% if user_item.is_active %}status-active{% else %}status-inactive{% endif %}" 
+                                                     id="user-status-{{ user_item.id }}">
+                                                    <div class="status-dot"></div>
+                                                    {% if user_item.is_active %}Active{% else %}Inactive{% endif %}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="registration-date">
+                                                    {{ user_item.date_joined|date:"M d, Y" }}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="user-actions">
+                                                    <button class="action-btn view" 
+                                                            onclick="window.location.href='{% url 'admin_user_detail' user_item.id %}'"
+                                                            title="View User Details">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                    <button class="action-btn edit" 
+                                                            onclick="showChangeUserTypeModal({{ user_item.id }}, '{{ user_item.user_type }}', '{{ user_item.get_full_name }}')"
+                                                            title="Change User Type">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </button>
+                                                    <button class="action-btn toggle {% if not user_item.is_active %}success{% endif %}" 
+                                                            onclick="toggleUserStatus({{ user_item.id }}, {{ user_item.is_active|yesno:'true,false' }})"
+                                                            title="{% if user_item.is_active %}Deactivate User{% else %}Activate User{% endif %}">
+                                                        <i class="bi bi-{% if user_item.is_active %}pause{% else %}play{% endif %}"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="empty-state">
+                                <div class="empty-icon">
+                                    <i class="bi bi-people"></i>
+                                </div>
+                                <div class="empty-title">No Users Found</div>
+                                <div class="empty-description">
+                                    No users match your current search criteria. Try adjusting your filters or search terms.
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Pagination -->
+                    {% if page_obj.has_other_pages %}
+                    <div class="pagination-container">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination-modern">
+                                {% if page_obj.has_previous %}
+                                    <li>
+                                        <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if user_type_filter %}user_type={{ user_type_filter }}&{% endif %}page={{ page_obj.previous_page_number }}">
+                                            <i class="bi bi-chevron-left"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                                {% for num in page_obj.paginator.page_range %}
+                                    {% if page_obj.number == num %}
+                                        <li class="active">
+                                            <span>{{ num }}</span>
+                                        </li>
+                                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                        <li>
+                                            <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if user_type_filter %}user_type={{ user_type_filter }}&{% endif %}page={{ num }}">{{ num }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                    <li>
+                                        <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if user_type_filter %}user_type={{ user_type_filter }}&{% endif %}page={{ page_obj.next_page_number }}">
+                                            <i class="bi bi-chevron-right"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Change User Type Modal -->
+<div class="modal fade modern-modal" id="changeUserTypeModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-person-gear me-2"></i>
+                    Change User Type
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="changeUserTypeForm">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Selected User:</label>
+                        <div class="p-3" style="background: #f8f9fa; border-radius: 12px; border: 2px solid #f1f5f9;">
+                            <strong id="modalUserName" style="color: var(--dark-gray);"></strong>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Select New User Type</label>
+                        <select name="user_type" class="modern-select" id="modalUserType">
+                            {% for code, label in user_types %}
+                                <option value="{{ code }}">
+                                    {% if code == 'SUPPORTER' %}Supporter
+                                    {% elif code == 'MEMBER' %}Member
+                                    {% elif code == 'VOLUNTEER' %}Volunteer
+                                    {% elif code == 'COORDINATOR' %}Coordinator
+                                    {% elif code == 'ADMINISTRATOR' %}Administrator
+                                    {% else %}{{ label }}
+                                    {% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <strong>Important:</strong> Changing user type will modify their permissions and access levels throughout the system.
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-modern btn-secondary-modern" data-bs-dismiss="modal">
+                    <i class="bi bi-x-lg me-2"></i>Cancel
+                </button>
+                <button type="button" class="btn-modern btn-primary-modern" onclick="submitUserTypeChange()">
+                    <i class="bi bi-check-lg me-2"></i>Apply Changes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentUserId = null;
+
+function showChangeUserTypeModal(userId, currentType, userName) {
+    currentUserId = userId;
+    document.getElementById('modalUserName').textContent = userName;
+    document.getElementById('modalUserType').value = currentType;
+    
+    const modal = new bootstrap.Modal(document.getElementById('changeUserTypeModal'));
+    modal.show();
+}
+
+function submitUserTypeChange() {
+    if (!currentUserId) return;
+    
+    const form = document.getElementById('changeUserTypeForm');
+    const formData = new FormData(form);
+    const submitBtn = document.querySelector('.btn-primary-modern[onclick="submitUserTypeChange()"]');
+    const originalText = submitBtn.innerHTML;
+    
+    // Show loading state
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<div style="width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top: 2px solid white; border-radius: 50%; animation: spin 1s linear infinite; margin-right: 0.5rem;"></div>Applying...';
+    
+    fetch(`/accounts/admin/users/${currentUserId}/change-type/`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            // Update the user type badge with new modern classes
+            const badge = document.getElementById(`user-type-${currentUserId}`);
+            badge.textContent = data.new_type;
+            badge.className = `user-type-badge badge-${data.new_type_code.toLowerCase()}`;
+            
+            // Close modal
+            bootstrap.Modal.getInstance(document.getElementById('changeUserTypeModal')).hide();
+            
+            // Show modern success toast
+            showToast('success', 'User type updated successfully!', data.message);
+        } else {
+            showToast('error', 'Update failed', data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('error', 'Connection error', 'Something went wrong. Please try again.');
+    })
+    .finally(() => {
+        // Reset button
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+    });
+}
+
+function toggleUserStatus(userId, currentStatus) {
+    const action = currentStatus ? 'deactivate' : 'activate';
+    const actionTitle = currentStatus ? 'Deactivate User' : 'Activate User';
+    const actionMessage = currentStatus ? 
+        'This will deactivate the user and restrict their access to the system.' : 
+        'This will reactivate the user and restore their access to the system.';
+    
+    if (showConfirmDialog(actionTitle, actionMessage)) {
+        fetch(`/accounts/admin/users/${userId}/toggle-status/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Update status display with new modern classes
+                const statusElement = document.getElementById(`user-status-${userId}`);
+                const newStatus = data.is_active;
+                statusElement.className = `status-indicator ${newStatus ? 'status-active' : 'status-inactive'}`;
+                statusElement.innerHTML = `<div class="status-dot"></div>${newStatus ? 'Active' : 'Inactive'}`;
+                
+                // Update button with modern classes
+                const button = event.target.closest('button');
+                button.className = `action-btn toggle${newStatus ? '' : ' success'}`;
+                button.innerHTML = `<i class="bi bi-${newStatus ? 'pause' : 'play'}"></i>`;
+                button.title = newStatus ? 'Deactivate User' : 'Activate User';
+                button.onclick = () => toggleUserStatus(userId, newStatus);
+                
+                showToast('success', 'Status Updated', data.message);
+            } else {
+                showToast('error', 'Update Failed', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showToast('error', 'Connection Error', 'Something went wrong. Please try again.');
+        });
+    }
+}
+
+// Modern Toast Notification System
+function showToast(type, title, message) {
+    // Remove any existing toasts
+    document.querySelectorAll('.modern-toast').forEach(toast => toast.remove());
+    
+    const toast = document.createElement('div');
+    toast.className = `modern-toast toast-${type}`;
+    
+    const icons = {
+        success: 'bi-check-circle-fill',
+        error: 'bi-x-circle-fill',
+        warning: 'bi-exclamation-triangle-fill',
+        info: 'bi-info-circle-fill'
+    };
+    
+    toast.innerHTML = `
+        <div class="toast-content">
+            <div class="toast-icon">
+                <i class="bi ${icons[type]}"></i>
+            </div>
+            <div class="toast-message">
+                <div class="toast-title">${title}</div>
+                <div class="toast-description">${message}</div>
+            </div>
+            <button class="toast-close" onclick="this.parentElement.remove()">
+                <i class="bi bi-x"></i>
+            </button>
+        </div>
+        <div class="toast-progress"></div>
+    `;
+    
+    // Add toast styles if not already added
+    if (!document.querySelector('#toastStyles')) {
+        const styles = document.createElement('style');
+        styles.id = 'toastStyles';
+        styles.textContent = `
+            .modern-toast {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                min-width: 350px;
+                background: var(--secondary-white);
+                border-radius: 12px;
+                box-shadow: var(--shadow-xl);
+                z-index: 9999;
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+                border-left: 4px solid;
+                overflow: hidden;
+            }
+            .modern-toast.toast-success { border-left-color: #28a745; }
+            .modern-toast.toast-error { border-left-color: #dc3545; }
+            .modern-toast.toast-warning { border-left-color: #ffc107; }
+            .modern-toast.toast-info { border-left-color: #17a2b8; }
+            
+            .toast-content {
+                display: flex;
+                align-items: flex-start;
+                padding: 1rem;
+                gap: 0.75rem;
+            }
+            .toast-icon {
+                font-size: 1.25rem;
+                margin-top: 0.125rem;
+            }
+            .toast-success .toast-icon { color: #28a745; }
+            .toast-error .toast-icon { color: #dc3545; }
+            .toast-warning .toast-icon { color: #ffc107; }
+            .toast-info .toast-icon { color: #17a2b8; }
+            
+            .toast-message { flex: 1; }
+            .toast-title {
+                font-weight: 600;
+                color: var(--dark-gray);
+                margin-bottom: 0.25rem;
+            }
+            .toast-description {
+                font-size: 0.9rem;
+                color: var(--text-muted);
+                line-height: 1.4;
+            }
+            .toast-close {
+                background: none;
+                border: none;
+                color: var(--text-muted);
+                cursor: pointer;
+                padding: 0.25rem;
+                border-radius: 6px;
+                transition: all 0.2s ease;
+            }
+            .toast-close:hover {
+                background: rgba(0,0,0,0.1);
+                color: var(--dark-gray);
+            }
+            .toast-progress {
+                height: 3px;
+                background: rgba(0,0,0,0.1);
+                position: relative;
+            }
+            .toast-progress::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                width: 100%;
+                background: currentColor;
+                animation: toastProgress 4s linear forwards;
+            }
+            .toast-success .toast-progress::after { background: #28a745; }
+            .toast-error .toast-progress::after { background: #dc3545; }
+            .toast-warning .toast-progress::after { background: #ffc107; }
+            .toast-info .toast-progress::after { background: #17a2b8; }
+            
+            @keyframes toastProgress {
+                from { width: 100%; }
+                to { width: 0%; }
+            }
+            @media (max-width: 768px) {
+                .modern-toast {
+                    min-width: calc(100vw - 40px);
+                    right: 20px;
+                    left: 20px;
+                    transform: translateY(-100px);
+                }
+                .modern-toast.show {
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(styles);
+    }
+    
+    document.body.appendChild(toast);
+    
+    // Trigger animation
+    setTimeout(() => {
+        toast.style.transform = 'translateX(0)';
+    }, 100);
+    
+    // Auto remove after 4 seconds
+    setTimeout(() => {
+        if (toast.parentElement) {
+            toast.style.transform = 'translateX(400px)';
+            setTimeout(() => toast.remove(), 300);
+        }
+    }, 4000);
+}
+
+// Modern Confirm Dialog
+function showConfirmDialog(title, message) {
+    return confirm(`${title}\n\n${message}\n\nDo you want to continue?`);
+}
+</script>
+{% endblock %}

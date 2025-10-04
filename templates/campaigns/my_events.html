@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+
+{% block title %}My Events - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4"><i class="bi bi-person-check me-2"></i>My Registered Events</h2>
+        </div>
+    </div>
+
+    <!-- Upcoming Events -->
+    {% if upcoming_events %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <h4><i class="bi bi-calendar-plus me-2"></i>Upcoming Events</h4>
+        </div>
+    </div>
+    <div class="row g-4 mb-5">
+        {% for attendance in upcoming_events %}
+        {% with event=attendance.event %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100">
+                {% if event.image %}
+                    <img src="{{ event.image.url }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <i class="bi bi-calendar-event text-muted fs-1"></i>
+                    </div>
+                {% endif %}
+                
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="badge bg-primary">
+                            {% if event.event_type == 'RALLY' %}Rally
+                            {% elif event.event_type == 'MEETING' %}Public Meeting
+                            {% elif event.event_type == 'SEMINAR' %}Seminar
+                            {% elif event.event_type == 'WORKSHOP' %}Workshop
+                            {% elif event.event_type == 'CONFERENCE' %}Conference
+                            {% elif event.event_type == 'DOOR_TO_DOOR' %}Door to Door Campaign
+                            {% elif event.event_type == 'BOAT_CAMPAIGN' %}Boat Campaign
+                            {% elif event.event_type == 'FISHING_DEMO' %}Fishing Demonstration
+                            {% elif event.event_type == 'COMMUNITY_FEAST' %}Community Feast
+                            {% else %}{{ event.get_event_type_display }}
+                            {% endif %}
+                        </span>
+                        <span class="badge bg-success">Registered</span>
+                    </div>
+                    
+                    <h6 class="card-title">{{ event.title }}</h6>
+                    <p class="card-text flex-grow-1">{{ event.description|truncatewords:15 }}</p>
+                    
+                    <div class="mb-3">
+                        <small class="text-muted">
+                            <i class="bi bi-calendar me-1"></i>{{ event.date_time|date:"d M Y, h:i A" }}<br>
+                            <i class="bi bi-geo-alt me-1"></i>{{ event.venue }}<br>
+                            <i class="bi bi-clock me-1"></i>Registered: {{ attendance.registered_at|date:"d M Y" }}
+                        </small>
+                    </div>
+
+                    {% if attendance.special_requirements %}
+                    <div class="mb-3">
+                        <small>
+                            <strong>Special Requirements:</strong><br>
+                            {{ attendance.special_requirements }}
+                        </small>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="d-grid">
+                        <a href="{% url 'campaigns:event_detail' event.slug %}" class="btn btn-outline-primary">
+                            <i class="bi bi-eye me-1"></i>View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endwith %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Past Events -->
+    {% if past_events %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <h4><i class="bi bi-calendar-check me-2"></i>Past Events</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Events</th>
+                                    <th>Date</th>
+                                    <th>Location</th>
+                                    <th>Attendance</th>
+                                    <th>Rating</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for attendance in past_events %}
+                                {% with event=attendance.event %}
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <strong>{{ event.title }}</strong><br>
+                                            <small class="text-muted">
+                                                {% if event.event_type == 'RALLY' %}Rally
+                                                {% elif event.event_type == 'MEETING' %}Public Meeting
+                                                {% elif event.event_type == 'SEMINAR' %}Seminar
+                                                {% elif event.event_type == 'WORKSHOP' %}Workshop
+                                                {% elif event.event_type == 'CONFERENCE' %}Conference
+                                                {% elif event.event_type == 'DOOR_TO_DOOR' %}Door to Door Campaign
+                                                {% elif event.event_type == 'BOAT_CAMPAIGN' %}Boat Campaign
+                                                {% elif event.event_type == 'FISHING_DEMO' %}Fishing Demonstration
+                                                {% elif event.event_type == 'COMMUNITY_FEAST' %}Community Feast
+                                                {% else %}{{ event.get_event_type_display }}
+                                                {% endif %}
+                                            </small>
+                                        </div>
+                                    </td>
+                                    <td>{{ event.date_time|date:"d M Y" }}</td>
+                                    <td>{{ event.venue }}</td>
+                                    <td>
+                                        {% if attendance.attended %}
+                                            <span class="badge bg-success">Present</span>
+                                            {% if attendance.check_in_time %}
+                                                <br><small class="text-muted">{{ attendance.check_in_time|date:"h:i A" }}</small>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="badge bg-secondary">Absent</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if attendance.feedback_rating %}
+                                            {% for i in "12345" %}
+                                                {% if forloop.counter <= attendance.feedback_rating %}
+                                                    <i class="bi bi-star-fill text-warning"></i>
+                                                {% else %}
+                                                    <i class="bi bi-star text-muted"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <small class="text-muted">No rating given</small>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'campaigns:event_detail' event.slug %}" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endwith %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- No Events Message -->
+    {% if not upcoming_events and not past_events %}
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center py-5">
+                <i class="bi bi-calendar-x fs-1 text-muted d-block mb-3"></i>
+                <h5>No Registered Events</h5>
+                <p class="text-muted mb-4">You haven't registered for any events yet.</p>
+                <a href="{% url 'campaigns:events_list' %}" class="btn btn-primary">
+                    <i class="bi bi-search me-1"></i>Browse Events
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Quick Actions -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h6><i class="bi bi-lightning me-2"></i>Quick Actions</h6>
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'campaigns:events_list' %}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-calendar-plus me-1"></i>Browse New Events
+                        </a>
+                        <a href="{% url 'campaigns:calendar' %}" class="btn btn-sm btn-outline-info">
+                            <i class="bi bi-calendar me-1"></i>View Calendar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

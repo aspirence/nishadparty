@@ -1,0 +1,218 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %}Dashboard - Nishad Party{% endblock %}
+
+{% block breadcrumb %}Dashboard{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dashboard-container {
+        min-height: 100vh;
+        background: #f8f9fa;
+        padding: 2rem;
+    }
+    
+    .welcome-header {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        border-left: 4px solid #ffc107;
+    }
+    
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        border: 1px solid #e9ecef;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        border-color: #ffc107;
+    }
+    
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #d50000;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stat-title {
+        color: #6c757d;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+    
+    .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .action-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        border: 1px solid #e9ecef;
+    }
+    
+    .action-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .action-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+        color: white;
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .dashboard-container {
+            padding: 1rem;
+        }
+        
+        .stats-container {
+            grid-template-columns: 1fr;
+        }
+        
+        .quick-actions {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <!-- Welcome Header -->
+    <div class="welcome-header">
+        <h2 class="mb-2">Welcome, {{ user.get_full_name|default:user.phone_number }}!</h2>
+        <p class="text-muted mb-0">Welcome to your Nishad Party Dashboard. Manage all your activities from here.</p>
+    </div>
+    
+    <!-- Stats Cards -->
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-value">{{ upcoming_events|length|default:0 }}</div>
+            <div class="stat-title">Upcoming Events</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">₹0</div>
+            <div class="stat-title">Total Donations</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">{{ user.date_joined|timesince }}</div>
+            <div class="stat-title">Member Since</div>
+        </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <div class="action-card">
+            <div class="action-icon" style="background: linear-gradient(135deg, #28a745, #20c997);">
+                <i class="bi bi-heart"></i>
+            </div>
+            <h5 class="mb-2">Make a Donation</h5>
+            <p class="text-muted mb-3">Support our community with your contributions.</p>
+            <a href="{% url 'donations:home' %}" class="btn btn-success">Donate Now</a>
+        </div>
+        
+        <div class="action-card">
+            <div class="action-icon" style="background: linear-gradient(135deg, #17a2b8, #007bff);">
+                <i class="bi bi-calendar-event"></i>
+            </div>
+            <h5 class="mb-2">Upcoming Events</h5>
+            <p class="text-muted mb-3">Join community events and activities.</p>
+            <a href="{% url 'campaigns:events_list' %}" class="btn btn-info">View Events</a>
+        </div>
+        
+        {% if user.user_type == 'SUPPORTER' %}
+        <div class="action-card">
+            <div class="action-icon" style="background: linear-gradient(135deg, #007bff, #6f42c1);">
+                <i class="bi bi-person-plus"></i>
+            </div>
+            <h5 class="mb-2">Become a Member</h5>
+            <p class="text-muted mb-3">Join as a full member to access more features.</p>
+            <a href="{% url 'membership:home' %}" class="btn btn-primary">Apply Now</a>
+        </div>
+        {% endif %}
+        
+        {% if user.user_type == 'ADMINISTRATOR' %}
+        <div class="action-card">
+            <div class="action-icon" style="background: linear-gradient(135deg, #dc3545, #fd7e14);">
+                <i class="bi bi-people"></i>
+            </div>
+            <h5 class="mb-2">User Management</h5>
+            <p class="text-muted mb-3">Manage user accounts and permissions.</p>
+            <a href="{% url 'admin_user_list' %}" class="btn btn-danger">Manage Users</a>
+        </div>
+        {% endif %}
+        
+        <div class="action-card">
+            <div class="action-icon" style="background: linear-gradient(135deg, #6f42c1, #e83e8c);">
+                <i class="bi bi-person-gear"></i>
+            </div>
+            <h5 class="mb-2">Profile Settings</h5>
+            <p class="text-muted mb-3">Update your personal information.</p>
+            <a href="{% url 'complete_profile' %}" class="btn btn-secondary">Edit Profile</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Simple dashboard functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Add fade-in animation to dashboard
+    const dashboard = document.querySelector('.dashboard-container');
+    if (dashboard) {
+        dashboard.style.opacity = '0';
+        dashboard.style.transform = 'translateY(20px)';
+        dashboard.style.transition = 'all 0.5s ease';
+        
+        setTimeout(() => {
+            dashboard.style.opacity = '1';
+            dashboard.style.transform = 'translateY(0)';
+        }, 100);
+    }
+    
+    // Add hover effects to action cards
+    const actionCards = document.querySelectorAll('.action-card');
+    actionCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+});
+</script>
+{% endblock %}

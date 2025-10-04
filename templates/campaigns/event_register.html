@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ event.title }} - Registration - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'campaigns:events_list' %}">Events</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'campaigns:event_detail' event.slug %}">{{ event.title }}</a></li>
+                    <li class="breadcrumb-item active">Registration</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Event Summary -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-3">
+                            {% if event.image %}
+                                <img src="{{ event.image.url }}" class="img-fluid rounded" style="height: 120px; width: 100%; object-fit: cover;">
+                            {% else %}
+                                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 120px;">
+                                    <i class="bi bi-calendar-event text-muted fs-1"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-9">
+                            <h4>{{ event.title }}</h4>
+                            <p class="mb-2">
+                                <i class="bi bi-calendar me-2"></i>{{ event.date_time|date:"l, d F Y" }} - {{ event.date_time|date:"h:i A" }}<br>
+                                <i class="bi bi-geo-alt me-2"></i>{{ event.venue }}, {{ event.address }}
+                            </p>
+                            <span class="badge bg-primary">
+                                {% if event.event_type == 'RALLY' %}Rally
+                                {% elif event.event_type == 'MEETING' %}Public Meeting
+                                {% elif event.event_type == 'SEMINAR' %}Seminar
+                                {% elif event.event_type == 'WORKSHOP' %}Workshop
+                                {% elif event.event_type == 'CONFERENCE' %}Conference
+                                {% elif event.event_type == 'DOOR_TO_DOOR' %}Door to Door Campaign
+                                {% elif event.event_type == 'BOAT_CAMPAIGN' %}Boat Campaign
+                                {% elif event.event_type == 'FISHING_DEMO' %}Fishing Demonstration
+                                {% elif event.event_type == 'COMMUNITY_FEAST' %}Community Feast
+                                {% else %}{{ event.get_event_type_display }}
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Registration Form -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-person-plus me-2"></i>Event Registration</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <!-- User Information (Pre-filled) -->
+                        <div class="mb-4">
+                            <h6>Personal Information</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Name</label>
+                                        <input type="text" class="form-control" value="{{ user.get_full_name }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Phone Number</label>
+                                        <input type="text" class="form-control" value="{{ user.phone_number }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input type="text" class="form-control" value="{{ user.email|default:'Not updated' }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Constituency</label>
+                                        <input type="text" class="form-control" value="{{ user.constituency|default:'Not updated' }}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-2"></i>
+                                If you need to update your information, please first 
+                                <a href="{% url 'complete_profile' %}" target="_blank">Update your Profile</a>
+                            </div>
+                        </div>
+
+                        <!-- Special Requirements -->
+                        <div class="mb-4">
+                            <h6>Special Requirements (Optional)</h6>
+                            <div class="mb-3">
+                                <label class="form-label">Please mention if you have any special requirements</label>
+                                <textarea name="special_requirements" class="form-control" rows="3" 
+                                          placeholder="Such as: Special facilities, dietary requirements, assistance, etc."></textarea>
+                                <div class="form-text">
+                                    This information will help us make better arrangements for you
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event Guidelines -->
+                        {% if event.requirements %}
+                        <div class="mb-4">
+                            <h6>Event Guidelines</h6>
+                            <div class="alert alert-warning">
+                                <i class="bi bi-exclamation-triangle me-2"></i>
+                                {{ event.requirements|linebreaks }}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Registration Confirmation -->
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="confirmAttendance" required>
+                                <label class="form-check-label" for="confirmAttendance">
+                                    I confirm that I will participate in this event and will be present on time
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Important Information -->
+                        <div class="mb-4">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h6><i class="bi bi-info-circle me-2"></i>Important Information</h6>
+                                    <ul class="mb-0">
+                                        <li>Please arrive 15 minutes before the event time</li>
+                                        <li>Please bring a valid ID card with you</li>
+                                        {% if event.registration_deadline %}
+                                            <li>Registration deadline: {{ event.registration_deadline|date:"d M Y, h:i A" }}</li>
+                                        {% endif %}
+                                        {% if event.contact_phone %}
+                                            <li>Contact number: {{ event.contact_phone }}</li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'campaigns:event_detail' event.slug %}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Back
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-check-lg me-1"></i>Complete Registration
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,274 @@
+{% extends 'base.html' %}
+
+{% block title %}Asset List - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="bi bi-list me-2"></i>Asset List</h2>
+                {% if is_admin %}
+                <div class="btn-group" role="group">
+                    <a href="{% url 'assets:add' %}" class="btn btn-success">
+                        <i class="bi bi-plus me-1"></i>Add New Asset
+                    </a>
+                    <a href="{% url 'assets:dashboard' %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-house me-1"></i>Dashboard
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% if is_admin %}
+    <!-- Search and Filter -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="get" class="row g-3">
+                        <div class="col-md-4">
+                            <label for="search" class="form-label">Search</label>
+                            <input type="text" class="form-control" name="search" id="search" 
+                                   value="{{ search_query }}" placeholder="Name, code or serial number...">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" name="status" id="status">
+                                <option value="">All Status</option>
+                                <option value="AVAILABLE" {% if status_filter == 'AVAILABLE' %}selected{% endif %}>Available</option>
+                                <option value="IN_USE" {% if status_filter == 'IN_USE' %}selected{% endif %}>In Use</option>
+                                <option value="MAINTENANCE" {% if status_filter == 'MAINTENANCE' %}selected{% endif %}>In Maintenance</option>
+                                <option value="DAMAGED" {% if status_filter == 'DAMAGED' %}selected{% endif %}>Damaged</option>
+                                <option value="RETIRED" {% if status_filter == 'RETIRED' %}selected{% endif %}>Retired</option>
+                                <option value="LOST" {% if status_filter == 'LOST' %}selected{% endif %}>Lost</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary me-2">
+                                <i class="bi bi-search me-1"></i>Search
+                            </button>
+                            <a href="{% url 'assets:list' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-clockwise me-1"></i>Reset
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assets Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Asset List</h6>
+                </div>
+                <div class="card-body">
+                    {% if assets %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Asset</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Location</th>
+                                    <th>Creation Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for asset in assets %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            {% if asset.image %}
+                                                <img src="{{ asset.image.url }}" alt="{{ asset.name }}" 
+                                                     class="rounded me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                            {% else %}
+                                                <div class="bg-light rounded me-2 d-flex align-items-center justify-content-center" 
+                                                     style="width: 40px; height: 40px;">
+                                                    <i class="bi bi-box text-muted"></i>
+                                                </div>
+                                            {% endif %}
+                                            <div>
+                                                <strong>{{ asset.name }}</strong><br>
+                                                <small class="text-muted">{{ asset.asset_code }}</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-secondary">{{ asset.get_asset_type_display }}</span>
+                                    </td>
+                                    <td>
+                                        {% if asset.status == 'AVAILABLE' %}
+                                            <span class="badge bg-success">Available</span>
+                                        {% elif asset.status == 'IN_USE' %}
+                                            <span class="badge bg-warning">In Use</span>
+                                        {% elif asset.status == 'MAINTENANCE' %}
+                                            <span class="badge bg-info">In Maintenance</span>
+                                        {% elif asset.status == 'DAMAGED' %}
+                                            <span class="badge bg-danger">Damaged</span>
+                                        {% elif asset.status == 'RETIRED' %}
+                                            <span class="badge bg-dark">Retired</span>
+                                        {% elif asset.status == 'LOST' %}
+                                            <span class="badge bg-danger">Lost</span>
+                                        {% endif %}
+                                        <br><small class="text-muted">{{ asset.get_condition_display }}</small>
+                                    </td>
+                                    <td>{{ asset.current_location|default:"Unknown" }}</td>
+                                    <td>{{ asset.created_at|date:"d M Y" }}</td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <a href="{% url 'assets:history' asset.id %}" class="btn btn-outline-info" title="History">
+                                                <i class="bi bi-clock-history"></i>
+                                            </a>
+                                            <a href="{% url 'assets:edit' asset.id %}" class="btn btn-outline-warning" title="Edit">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            {% if asset.status == 'AVAILABLE' %}
+                                                <a href="{% url 'assets:assign' %}?asset={{ asset.id }}" class="btn btn-outline-primary" title="Assign">
+                                                    <i class="bi bi-arrow-right-circle"></i>
+                                                </a>
+                                            {% endif %}
+                                            <a href="{% url 'assets:delete' asset.id %}" class="btn btn-outline-danger" title="Delete">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    {% if assets.has_other_pages %}
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center mt-3">
+                            {% if assets.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ assets.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Previous</a>
+                                </li>
+                            {% endif %}
+                            
+                            {% for page_num in assets.paginator.page_range %}
+                                {% if page_num == assets.number %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ page_num }}</span>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">{{ page_num }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            {% if assets.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ assets.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Next</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    {% endif %}
+                    
+                    {% else %}
+                    <div class="text-center text-muted py-4">
+                        <i class="bi bi-inbox fs-1 mb-2 d-block"></i>
+                        <p>No assets found.</p>
+                        <a href="{% url 'assets:add' %}" class="btn btn-success">
+                            <i class="bi bi-plus me-1"></i>Add First Asset
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% else %}
+    <!-- User view of their assignments -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">My Assigned Assets</h6>
+                </div>
+                <div class="card-body">
+                    {% if assignments %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Asset</th>
+                                    <th>Status</th>
+                                    <th>Assignment Date</th>
+                                    <th>Return Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for assignment in assignments %}
+                                <tr>
+                                    <td>
+                                        <strong>{{ assignment.asset.name }}</strong><br>
+                                        <small class="text-muted">{{ assignment.asset.asset_code }}</small>
+                                    </td>
+                                    <td>
+                                        {% if assignment.status == 'PENDING' %}
+                                            <span class="badge bg-warning">Pending</span>
+                                        {% elif assignment.status == 'ACCEPTED' %}
+                                            <span class="badge bg-primary">Accepted</span>
+                                        {% elif assignment.status == 'IN_USE' %}
+                                            <span class="badge bg-success">In Use</span>
+                                        {% elif assignment.status == 'RETURNED' %}
+                                            <span class="badge bg-secondary">Returned</span>
+                                        {% elif assignment.status == 'REJECTED' %}
+                                            <span class="badge bg-danger">Rejected</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ assignment.assignment_date|date:"d M Y" }}</td>
+                                    <td>
+                                        {% if assignment.actual_return_date %}
+                                            {{ assignment.actual_return_date|date:"d M Y" }}
+                                        {% elif assignment.expected_return_date %}
+                                            {{ assignment.expected_return_date|date:"d M Y" }}
+                                        {% else %}
+                                            <span class="text-muted">-</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if assignment.status == 'PENDING' %}
+                                            <div class="btn-group btn-group-sm">
+                                                <a href="{% url 'assets:accept' assignment.id %}" class="btn btn-success">Accept</a>
+                                                <a href="{% url 'assets:reject' assignment.id %}" class="btn btn-danger">Reject</a>
+                                            </div>
+                                        {% elif assignment.status in 'ACCEPTED,IN_USE' %}
+                                            <a href="{% url 'assets:return' assignment.id %}" class="btn btn-outline-primary btn-sm">Return</a>
+                                        {% else %}
+                                            <a href="{% url 'assets:history' assignment.asset.id %}" class="btn btn-outline-secondary btn-sm">Details</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center text-muted py-4">
+                        <i class="bi bi-inbox fs-1 mb-2 d-block"></i>
+                        <p>No assets have been assigned to you yet.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

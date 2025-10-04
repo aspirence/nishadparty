@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+
+{% block title %}Events Management - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="bi bi-calendar-event me-2"></i>Events Management</h2>
+                <div class="btn-group" role="group">
+                    <a href="{% url 'campaigns:admin_add_event' %}" class="btn btn-success">
+                        <i class="bi bi-plus me-1"></i>Add New Event
+                    </a>
+                    <a href="{% url 'campaigns:events_list' %}" class="btn btn-outline-primary">
+                        <i class="bi bi-list me-1"></i>View All Events
+                    </a>
+                    <a href="{% url 'campaigns:calendar' %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-calendar me-1"></i>View Calendar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <i class="bi bi-calendar-event fs-1 mb-2"></i>
+                    <h3>{{ total_events }}</h3>
+                    <p class="mb-0">Total Events</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body text-center">
+                    <i class="bi bi-calendar-plus fs-1 mb-2"></i>
+                    <h3>{{ upcoming_events }}</h3>
+                    <p class="mb-0">Upcoming Events</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body text-center">
+                    <i class="bi bi-play-circle fs-1 mb-2"></i>
+                    <h3>{{ ongoing_events }}</h3>
+                    <p class="mb-0">Ongoing Events</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <i class="bi bi-check-circle fs-1 mb-2"></i>
+                    <h3>{{ completed_events }}</h3>
+                    <p class="mb-0">Completed Events</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upcoming Events Alert -->
+    {% if upcoming_events_list %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-info">
+                <h5><i class="bi bi-calendar-check me-2"></i>Upcoming Events</h5>
+                <p class="mb-3">The following events are coming up soon:</p>
+                
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Events</th>
+                                <th>Type</th>
+                                <th>Date</th>
+                                <th>Location</th>
+                                <th>Registration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for event in upcoming_events_list %}
+                            <tr>
+                                <td>{{ event.title }}</td>
+                                <td><span class="badge bg-secondary">{{ event.get_event_type_display }}</span></td>
+                                <td>{{ event.date_time|date:"d M Y, H:i" }}</td>
+                                <td>{{ event.venue }}</td>
+                                <td>
+                                    {% if event.registration_required %}
+                                        <span class="badge bg-primary">Required</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Not Required</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Recent Events -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Recent Events</h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_events %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Events</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Location</th>
+                                    <th>Created Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for event in recent_events %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            {% if event.image %}
+                                                <img src="{{ event.image.url }}" alt="{{ event.title }}" 
+                                                     class="rounded me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                            {% else %}
+                                                <div class="bg-light rounded me-2 d-flex align-items-center justify-content-center" 
+                                                     style="width: 40px; height: 40px;">
+                                                    <i class="bi bi-calendar-event text-muted"></i>
+                                                </div>
+                                            {% endif %}
+                                            <div>
+                                                <strong>{{ event.title }}</strong><br>
+                                                <small class="text-muted">{{ event.description|truncatewords:5 }}</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-secondary">{{ event.get_event_type_display }}</span>
+                                    </td>
+                                    <td>
+                                        {% if event.status == 'SCHEDULED' %}
+                                            <span class="badge bg-primary">Scheduled</span>
+                                        {% elif event.status == 'ONGOING' %}
+                                            <span class="badge bg-warning">Ongoing</span>
+                                        {% elif event.status == 'COMPLETED' %}
+                                            <span class="badge bg-success">Completed</span>
+                                        {% elif event.status == 'CANCELLED' %}
+                                            <span class="badge bg-danger">Cancelled</span>
+                                        {% elif event.status == 'POSTPONED' %}
+                                            <span class="badge bg-secondary">Postponed</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ event.date_time|date:"d M Y, H:i" }}</td>
+                                    <td>{{ event.venue }}</td>
+                                    <td>{{ event.created_at|date:"d M Y" }}</td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <a href="{% url 'campaigns:event_detail' event.slug %}" class="btn btn-outline-info" title="Details">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a href="{% url 'campaigns:admin_edit_event' event.id %}" class="btn btn-outline-warning" title="Edit">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <a href="{% url 'campaigns:admin_delete_event' event.id %}" class="btn btn-outline-danger" title="Delete">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center text-muted py-4">
+                        <i class="bi bi-calendar-x fs-1 mb-2 d-block"></i>
+                        <p>No events have been created yet.</p>
+                        <a href="{% url 'campaigns:admin_add_event' %}" class="btn btn-success">
+                            <i class="bi bi-plus me-1"></i>Add First Event
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

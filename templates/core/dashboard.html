@@ -1,0 +1,719 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Nishad Party{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dashboard-container {
+        min-height: calc(100vh - 160px);
+        background: var(--light-gray);
+    }
+
+    .sidebar {
+        background: var(--secondary-white);
+        box-shadow: var(--shadow-md);
+        min-height: calc(100vh - 160px);
+        padding: 0;
+        border-radius: 0 16px 16px 0;
+        position: sticky;
+        top: 0;
+    }
+
+    .sidebar-header {
+        background: linear-gradient(135deg, var(--primary-red), var(--primary-red-dark));
+        color: var(--secondary-white);
+        padding: 1.5rem;
+        border-radius: 0 16px 0 0;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-header h5 {
+        margin: 0;
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: var(--secondary-white);
+    }
+
+    .sidebar-nav {
+        padding: 1rem 0;
+        list-style: none;
+        margin: 0;
+    }
+
+    .sidebar-nav-item {
+        margin: 0;
+    }
+
+    .sidebar-nav-link {
+        display: flex;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        color: var(--dark-gray);
+        text-decoration: none;
+        transition: all var(--transition-fast);
+        border-left: 4px solid transparent;
+        font-weight: 500;
+        position: relative;
+    }
+
+    .sidebar-nav-link:hover {
+        background: linear-gradient(135deg, rgba(213, 0, 0, 0.05), rgba(213, 0, 0, 0.1));
+        border-left-color: var(--primary-red);
+        color: var(--primary-red);
+        transform: translateX(2px);
+        text-decoration: none;
+    }
+
+    .sidebar-nav-link.active {
+        background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dark));
+        border-left-color: var(--primary-red);
+        color: var(--dark-gray);
+        font-weight: 600;
+    }
+
+    .sidebar-nav-link i {
+        width: 24px;
+        margin-right: 0.75rem;
+        font-size: 1.1rem;
+        text-align: center;
+    }
+
+    .main-content {
+        padding: 2rem;
+        background: var(--light-gray);
+        min-height: calc(100vh - 160px);
+    }
+
+    .dashboard-header {
+        background: var(--secondary-white);
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: var(--shadow-sm);
+        margin-bottom: 2rem;
+        border-left: 4px solid var(--primary-red);
+    }
+
+    .dashboard-header h1 {
+        margin: 0;
+        color: var(--dark-gray);
+        font-weight: 700;
+        font-size: 2rem;
+    }
+
+    .dashboard-header p {
+        margin: 0.5rem 0 0 0;
+        color: var(--medium-gray);
+        font-size: 1.1rem;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background: var(--secondary-white);
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: var(--shadow-sm);
+        transition: all var(--transition-normal);
+        border-left: 4px solid var(--primary-red);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stat-card:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+    }
+
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        background: radial-gradient(circle, rgba(213, 0, 0, 0.1), transparent);
+        border-radius: 50%;
+        transform: translate(30px, -30px);
+    }
+
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .stat-icon.primary {
+        background: linear-gradient(135deg, var(--primary-red), var(--primary-red-dark));
+        color: var(--secondary-white);
+    }
+
+    .stat-icon.gold {
+        background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dark));
+        color: var(--dark-gray);
+    }
+
+    .stat-icon.success {
+        background: linear-gradient(135deg, #4CAF50, #388E3C);
+        color: var(--secondary-white);
+    }
+
+    .stat-icon.info {
+        background: linear-gradient(135deg, #2196F3, #1976D2);
+        color: var(--secondary-white);
+    }
+
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--dark-gray);
+        margin: 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    .stat-label {
+        font-size: 1rem;
+        color: var(--medium-gray);
+        margin: 0.5rem 0 0 0;
+        font-weight: 500;
+        position: relative;
+        z-index: 1;
+    }
+
+    .content-section {
+        background: var(--secondary-white);
+        border-radius: 16px;
+        box-shadow: var(--shadow-sm);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        display: none;
+    }
+
+    .content-section.active {
+        display: block;
+        animation: fadeInUp 0.3s ease-out;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: between;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid var(--border-gray);
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--dark-gray);
+        margin: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .section-title i {
+        margin-right: 0.75rem;
+        color: var(--primary-red);
+    }
+
+    .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .quick-action-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, var(--light-gray), #FAFAFA);
+        border-radius: 12px;
+        text-decoration: none;
+        color: var(--dark-gray);
+        transition: all var(--transition-fast);
+        border: 2px solid transparent;
+    }
+
+    .quick-action-btn:hover {
+        background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dark));
+        color: var(--dark-gray);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--primary-red);
+        text-decoration: none;
+    }
+
+    .quick-action-btn i {
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+        color: var(--primary-red);
+    }
+
+    .quick-action-btn span {
+        font-weight: 600;
+        text-align: center;
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-container .row {
+            margin: 0;
+        }
+
+        .sidebar {
+            border-radius: 0;
+            position: relative;
+            min-height: auto;
+        }
+
+        .main-content {
+            padding: 1rem;
+        }
+
+        .dashboard-header {
+            padding: 1.5rem;
+        }
+
+        .dashboard-header h1 {
+            font-size: 1.5rem;
+        }
+
+        .stat-card {
+            padding: 1.5rem;
+        }
+
+        .content-section {
+            padding: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 col-md-4 p-0">
+                <div class="sidebar">
+                    <div class="sidebar-header">
+                        <h5><i class="bi bi-speedometer2 me-2"></i>Dashboard</h5>
+                    </div>
+
+                    <ul class="sidebar-nav">
+                        <li class="sidebar-nav-item">
+                            <a href="#overview" class="sidebar-nav-link active" data-section="overview">
+                                <i class="bi bi-house"></i>
+                                Overview
+                            </a>
+                        </li>
+
+                        {% if user.is_authenticated %}
+                            <li class="sidebar-nav-item">
+                                <a href="#donations" class="sidebar-nav-link" data-section="donations">
+                                    <i class="bi bi-heart"></i>
+                                    Donations
+                                </a>
+                            </li>
+
+                            <li class="sidebar-nav-item">
+                                <a href="#membership" class="sidebar-nav-link" data-section="membership">
+                                    <i class="bi bi-people"></i>
+                                    Membership
+                                </a>
+                            </li>
+
+                            <li class="sidebar-nav-item">
+                                <a href="#campaigns" class="sidebar-nav-link" data-section="campaigns">
+                                    <i class="bi bi-megaphone"></i>
+                                    Campaigns & Events
+                                </a>
+                            </li>
+
+                            <li class="sidebar-nav-item">
+                                <a href="#gatepass" class="sidebar-nav-link" data-section="gatepass">
+                                    <i class="bi bi-card-checklist"></i>
+                                    Gate Pass
+                                </a>
+                            </li>
+
+                            <li class="sidebar-nav-item">
+                                <a href="#assets" class="sidebar-nav-link" data-section="assets">
+                                    <i class="bi bi-box-seam"></i>
+                                    Assets
+                                </a>
+                            </li>
+
+                            <li class="sidebar-nav-item">
+                                <a href="#community" class="sidebar-nav-link" data-section="community">
+                                    <i class="bi bi-chat-square-dots"></i>
+                                    Community
+                                </a>
+                            </li>
+
+                            {% if user.user_type == 'ADMINISTRATOR' %}
+                                <li class="sidebar-nav-item">
+                                    <a href="#admin" class="sidebar-nav-link" data-section="admin">
+                                        <i class="bi bi-gear"></i>
+                                        Administration
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endif %}
+
+                        <li class="sidebar-nav-item">
+                            <a href="#profile" class="sidebar-nav-link" data-section="profile">
+                                <i class="bi bi-person-circle"></i>
+                                Profile Settings
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-9 col-md-8">
+                <div class="main-content">
+                    <!-- Overview Section -->
+                    <div id="overview" class="content-section active">
+                        <div class="dashboard-header">
+                            <h1>Welcome, {{ user.get_full_name|default:user.phone_number|default:"User" }}!</h1>
+                            <p>Here's your dashboard overview for the Nishad Party platform</p>
+                        </div>
+
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon primary">
+                                    <i class="bi bi-heart-fill"></i>
+                                </div>
+                                <div class="stat-value">{{ donation_count|default:"0" }}</div>
+                                <div class="stat-label">Total Donations</div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon gold">
+                                    <i class="bi bi-people-fill"></i>
+                                </div>
+                                <div class="stat-value">{{ membership_count|default:"0" }}</div>
+                                <div class="stat-label">Active Members</div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon success">
+                                    <i class="bi bi-calendar-check"></i>
+                                </div>
+                                <div class="stat-value">{{ upcoming_events|default:"0" }}</div>
+                                <div class="stat-label">Upcoming Events</div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon info">
+                                    <i class="bi bi-card-checklist"></i>
+                                </div>
+                                <div class="stat-value">{{ pending_gatepasses|default:"0" }}</div>
+                                <div class="stat-label">Pending Gate Passes</div>
+                            </div>
+                        </div>
+
+                        <div class="quick-actions">
+                            <a href="{% url 'donations:donate' %}" class="quick-action-btn">
+                                <i class="bi bi-heart"></i>
+                                <span>Make Donation</span>
+                            </a>
+                            <a href="{% url 'membership:home' %}" class="quick-action-btn">
+                                <i class="bi bi-person-plus"></i>
+                                <span>Join Membership</span>
+                            </a>
+                            <a href="{% url 'gatepass:create' %}" class="quick-action-btn">
+                                <i class="bi bi-plus-circle"></i>
+                                <span>Request Gate Pass</span>
+                            </a>
+                            <a href="{% url 'campaigns:events_list' %}" class="quick-action-btn">
+                                <i class="bi bi-calendar"></i>
+                                <span>View Events</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Donations Section -->
+                    <div id="donations" class="content-section">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="bi bi-heart"></i>
+                                Donations Management
+                            </h2>
+                        </div>
+
+                        <div class="quick-actions">
+                            <a href="{% url 'donations:donate' %}" class="quick-action-btn">
+                                <i class="bi bi-heart-fill"></i>
+                                <span>Make New Donation</span>
+                            </a>
+                            <a href="{% url 'donations:my_donations' %}" class="quick-action-btn">
+                                <i class="bi bi-list-ul"></i>
+                                <span>My Donations</span>
+                            </a>
+                            <a href="{% url 'donations:home' %}" class="quick-action-btn">
+                                <i class="bi bi-receipt"></i>
+                                <span>Donations Home</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Membership Section -->
+                    <div id="membership" class="content-section">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="bi bi-people"></i>
+                                Membership Management
+                            </h2>
+                        </div>
+
+                        <div class="quick-actions">
+                            <a href="{% url 'membership:home' %}" class="quick-action-btn">
+                                <i class="bi bi-person-plus"></i>
+                                <span>Join Membership</span>
+                            </a>
+                            <a href="{% url 'membership:home' %}" class="quick-action-btn">
+                                <i class="bi bi-speedometer2"></i>
+                                <span>My Membership</span>
+                            </a>
+                            <a href="{% url 'membership:card' %}" class="quick-action-btn">
+                                <i class="bi bi-award"></i>
+                                <span>Membership Card</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Campaigns & Events Section -->
+                    <div id="campaigns" class="content-section">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="bi bi-megaphone"></i>
+                                Campaigns & Events
+                            </h2>
+                        </div>
+
+                        <div class="quick-actions">
+                            <a href="{% url 'campaigns:events_list' %}" class="quick-action-btn">
+                                <i class="bi bi-calendar-event"></i>
+                                <span>View All Events</span>
+                            </a>
+                            <a href="{% url 'campaigns:my_events' %}" class="quick-action-btn">
+                                <i class="bi bi-clipboard-check"></i>
+                                <span>My Registrations</span>
+                            </a>
+                            <a href="{% url 'campaigns:calendar' %}" class="quick-action-btn">
+                                <i class="bi bi-images"></i>
+                                <span>Event Calendar</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Gate Pass Section -->
+                    <div id="gatepass" class="content-section">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="bi bi-card-checklist"></i>
+                                Gate Pass Management
+                            </h2>
+                        </div>
+
+                        <div class="quick-actions">
+                            <a href="{% url 'gatepass:create' %}" class="quick-action-btn">
+                                <i class="bi bi-plus-circle"></i>
+                                <span>Request New Pass</span>
+                            </a>
+                            <a href="{% url 'gatepass:list' %}" class="quick-action-btn">
+                                <i class="bi bi-list"></i>
+                                <span>My Gate Passes</span>
+                            </a>
+                            <a href="{% url 'gatepass:dashboard' %}" class="quick-action-btn">
+                                <i class="bi bi-speedometer2"></i>
+                                <span>Gate Pass Dashboard</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Assets Section -->
+                    <div id="assets" class="content-section">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="bi bi-box-seam"></i>
+                                Assets Management
+                            </h2>
+                        </div>
+
+                        <div class="quick-actions">
+                            <a href="{% url 'assets:dashboard' %}" class="quick-action-btn">
+                                <i class="bi bi-speedometer2"></i>
+                                <span>Assets Dashboard</span>
+                            </a>
+                            <a href="{% url 'assets:dashboard' %}" class="quick-action-btn">
+                                <i class="bi bi-plus-square"></i>
+                                <span>Request Asset</span>
+                            </a>
+                            <a href="{% url 'assets:dashboard' %}" class="quick-action-btn">
+                                <i class="bi bi-box"></i>
+                                <span>My Assets</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Community Section -->
+                    <div id="community" class="content-section">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="bi bi-chat-square-dots"></i>
+                                Community Hub
+                            </h2>
+                        </div>
+
+                        <div class="quick-actions">
+                            <a href="{% url 'community:home' %}" class="quick-action-btn">
+                                <i class="bi bi-house-door"></i>
+                                <span>Community Home</span>
+                            </a>
+                            <a href="{% url 'community:home' %}" class="quick-action-btn">
+                                <i class="bi bi-chat-dots"></i>
+                                <span>Discussions</span>
+                            </a>
+                            <a href="{% url 'community:home' %}" class="quick-action-btn">
+                                <i class="bi bi-megaphone"></i>
+                                <span>Announcements</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Administration Section -->
+                    {% if user.user_type == 'ADMINISTRATOR' %}
+                    <div id="admin" class="content-section">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="bi bi-gear"></i>
+                                Administration Panel
+                            </h2>
+                        </div>
+
+                        <div class="quick-actions">
+                            <a href="{% url 'admin_user_list' %}" class="quick-action-btn">
+                                <i class="bi bi-people"></i>
+                                <span>User Management</span>
+                            </a>
+                            <a href="{% url 'campaigns:admin_events_dashboard' %}" class="quick-action-btn">
+                                <i class="bi bi-calendar-event"></i>
+                                <span>Event Management</span>
+                            </a>
+                            <a href="{% url 'assets:dashboard' %}" class="quick-action-btn">
+                                <i class="bi bi-box-seam"></i>
+                                <span>Asset Management</span>
+                            </a>
+                            <a href="{% url 'gatepass:manage_permissions' %}" class="quick-action-btn">
+                                <i class="bi bi-shield-check"></i>
+                                <span>Gate Pass Permissions</span>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Profile Section -->
+                    <div id="profile" class="content-section">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="bi bi-person-circle"></i>
+                                Profile Settings
+                            </h2>
+                        </div>
+
+                        <div class="quick-actions">
+                            <a href="{% url 'complete_profile' %}" class="quick-action-btn">
+                                <i class="bi bi-person-gear"></i>
+                                <span>Edit Profile</span>
+                            </a>
+                            <a href="{% url 'complete_profile' %}" class="quick-action-btn">
+                                <i class="bi bi-shield-lock"></i>
+                                <span>Change Password</span>
+                            </a>
+                            <a href="{% url 'complete_profile' %}" class="quick-action-btn">
+                                <i class="bi bi-shield-check"></i>
+                                <span>Privacy Settings</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Sidebar navigation functionality
+    const sidebarLinks = document.querySelectorAll('.sidebar-nav-link');
+    const contentSections = document.querySelectorAll('.content-section');
+
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Remove active class from all links and sections
+            sidebarLinks.forEach(l => l.classList.remove('active'));
+            contentSections.forEach(s => s.classList.remove('active'));
+
+            // Add active class to clicked link
+            this.classList.add('active');
+
+            // Show corresponding section
+            const sectionId = this.getAttribute('data-section');
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.classList.add('active');
+            }
+
+            // Update URL hash without scrolling
+            history.pushState(null, null, '#' + sectionId);
+        });
+    });
+
+    // Handle direct hash navigation
+    function showSectionFromHash() {
+        const hash = window.location.hash.substring(1);
+        if (hash) {
+            const targetLink = document.querySelector(`[data-section="${hash}"]`);
+            const targetSection = document.getElementById(hash);
+
+            if (targetLink && targetSection) {
+                sidebarLinks.forEach(l => l.classList.remove('active'));
+                contentSections.forEach(s => s.classList.remove('active'));
+
+                targetLink.classList.add('active');
+                targetSection.classList.add('active');
+            }
+        }
+    }
+
+    // Show section on page load if hash exists
+    showSectionFromHash();
+
+    // Handle back/forward browser navigation
+    window.addEventListener('popstate', showSectionFromHash);
+});
+</script>
+{% endblock %}

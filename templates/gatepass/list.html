@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+
+{% block title %}Gate Pass List - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3">
+                    <i class="bi bi-list-check"></i>
+                    Gate Pass List
+                </h1>
+                <div>
+                    <a href="{% url 'gatepass:dashboard' %}" class="btn btn-outline-secondary me-2">
+                        <i class="bi bi-arrow-left"></i>
+                        Dashboard
+                    </a>
+                    {% if user_can_view_all %}
+                    <a href="{% url 'gatepass:create' %}" class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i>
+                        Create New
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Search and Filter Form -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form method="get" class="row g-3">
+                        <div class="col-md-3">
+                            {{ form.search }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form.status }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form.pass_type }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form.date_from }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form.date_to }}
+                        </div>
+                        <div class="col-md-1">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Gate Pass List -->
+            <div class="card">
+                <div class="card-body">
+                    {% if page_obj.object_list %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Pass Number</th>
+                                        <th>Visitor</th>
+                                        <th>Contact</th>
+                                        <th>Type</th>
+                                        <th>Status</th>
+                                        <th>Valid Period</th>
+                                        <th>Created By</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for gatepass in page_obj %}
+                                    <tr>
+                                        <td>
+                                            <strong>{{ gatepass.pass_number }}</strong>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <strong>{{ gatepass.visitor_name }}</strong>
+                                                {% if gatepass.company_organization %}
+                                                    <br><small class="text-muted">{{ gatepass.company_organization }}</small>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <small><i class="bi bi-phone"></i> {{ gatepass.visitor_phone }}</small>
+                                                {% if gatepass.visitor_email %}
+                                                    <br><small><i class="bi bi-envelope"></i> {{ gatepass.visitor_email }}</small>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-secondary">
+                                                {{ gatepass.get_pass_type_display }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {% if gatepass.status == 'APPROVED' %}
+                                                {% if gatepass.is_valid %}
+                                                    <span class="badge bg-success">
+                                                        <i class="bi bi-check-circle"></i> Active
+                                                    </span>
+                                                {% elif gatepass.is_expired %}
+                                                    <span class="badge bg-warning">
+                                                        <i class="bi bi-clock"></i> Expired
+                                                    </span>
+                                                {% else %}
+                                                    <span class="badge bg-success">
+                                                        {{ gatepass.get_status_display }}
+                                                    </span>
+                                                {% endif %}
+                                            {% elif gatepass.status == 'PENDING' %}
+                                                <span class="badge bg-warning">
+                                                    <i class="bi bi-clock"></i> {{ gatepass.get_status_display }}
+                                                </span>
+                                            {% elif gatepass.status == 'REJECTED' %}
+                                                <span class="badge bg-danger">
+                                                    <i class="bi bi-x-circle"></i> {{ gatepass.get_status_display }}
+                                                </span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">
+                                                    {{ gatepass.get_status_display }}
+                                                </span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <small>
+                                                    <strong>From:</strong> {{ gatepass.valid_from|date:"M d, H:i" }}
+                                                    <br>
+                                                    <strong>To:</strong> {{ gatepass.valid_until|date:"M d, H:i" }}
+                                                </small>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <small>{{ gatepass.created_by.full_name }}</small>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a href="{% url 'gatepass:detail' gatepass.pk %}" 
+                                                   class="btn btn-sm btn-outline-primary">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                {% if gatepass.status == 'PENDING' and user.user_type in 'ADMINISTRATOR,COORDINATOR' %}
+                                                <a href="{% url 'gatepass:approve' gatepass.pk %}" 
+                                                   class="btn btn-sm btn-outline-warning">
+                                                    <i class="bi bi-check2-square"></i>
+                                                </a>
+                                                {% endif %}
+                                                {% if gatepass.status == 'APPROVED' %}
+                                                <a href="{% url 'gatepass:print' gatepass.pk %}" 
+                                                   class="btn btn-sm btn-outline-success" target="_blank">
+                                                    <i class="bi bi-printer"></i>
+                                                </a>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        {% if page_obj.has_other_pages %}
+                        <nav aria-label="Gate pass pagination">
+                            <ul class="pagination justify-content-center">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                                            First
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                                            Previous
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                                <li class="page-item active">
+                                    <span class="page-link">
+                                        {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                                    </span>
+                                </li>
+
+                                {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                                            Next
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                                            Last
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                        {% endif %}
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="bi bi-inbox display-4 text-muted"></i>
+                            <h5 class="mt-3 text-muted">No gate passes found</h5>
+                            <p class="text-muted">Try adjusting your search criteria or create a new gate pass.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

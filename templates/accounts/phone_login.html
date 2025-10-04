@@ -1,0 +1,550 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Nishad Party{% endblock %}
+
+{% block extra_css %}
+<style>
+.auth-container {
+    min-height: calc(100vh - 140px);
+    display: flex;
+    align-items: center;
+    padding: 2rem 0;
+}
+
+.auth-card {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.auth-header {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    border: none;
+    padding: 2.5rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 215, 0, 0.1);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+.auth-header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--secondary-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.auth-header .auth-icon {
+    font-size: 2rem;
+    background: rgba(255, 215, 0, 0.2);
+    padding: 0.5rem;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.auth-body {
+    padding: 3rem 2.5rem 2.5rem;
+}
+
+.auth-welcome {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    text-align: center;
+}
+
+.modern-input-group {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.modern-input-group .form-label {
+    font-weight: 600;
+    color: var(--dark-gray);
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+}
+
+.country-phone-group {
+    display: flex;
+    gap: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid #e5e7eb;
+    transition: all 0.3s ease;
+    background: var(--secondary-white);
+}
+
+.country-phone-group:focus-within {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px rgba(213, 0, 0, 0.1);
+}
+
+.country-select {
+    border: none;
+    background: #f8f9fa;
+    padding: 1rem 0.75rem;
+    font-weight: 600;
+    color: var(--dark-gray);
+    min-width: 120px;
+    border-right: 1px solid #dee2e6;
+}
+
+.country-select:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.phone-input {
+    border: none;
+    padding: 1rem 1.25rem;
+    flex: 1;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.phone-input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.phone-input::placeholder {
+    color: #94a3b8;
+    font-weight: 400;
+}
+
+.input-help {
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.test-info {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    margin-top: 0.5rem;
+    border-left: 4px solid var(--primary-blue);
+}
+
+.test-info .test-otp {
+    font-weight: 700;
+    color: var(--primary-red);
+    font-family: 'Monaco', 'Consolas', monospace;
+}
+
+.modern-submit-btn {
+    width: 100%;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 16px;
+    border: none;
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.modern-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, #B71C1C, var(--primary-red));
+}
+
+.modern-submit-btn:active {
+    transform: translateY(0);
+}
+
+.modern-submit-btn:disabled {
+    opacity: 0.7;
+    transform: none;
+    cursor: not-allowed;
+}
+
+.auth-footer {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid #f1f5f9;
+    margin-top: 2rem;
+}
+
+.privacy-links {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.privacy-links a {
+    color: var(--primary-red);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.privacy-links a:hover {
+    color: #B71C1C;
+    text-decoration: underline;
+}
+
+.features-card {
+    margin-top: 2rem;
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #fafafa, #ffffff);
+    box-shadow: var(--shadow-md);
+}
+
+.features-header {
+    color: var(--dark-gray);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.feature-item {
+    text-align: center;
+    padding: 1rem 0.5rem;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+}
+
+.feature-item:hover {
+    background: rgba(213, 0, 0, 0.05);
+    transform: translateY(-2px);
+}
+
+.feature-icon {
+    font-size: 2.5rem !important;
+    margin-bottom: 0.5rem;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.feature-item:hover .feature-icon {
+    transform: scale(1.1);
+}
+
+.feature-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--dark-gray);
+    margin-top: 0.25rem;
+}
+
+/* Loading Animation */
+.loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid var(--secondary-white);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Alert Styles */
+.modern-alert {
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.modern-alert.alert-success {
+    background: linear-gradient(135deg, #d4edda, #c3e6cb);
+    color: #155724;
+    border-left: 4px solid #28a745;
+}
+
+.modern-alert.alert-danger {
+    background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .auth-container {
+        padding: 1rem 0;
+        min-height: calc(100vh - 120px);
+    }
+    
+    .auth-body {
+        padding: 2rem 1.5rem;
+    }
+    
+    .auth-header {
+        padding: 2rem 1.5rem 1.5rem;
+    }
+    
+    .country-phone-group {
+        flex-direction: column;
+    }
+    
+    .country-select {
+        border-right: none;
+        border-bottom: 1px solid #dee2e6;
+        border-radius: 0;
+    }
+    
+    .features-card .row {
+        margin: 0;
+    }
+    
+    .feature-item {
+        margin-bottom: 1rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="auth-card card">
+                    <div class="auth-header card-header">
+                        <h1>
+                            <i class="bi bi-phone auth-icon"></i>
+                            Login with Mobile
+                        </h1>
+                    </div>
+                    <div class="auth-body card-body">
+                        <p class="auth-welcome">
+                            Welcome to Nishad Party! Enter your mobile number to receive a secure OTP for login.
+                        </p>
+                    
+                    <form id="phoneLoginForm" method="post">
+                        {% csrf_token %}
+                        <div class="modern-input-group">
+                            <label for="phone_number" class="form-label">
+                                <i class="bi bi-phone me-2"></i>Mobile Number
+                            </label>
+                            <div class="country-phone-group">
+                                <select class="country-select" id="country_code" name="country_code">
+                                    <option value="+91" data-length="10" selected>🇮🇳 +91</option>
+                                    <option value="+1" data-length="10">🇺🇸 +1</option>
+                                    <option value="+44" data-length="10">🇬🇧 +44</option>
+                                    <option value="+971" data-length="9">🇦🇪 +971</option>
+                                    <option value="+966" data-length="9">🇸🇦 +966</option>
+                                    <option value="+974" data-length="8">🇶🇦 +974</option>
+                                    <option value="+965" data-length="8">🇰🇼 +965</option>
+                                    <option value="+968" data-length="8">🇴🇲 +968</option>
+                                    <option value="+973" data-length="8">🇧🇭 +973</option>
+                                    <option value="+60" data-length="10">🇲🇾 +60</option>
+                                    <option value="+65" data-length="8">🇸🇬 +65</option>
+                                    <option value="+86" data-length="11">🇨🇳 +86</option>
+                                </select>
+                                <input type="tel" class="phone-input" id="phone_number" name="phone_number" 
+                                       placeholder="Enter your mobile number" 
+                                       maxlength="11" 
+                                       required
+                                       autocomplete="tel">
+                            </div>
+                            <div class="input-help">
+                                <i class="bi bi-info-circle"></i>
+                                You will receive a secure OTP via SMS
+                            </div>
+                            <div class="test-info">
+                                <small>
+                                    <i class="bi bi-gear me-1"></i>
+                                    <strong>Development Mode:</strong> Use OTP <span class="test-otp">123456</span> for testing
+                                </small>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="modern-submit-btn" id="sendOtpBtn">
+                                <i class="bi bi-send me-2"></i>
+                                Send OTP
+                            </button>
+                        </div>
+                    </form>
+                    
+                        <div class="auth-footer">
+                            <div class="privacy-links">
+                                By logging in, you agree to our 
+                                <a href="#">Privacy Policy</a> and 
+                                <a href="#">Terms of Service</a>.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('phoneLoginForm');
+    const phoneInput = document.getElementById('phone_number');
+    const countrySelect = document.getElementById('country_code');
+    const submitBtn = document.getElementById('sendOtpBtn');
+    
+    // Update phone input based on country selection
+    function updatePhoneInputForCountry() {
+        const selectedOption = countrySelect.options[countrySelect.selectedIndex];
+        const requiredLength = parseInt(selectedOption.getAttribute('data-length'));
+        const countryCode = selectedOption.value;
+        
+        phoneInput.setAttribute('maxlength', requiredLength);
+        phoneInput.setAttribute('data-length', requiredLength);
+        
+        // Update placeholder based on country
+        if (countryCode === '+91') {
+            phoneInput.placeholder = '10 digit mobile number';
+        } else {
+            phoneInput.placeholder = `${requiredLength} digit phone number`;
+        }
+    }
+    
+    // Initialize phone input
+    updatePhoneInputForCountry();
+    
+    // Update phone input when country changes
+    countrySelect.addEventListener('change', updatePhoneInputForCountry);
+    
+    // Format phone number as user types
+    phoneInput.addEventListener('input', function() {
+        // Remove any non-digit characters
+        this.value = this.value.replace(/\D/g, '');
+        
+        // Get required length for current country
+        const requiredLength = parseInt(this.getAttribute('data-length'));
+        
+        // Limit to required digits
+        if (this.value.length > requiredLength) {
+            this.value = this.value.slice(0, requiredLength);
+        }
+    });
+    
+    // Auto-focus on phone input
+    phoneInput.focus();
+    
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const phoneNumber = phoneInput.value.trim();
+        const requiredLength = parseInt(phoneInput.getAttribute('data-length'));
+        
+        // Validate phone number
+        if (!phoneNumber || phoneNumber.length !== requiredLength) {
+            alert(`Please enter a valid ${requiredLength} digit mobile number.`);
+            phoneInput.focus();
+            return;
+        }
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="loading-spinner me-2"></span>Sending OTP...';
+        showLoading();
+        
+        // Submit form via AJAX
+        fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Show success message
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'modern-alert alert-success alert-dismissible fade show';
+                alertDiv.innerHTML = `
+                    <i class="bi bi-check-circle me-2"></i>
+                    ${data.message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                form.insertBefore(alertDiv, form.firstChild);
+                
+                // Redirect after short delay
+                setTimeout(() => {
+                    window.location.href = data.redirect_url;
+                }, 1500);
+            } else {
+                // Show error message
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'modern-alert alert-danger alert-dismissible fade show';
+                alertDiv.innerHTML = `
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    ${data.message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                form.insertBefore(alertDiv, form.firstChild);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'modern-alert alert-danger alert-dismissible fade show';
+            alertDiv.innerHTML = `
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                Something went wrong. Please try again.
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            form.insertBefore(alertDiv, form.firstChild);
+        })
+        .finally(() => {
+            // Reset button state
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="bi bi-send me-2"></i>Send OTP';
+            hideLoading();
+        });
+    });
+    
+    // Clear alerts on input change
+    phoneInput.addEventListener('input', function() {
+        const alerts = form.querySelectorAll('.alert');
+        alerts.forEach(alert => alert.remove());
+    });
+});
+</script>
+{% endblock %}

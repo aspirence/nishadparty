@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+
+{% block title %}Print Gate Pass - {{ gatepass.pass_number }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    @media print {
+        body { margin: 0; }
+        .no-print { display: none !important; }
+        .print-container { width: 100%; margin: 0; padding: 20px; }
+        .card { border: 2px solid #000 !important; box-shadow: none !important; }
+        .card-header { background-color: #f8f9fa !important; border-bottom: 1px solid #000 !important; }
+    }
+    
+    .print-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .gate-pass-print {
+        border: 2px solid #000;
+        padding: 20px;
+        background: white;
+        font-family: Arial, sans-serif;
+    }
+    
+    .header-logo {
+        text-align: center;
+        border-bottom: 2px solid #000;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .pass-number {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin: 15px 0;
+        padding: 10px;
+        border: 1px solid #000;
+        background-color: #f8f9fa;
+    }
+    
+    .visitor-photo {
+        width: 120px;
+        height: 150px;
+        border: 1px solid #000;
+        float: right;
+        margin-left: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f8f9fa;
+    }
+    
+    .info-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0;
+    }
+    
+    .info-table td {
+        padding: 8px;
+        border-bottom: 1px solid #ccc;
+    }
+    
+    .info-table .label {
+        font-weight: bold;
+        width: 30%;
+    }
+    
+    .validity-box {
+        border: 2px solid #ff0000;
+        padding: 10px;
+        margin: 15px 0;
+        text-align: center;
+        background-color: #fff5f5;
+    }
+    
+    .footer-instructions {
+        border-top: 1px solid #000;
+        margin-top: 20px;
+        padding-top: 15px;
+        font-size: 12px;
+    }
+    
+    .qr-code {
+        width: 100px;
+        height: 100px;
+        border: 1px solid #000;
+        float: left;
+        margin-right: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f8f9fa;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4 no-print">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4>Print Gate Pass</h4>
+        <div>
+            <button onclick="window.print()" class="btn btn-primary me-2">
+                <i class="bi bi-printer"></i> Print
+            </button>
+            <a href="{% url 'gatepass:detail' gatepass.pk %}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Back
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="print-container">
+    <div class="gate-pass-print">
+        <!-- Header -->
+        <div class="header-logo">
+            <h2 style="margin: 0; color: #0066cc;">
+                <i class="bi bi-ship"></i> Nishad Party
+            </h2>
+            <p style="margin: 5px 0 0 0; font-size: 14px;">Nirbal Indian Shoshit Hamara Aam Dal</p>
+            <h3 style="margin: 10px 0 0 0; color: #333;">GATE PASS</h3>
+        </div>
+
+        <!-- Pass Number -->
+        <div class="pass-number">
+            {{ gatepass.pass_number }}
+        </div>
+
+        <!-- Visitor Photo Placeholder -->
+        <div class="visitor-photo">
+            <div class="text-center text-muted">
+                <i class="bi bi-person" style="font-size: 48px;"></i><br>
+                <small>PHOTO</small>
+            </div>
+        </div>
+
+        <!-- QR Code Placeholder -->
+        <div class="qr-code">
+            <div class="text-center text-muted">
+                <i class="bi bi-qr-code" style="font-size: 32px;"></i><br>
+                <small style="font-size: 10px;">QR CODE</small>
+            </div>
+        </div>
+
+        <!-- Visitor Information -->
+        <table class="info-table">
+            <tr>
+                <td class="label">Visitor Name:</td>
+                <td>{{ gatepass.visitor_name|upper }}</td>
+            </tr>
+            <tr>
+                <td class="label">Phone Number:</td>
+                <td>{{ gatepass.visitor_phone }}</td>
+            </tr>
+            <tr>
+                <td class="label">ID Proof:</td>
+                <td>{{ gatepass.visitor_id_proof }}</td>
+            </tr>
+            {% if gatepass.company_organization %}
+            <tr>
+                <td class="label">Organization:</td>
+                <td>{{ gatepass.company_organization }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td class="label">Pass Type:</td>
+                <td>{{ gatepass.get_pass_type_display|upper }}</td>
+            </tr>
+            <tr>
+                <td class="label">Purpose:</td>
+                <td>{{ gatepass.purpose }}</td>
+            </tr>
+            {% if gatepass.authorized_areas %}
+            <tr>
+                <td class="label">Authorized Areas:</td>
+                <td>{{ gatepass.authorized_areas }}</td>
+            </tr>
+            {% endif %}
+            {% if gatepass.escort_required %}
+            <tr>
+                <td class="label">Escort:</td>
+                <td>{{ gatepass.escort_name }} ({{ gatepass.escort_phone }})</td>
+            </tr>
+            {% endif %}
+        </table>
+
+        <!-- Validity Information -->
+        <div class="validity-box">
+            <strong style="color: #ff0000;">VALIDITY PERIOD</strong><br>
+            <strong>FROM:</strong> {{ gatepass.valid_from|date:"d-m-Y H:i" }} 
+            <strong>TO:</strong> {{ gatepass.valid_until|date:"d-m-Y H:i" }}
+        </div>
+
+        <!-- Authorization -->
+        <div style="margin: 20px 0; clear: both;">
+            <div class="row">
+                <div class="col-6">
+                    <p><strong>Issued By:</strong><br>
+                    {{ gatepass.created_by.full_name }}<br>
+                    {{ gatepass.created_by.get_user_type_display }}<br>
+                    Date: {{ gatepass.created_at|date:"d-m-Y" }}</p>
+                </div>
+                <div class="col-6">
+                    {% if gatepass.approved_by %}
+                    <p><strong>Approved By:</strong><br>
+                    {{ gatepass.approved_by.full_name }}<br>
+                    {{ gatepass.approved_by.get_user_type_display }}<br>
+                    Date: {{ gatepass.approved_at|date:"d-m-Y" }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-6">
+                    <div style="border-top: 1px solid #000; padding-top: 5px; text-align: center;">
+                        Issuer Signature
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div style="border-top: 1px solid #000; padding-top: 5px; text-align: center;">
+                        Authorized Signature
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Instructions -->
+        <div class="footer-instructions">
+            <strong>INSTRUCTIONS:</strong><br>
+            • This pass must be carried at all times while on premises<br>
+            • Valid only for the specified date and time period<br>
+            • Must be returned upon exit<br>
+            • Any misuse will result in immediate cancellation<br>
+            • Report any issues to security immediately<br><br>
+            
+            <div class="text-center">
+                <strong>{{ gatepass.pass_number }}</strong> | 
+                Generated on {{ gatepass.created_at|date:"d-m-Y H:i" }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

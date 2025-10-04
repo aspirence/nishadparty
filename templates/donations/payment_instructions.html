@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+
+{% block title %}Payment Instructions - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'donations:home' %}">Donations</a></li>
+                    <li class="breadcrumb-item active">Payment Instructions</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Success Message -->
+            <div class="alert alert-success">
+                <h5><i class="bi bi-check-circle me-2"></i>Donation Registration Successful!</h5>
+                <p class="mb-0">Your donation has been registered. Please follow the instructions below to complete the payment.</p>
+            </div>
+
+            <!-- Donation Details -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5><i class="bi bi-info-circle me-2"></i>Donation Details</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Donation ID:</strong> {{ donation.id }}</p>
+                            <p><strong>Donor:</strong> {{ donation.donor_name }}</p>
+                            <p><strong>Amount:</strong> ₹{{ donation.amount|floatformat:2 }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Payment Method:</strong> 
+                                {% if donation.payment_method == 'CASH' %}Cash
+                                {% elif donation.payment_method == 'CHEQUE' %}Cheque
+                                {% elif donation.payment_method == 'DD' %}Demand Draft
+                                {% elif donation.payment_method == 'BANK_TRANSFER' %}Bank Transfer
+                                {% endif %}
+                            </p>
+                            <p><strong>Registration Date:</strong> {{ donation.created_at|date:"d M Y, h:i A" }}</p>
+                            <p><strong>Purpose:</strong> {{ donation.purpose|default:"General Donation" }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Instructions -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5><i class="bi bi-credit-card me-2"></i>Payment Instructions</h5>
+                </div>
+                <div class="card-body">
+                    {% if donation.payment_method == 'CASH' %}
+                        <h6><i class="bi bi-cash me-2"></i>Cash Payment</h6>
+                        <div class="alert alert-info">
+                            <ul class="mb-0">
+                                <li>Please visit the office address given below</li>
+                                <li>Bring this Donation ID number with you: <strong>{{ donation.id }}</strong></li>
+                                <li>Office hours: Monday to Saturday, 10:00 AM to 5:00 PM</li>
+                                <li>Office closed on Sundays</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h6>Office Address:</h6>
+                                <p class="mb-2">
+                                    <strong>Nishad Party Headquarters</strong><br>
+                                    [Office address will be here]<br>
+                                    Phone: [Office phone number]
+                                </p>
+                                <small class="text-muted">
+                                    <i class="bi bi-clock me-1"></i>Office Hours: Monday-Saturday 10:00 AM - 5:00 PM
+                                </small>
+                            </div>
+                        </div>
+
+                    {% elif donation.payment_method == 'CHEQUE' or donation.payment_method == 'DD' %}
+                        <h6>
+                            <i class="bi bi-bank me-2"></i>
+                            {% if donation.payment_method == 'CHEQUE' %}Cheque{% else %}Demand Draft{% endif %} Payment
+                        </h6>
+                        <div class="alert alert-info">
+                            <ul class="mb-0">
+                                <li>
+                                    Make {% if donation.payment_method == 'CHEQUE' %}Cheque{% else %}Demand Draft{% endif %}
+                                    in favor of "<strong>Nishad Party</strong>"
+                                </li>
+                                <li>Amount: <strong>₹{{ donation.amount|floatformat:2 }}</strong></li>
+                                <li>
+                                    Write the following information on the back of the {% if donation.payment_method == 'CHEQUE' %}Cheque{% else %}Demand Draft{% endif %}:
+                                    <ul>
+                                        <li>Donation ID: {{ donation.id }}</li>
+                                        <li>Donor Name: {{ donation.donor_name }}</li>
+                                        <li>Phone: {{ donation.donor_phone }}</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h6>Mailing Address:</h6>
+                                <address>
+                                    <strong>Nishad Party</strong><br>
+                                    Treasurer<br>
+                                    [Office Address]<br>
+                                    <strong>Subject:</strong> Donation - {{ donation.donor_name }}
+                                </address>
+                            </div>
+                        </div>
+
+                    {% elif donation.payment_method == 'BANK_TRANSFER' %}
+                        <h6><i class="bi bi-bank2 me-2"></i>Bank Transfer</h6>
+                        <div class="alert alert-info">
+                            <p>Transfer amount to the following bank account:</p>
+                        </div>
+
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><strong>Account Name:</strong> Nishad Party</p>
+                                        <p><strong>Account Number:</strong> [Account Number]</p>
+                                        <p><strong>IFSC Code:</strong> [IFSC Code]</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><strong>Bank Name:</strong> [Bank Name]</p>
+                                        <p><strong>Branch:</strong> [Branch Name]</p>
+                                        <p><strong>Amount:</strong> ₹{{ donation.amount|floatformat:2 }}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <p class="mb-0"><strong>Write in transfer description:</strong></p>
+                                <p class="small mb-0">Donation ID: {{ donation.id }} - {{ donation.donor_name }}</p>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-warning mt-3">
+                            <h6><i class="bi bi-exclamation-triangle me-2"></i>Important:</h6>
+                            <ul class="mb-0">
+                                <li>Keep Transaction ID safe after transfer</li>
+                                <li>Send screenshot or receipt of transfer</li>
+                                <li>WhatsApp: [Phone Number]</li>
+                                <li>Email: [Email Address]</li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5><i class="bi bi-list-check me-2"></i>Next Steps</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>After Payment:</h6>
+                            <ul>
+                                <li>Wait for payment confirmation</li>
+                                <li>Verification will take 2-3 working days</li>
+                                <li>Receipt will be prepared after verification</li>
+                                <li>Receipt will be sent via email or SMS</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Contact Information:</h6>
+                            <ul>
+                                <li><strong>Phone:</strong> [Contact Number]</li>
+                                <li><strong>WhatsApp:</strong> [WhatsApp Number]</li>
+                                <li><strong>Email:</strong> [Email Address]</li>
+                                <li><strong>Hours:</strong> 10:00 AM - 5:00 PM</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Important Notes -->
+            <div class="alert alert-warning">
+                <h6><i class="bi bi-exclamation-triangle me-2"></i>Important Notice:</h6>
+                <ul class="mb-0">
+                    <li>This donation is eligible for income tax exemption</li>
+                    <li>{% if donation.amount >= 2000 %}Donations of ₹2000 or above are reported to Election Commission{% endif %}</li>
+                    <li>Please wait 2-3 working days for payment confirmation</li>
+                    <li>Contact us for any issues</li>
+                </ul>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="text-center">
+                <a href="{% url 'donations:home' %}" class="btn btn-primary me-2">
+                    <i class="bi bi-house me-1"></i>Donations Home Page
+                </a>
+                <button onclick="window.print()" class="btn btn-outline-secondary me-2">
+                    <i class="bi bi-printer me-1"></i>Print
+                </button>
+                {% if user.is_authenticated %}
+                <a href="{% url 'donations:my_donations' %}" class="btn btn-outline-primary">
+                    <i class="bi bi-list me-1"></i>View My Donations
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
