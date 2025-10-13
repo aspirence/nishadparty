@@ -554,23 +554,38 @@
         <aside class="dashboard-sidebar" id="dashboardSidebar">
             <!-- Sidebar Header -->
             <div class="sidebar-header">
-                <!-- Profile Picture -->
-                {% if user.userprofile and user.userprofile.avatar %}
-                    <img src="{{ user.userprofile.avatar.url }}" alt="{{ user.get_full_name }}" class="sidebar-profile-pic">
+                {% if user.is_authenticated %}
+                    <!-- Profile Picture -->
+                    {% if user.userprofile and user.userprofile.avatar %}
+                        <img src="{{ user.userprofile.avatar.url }}" alt="{{ user.get_full_name }}" class="sidebar-profile-pic">
+                    {% else %}
+                        <div class="sidebar-profile-placeholder">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                    {% endif %}
+
+                    <h4>{{ user.get_full_name|default:user.phone_number }}</h4>
+                    <p><i class="bi bi-envelope"></i> {{ user.email|default:user.phone_number }}</p>
+                    <span class="user-role">{{ user.get_user_type_display }}</span>
+
+                    <!-- View Profile Button -->
+                    <a href="{% url 'complete_profile' %}" class="view-profile-btn">
+                        <i class="bi bi-person-circle"></i>{% trans "View Profile" %}
+                    </a>
                 {% else %}
+                    <!-- Anonymous User -->
                     <div class="sidebar-profile-placeholder">
-                        <i class="bi bi-person-fill"></i>
+                        <i class="bi bi-person"></i>
                     </div>
+
+                    <h4>{% trans "Guest User" %}</h4>
+                    <p><i class="bi bi-info-circle"></i> {% trans "Not logged in" %}</p>
+
+                    <!-- Login Button -->
+                    <a href="{% url 'phone_login' %}" class="view-profile-btn">
+                        <i class="bi bi-box-arrow-in-right"></i>{% trans "Login" %}
+                    </a>
                 {% endif %}
-
-                <h4>{{ user.get_full_name|default:user.phone_number }}</h4>
-                <p><i class="bi bi-envelope"></i> {{ user.email|default:user.phone_number }}</p>
-                <span class="user-role">{{ user.get_user_type_display }}</span>
-
-                <!-- View Profile Button -->
-                <a href="{% url 'complete_profile' %}" class="view-profile-btn">
-                    <i class="bi bi-person-circle"></i>{% trans "View Profile" %}
-                </a>
             </div>
 
             <!-- Navigation Menu -->
@@ -581,6 +596,42 @@
                         <span>{% trans "Home" %}</span>
                     </a>
                 </li>
+
+                {% if not user.is_authenticated %}
+                    <!-- Public Menu Options for Anonymous Users -->
+                    <div class="sidebar-divider"></div>
+                    <div class="sidebar-section-title">{% trans "Explore" %}</div>
+
+                    <li class="sidebar-nav-item">
+                        <a href="{% url 'campaigns:events_list' %}" class="sidebar-nav-link">
+                            <i class="bi bi-calendar-event"></i>
+                            <span>{% trans "View Events" %}</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-nav-item">
+                        <a href="{% url 'donations:home' %}" class="sidebar-nav-link">
+                            <i class="bi bi-heart-fill"></i>
+                            <span>{% trans "Donate" %}</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-nav-item">
+                        <a href="{% url 'membership:apply_with_payment' %}" class="sidebar-nav-link">
+                            <i class="bi bi-person-plus"></i>
+                            <span>{% trans "Join Us" %}</span>
+                        </a>
+                    </li>
+
+                    <div class="sidebar-divider"></div>
+
+                    <li class="sidebar-nav-item">
+                        <a href="{% url 'home' %}" class="sidebar-nav-link">
+                            <i class="bi bi-globe"></i>
+                            <span>{% trans "Back to Website" %}</span>
+                        </a>
+                    </li>
+                {% endif %}
 
                 {% if user.is_authenticated %}
                     <div class="sidebar-divider"></div>

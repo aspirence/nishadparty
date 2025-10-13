@@ -17630,3 +17630,410 @@ INFO 2025-10-13 20:57:46,143 basehttp 44966 6188756992 "GET /campaigns/events/ H
 INFO 2025-10-13 20:57:48,233 basehttp 44966 6188756992 "GET /campaigns/event/rally-aa88f81b/ HTTP/1.1" 200 29922
 INFO 2025-10-13 20:57:51,447 basehttp 44966 6188756992 "GET /campaigns/event/rally-aa88f81b/register/ HTTP/1.1" 200 27290
 INFO 2025-10-13 20:57:55,346 basehttp 44966 6188756992 "GET /accounts/complete-profile/ HTTP/1.1" 200 40736
+INFO 2025-10-13 21:43:28,638 basehttp 44966 6171930624 "GET / HTTP/1.1" 200 84728
+INFO 2025-10-13 21:43:28,978 basehttp 44966 6171930624 "GET /static/images/banner_nishad_party.png HTTP/1.1" 200 5081361
+WARNING 2025-10-13 21:43:29,863 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:43:29,864 log 44966 6171930624 Not Found: /sw.js
+WARNING 2025-10-13 21:43:29,864 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 21:43:29,864 basehttp 44966 6171930624 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 21:43:44,991 basehttp 44966 6171930624 "GET /manifesto/ HTTP/1.1" 200 69242
+WARNING 2025-10-13 21:43:45,187 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:43:45,189 log 44966 6171930624 Not Found: /sw.js
+WARNING 2025-10-13 21:43:45,189 basehttp 44966 6171930624 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 21:43:45,189 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+ERROR 2025-10-13 21:43:46,203 log 44966 6171930624 Internal Server Error: /campaigns/events/
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 875, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'AnonymousUser' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 885, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/utils/functional.py", line 253, in inner
+    return func(_wrapped, *args)
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'AnonymousUser' object has no attribute 'phone_number'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 891, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'phone_number'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/campaigns/views.py", line 107, in events_list
+    return render(request, 'campaigns/events_list.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 1059, in render
+    output = self.filter_expression.resolve(context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 731, in resolve
+    arg_vals.append(arg.resolve(context))
+                    ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 842, in resolve
+    value = self._resolve_lookup(context)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 898, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [phone_number] in <SimpleLazyObject: <django.contrib.auth.models.AnonymousUser object at 0x107006410>>
+ERROR 2025-10-13 21:43:46,206 basehttp 44966 6171930624 "GET /campaigns/events/ HTTP/1.1" 500 189139
+INFO 2025-10-13 21:46:56,697 basehttp 44966 6171930624 "GET /campaigns/events/ HTTP/1.1" 200 28325
+WARNING 2025-10-13 21:46:57,069 log 44966 6171930624 Not Found: /favicon.ico
+WARNING 2025-10-13 21:46:57,070 basehttp 44966 6171930624 "GET /favicon.ico HTTP/1.1" 404 6101
+INFO 2025-10-13 21:46:59,873 basehttp 44966 6171930624 "GET /accounts/dashboard/ HTTP/1.1" 302 0
+INFO 2025-10-13 21:46:59,886 basehttp 44966 6171930624 "GET /accounts/login/?next=/accounts/dashboard/ HTTP/1.1" 200 65825
+WARNING 2025-10-13 21:47:00,069 log 44966 6171930624 Not Found: /sw.js
+WARNING 2025-10-13 21:47:00,071 basehttp 44966 6171930624 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 21:47:00,073 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:47:00,074 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 21:47:05,420 basehttp 44966 6171930624 "GET /manifesto/ HTTP/1.1" 200 69242
+WARNING 2025-10-13 21:47:05,564 log 44966 6171930624 Not Found: /sw.js
+WARNING 2025-10-13 21:47:05,565 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:47:05,565 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 21:47:05,565 basehttp 44966 6171930624 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 21:47:06,615 basehttp 44966 6171930624 "GET /campaigns/events/ HTTP/1.1" 200 28325
+WARNING 2025-10-13 21:47:15,041 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:47:15,041 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 21:47:16,441 basehttp 44966 6171930624 "GET /campaigns/events/ HTTP/1.1" 200 28325
+WARNING 2025-10-13 21:47:21,212 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:47:21,213 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 21:47:24,935 basehttp 44966 6171930624 "GET /campaigns/events/ HTTP/1.1" 200 28325
+INFO 2025-10-13 21:49:00,611 basehttp 44966 6171930624 "GET /campaigns/events/ HTTP/1.1" 200 28259
+INFO 2025-10-13 21:49:01,382 basehttp 44966 6171930624 "GET /campaigns/events/ HTTP/1.1" 200 28259
+INFO 2025-10-13 21:49:01,767 basehttp 44966 6171930624 "GET /campaigns/events/ HTTP/1.1" 200 28259
+INFO 2025-10-13 21:49:01,953 basehttp 44966 6171930624 "GET /campaigns/events/ HTTP/1.1" 200 28259
+INFO 2025-10-13 21:49:02,136 basehttp 44966 6171930624 "GET /campaigns/events/ HTTP/1.1" 200 28259
+INFO 2025-10-13 21:49:02,299 basehttp 44966 6171930624 "GET /campaigns/events/ HTTP/1.1" 200 28259
+INFO 2025-10-13 21:49:02,501 basehttp 44966 6171930624 "GET /campaigns/events/ HTTP/1.1" 200 28259
+WARNING 2025-10-13 21:49:14,427 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:49:14,429 log 44966 6171930624 Not Found: /sw.js
+WARNING 2025-10-13 21:49:14,429 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 21:49:14,429 basehttp 44966 6171930624 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 21:49:15,565 basehttp 44966 6171930624 "GET /campaigns/events/ HTTP/1.1" 200 28259
+WARNING 2025-10-13 21:49:17,524 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:49:17,524 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 21:49:19,537 basehttp 44966 6171930624 "GET /photo-gallery/ HTTP/1.1" 200 59722
+WARNING 2025-10-13 21:49:19,668 log 44966 6171930624 Not Found: /sw.js
+WARNING 2025-10-13 21:49:19,670 basehttp 44966 6171930624 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 21:49:19,672 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:49:19,672 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 21:49:20,768 basehttp 44966 6171930624 "GET /video-gallery/ HTTP/1.1" 200 64144
+WARNING 2025-10-13 21:49:20,878 log 44966 6171930624 Not Found: /sw.js
+WARNING 2025-10-13 21:49:20,880 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:49:20,880 basehttp 44966 6171930624 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 21:49:20,881 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 21:49:22,013 basehttp 44966 6171930624 "GET /news/ HTTP/1.1" 200 65779
+WARNING 2025-10-13 21:49:22,133 log 44966 6171930624 Not Found: /sw.js
+WARNING 2025-10-13 21:49:22,134 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:49:22,134 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 21:49:22,134 basehttp 44966 6171930624 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 21:49:23,439 basehttp 44966 6171930624 "GET /donations/ HTTP/1.1" 200 28285
+WARNING 2025-10-13 21:49:28,038 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:49:28,038 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 21:49:29,633 basehttp 44966 6171930624 "GET /manifesto/ HTTP/1.1" 200 69242
+WARNING 2025-10-13 21:49:29,790 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:49:29,792 log 44966 6171930624 Not Found: /sw.js
+WARNING 2025-10-13 21:49:29,792 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 21:49:29,793 basehttp 44966 6171930624 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 21:49:36,879 basehttp 44966 6171930624 "GET /about/ HTTP/1.1" 200 60938
+WARNING 2025-10-13 21:49:37,040 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:49:37,042 log 44966 6171930624 Not Found: /sw.js
+WARNING 2025-10-13 21:49:37,042 basehttp 44966 6171930624 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 21:49:37,042 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 21:50:08,768 autoreload 66668 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-13 21:50:13,880 basehttp 44966 6171930624 "GET /membership/ HTTP/1.1" 302 0
+INFO 2025-10-13 21:50:13,890 basehttp 44966 6171930624 "GET /accounts/login/?next=/membership/ HTTP/1.1" 200 65825
+WARNING 2025-10-13 21:50:14,057 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:50:14,058 log 44966 6171930624 Not Found: /sw.js
+WARNING 2025-10-13 21:50:14,058 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 21:50:14,058 basehttp 44966 6171930624 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 21:50:15,618 basehttp 44966 6171930624 "GET /donations/ HTTP/1.1" 200 28285
+WARNING 2025-10-13 21:51:25,607 log 44966 6171930624 Not Found: /sw.js
+WARNING 2025-10-13 21:51:25,608 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:51:25,608 basehttp 44966 6171930624 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 21:51:25,609 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 21:51:26,342 basehttp 44966 6171930624 "GET /accounts/login/?next=/membership/ HTTP/1.1" 200 65825
+INFO 2025-10-13 21:51:26,370 basehttp 44966 6171930624 "GET /static/images/nishad-party-logo.png HTTP/1.1" 200 352190
+WARNING 2025-10-13 21:51:26,590 log 44966 6171930624 Not Found: /sw.js
+WARNING 2025-10-13 21:51:26,592 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:51:26,593 basehttp 44966 6171930624 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 21:51:26,593 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 21:51:26,595 log 44966 6188756992 Not Found: /favicon.ico
+WARNING 2025-10-13 21:51:26,595 basehttp 44966 6188756992 "GET /favicon.ico HTTP/1.1" 404 6101
+INFO 2025-10-13 21:51:59,377 basehttp 44966 6188756992 "GET /accounts/login/?next=/membership/ HTTP/1.1" 200 65825
+INFO 2025-10-13 21:51:59,406 basehttp 44966 6188756992 "GET /static/images/nishad-party-logo.png HTTP/1.1" 200 352190
+WARNING 2025-10-13 21:51:59,648 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:51:59,651 log 44966 6171930624 Not Found: /favicon.ico
+WARNING 2025-10-13 21:51:59,651 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 21:51:59,652 basehttp 44966 6171930624 "GET /favicon.ico HTTP/1.1" 404 6101
+WARNING 2025-10-13 21:51:59,654 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 21:51:59,655 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 21:52:00,382 basehttp 44966 6188756992 "GET /membership/ HTTP/1.1" 302 0
+INFO 2025-10-13 21:52:00,392 basehttp 44966 6188756992 "GET /accounts/login/?next=/membership/ HTTP/1.1" 200 65825
+WARNING 2025-10-13 21:52:00,536 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:52:00,538 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 21:52:00,538 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 21:52:00,538 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 21:52:01,538 basehttp 44966 6188756992 "GET /donations/ HTTP/1.1" 200 28285
+WARNING 2025-10-13 21:52:03,216 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:52:03,216 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 21:52:04,233 basehttp 44966 6188756992 "GET /campaigns/events/ HTTP/1.1" 200 28259
+WARNING 2025-10-13 21:52:06,061 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:52:06,062 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 21:52:07,755 basehttp 44966 6188756992 "GET /manifesto/ HTTP/1.1" 200 69242
+WARNING 2025-10-13 21:52:07,890 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:52:07,890 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 21:52:07,890 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 21:52:07,891 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 21:52:13,141 basehttp 44966 6188756992 "GET / HTTP/1.1" 200 84728
+WARNING 2025-10-13 21:52:13,807 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:52:13,810 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 21:52:13,815 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 21:52:13,815 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 21:53:37,474 basehttp 44966 6188756992 "GET /membership/ HTTP/1.1" 302 0
+INFO 2025-10-13 21:53:37,481 basehttp 44966 6188756992 "GET /accounts/login/?next=/membership/ HTTP/1.1" 200 65825
+WARNING 2025-10-13 21:53:37,669 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:53:37,671 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 21:53:37,671 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 21:53:37,671 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 21:53:38,680 basehttp 44966 6188756992 "GET /donations/ HTTP/1.1" 200 28219
+INFO 2025-10-13 21:53:41,514 basehttp 44966 6188756992 "GET /donations/donate/ HTTP/1.1" 200 32762
+INFO 2025-10-13 21:53:45,629 basehttp 44966 6188756992 "GET /donations/my-donations/ HTTP/1.1" 302 0
+INFO 2025-10-13 21:53:45,642 basehttp 44966 6188756992 "GET /accounts/login/?next=/donations/my-donations/ HTTP/1.1" 200 65825
+WARNING 2025-10-13 21:53:45,765 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 21:53:45,767 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:53:45,767 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 21:53:45,767 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 21:53:47,046 basehttp 44966 6188756992 "GET /campaigns/events/ HTTP/1.1" 200 28259
+INFO 2025-10-13 21:53:48,955 basehttp 44966 6188756992 "GET /accounts/dashboard/ HTTP/1.1" 302 0
+INFO 2025-10-13 21:53:48,961 basehttp 44966 6188756992 "GET /accounts/login/?next=/accounts/dashboard/ HTTP/1.1" 200 65825
+WARNING 2025-10-13 21:53:49,083 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 21:53:49,084 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 21:53:49,092 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:53:49,092 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 21:53:51,189 basehttp 44966 6188756992 "GET /about/ HTTP/1.1" 200 60938
+WARNING 2025-10-13 21:53:51,324 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:53:51,326 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 21:53:51,326 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 21:53:51,326 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 21:53:52,855 basehttp 44966 6188756992 "GET /accounts/login/ HTTP/1.1" 200 65825
+WARNING 2025-10-13 21:53:52,977 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:53:52,978 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 21:53:52,979 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 21:53:52,979 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 21:53:55,702 basehttp 44966 6188756992 "POST /accounts/login/ HTTP/1.1" 200 124
+INFO 2025-10-13 21:53:57,223 basehttp 44966 6188756992 "GET /accounts/verify-otp/ HTTP/1.1" 200 70245
+WARNING 2025-10-13 21:53:57,353 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:53:57,354 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 21:53:57,355 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 21:53:57,355 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 21:54:00,744 basehttp 44966 6188756992 "POST /accounts/verify-otp/ HTTP/1.1" 200 73
+INFO 2025-10-13 21:54:01,767 basehttp 44966 6188756992 "GET / HTTP/1.1" 200 85800
+WARNING 2025-10-13 21:54:02,285 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:54:02,287 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 21:54:02,289 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 21:54:02,289 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 21:54:04,143 basehttp 44966 6188756992 "GET /membership/ HTTP/1.1" 200 69379
+WARNING 2025-10-13 21:54:04,287 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 21:54:04,287 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 21:54:04,288 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:54:04,288 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 21:54:06,511 basehttp 44966 6188756992 "GET /donations/ HTTP/1.1" 200 36345
+INFO 2025-10-13 21:54:06,540 basehttp 44966 6188756992 "GET /media/avatars/2c5c9cf1bb6cc344d5306057a6fa8090987601b2c0433734adb355ea34b37ae9_1.png HTTP/1.1" 304 0
+INFO 2025-10-13 21:54:21,769 basehttp 44966 6188756992 "GET /accounts/dashboard/ HTTP/1.1" 200 40669
+INFO 2025-10-13 21:54:30,196 basehttp 44966 6188756992 "GET / HTTP/1.1" 200 85800
+WARNING 2025-10-13 21:54:30,636 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:54:30,638 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 21:54:30,640 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 21:54:30,640 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 21:54:32,502 basehttp 44966 6188756992 "GET /campaigns/events/ HTTP/1.1" 200 32729
+INFO 2025-10-13 21:54:37,887 basehttp 44966 6188756992 "GET /assets/ HTTP/1.1" 200 29574
+INFO 2025-10-13 21:54:45,043 basehttp 44966 6188756992 "GET /accounts/dashboard/ HTTP/1.1" 200 40669
+INFO 2025-10-13 21:57:04,921 basehttp 44966 6188756992 "GET /donations/my-donations/ HTTP/1.1" 200 36496
+INFO 2025-10-13 21:57:06,563 basehttp 44966 6188756992 "GET /accounts/dashboard/ HTTP/1.1" 200 40669
+INFO 2025-10-13 21:57:08,502 basehttp 44966 6188756992 "GET / HTTP/1.1" 200 85800
+WARNING 2025-10-13 21:57:09,132 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:57:09,134 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 21:57:09,136 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 21:57:09,137 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 21:57:10,283 basehttp 44966 6188756992 "GET /accounts/logout/ HTTP/1.1" 302 0
+INFO 2025-10-13 21:57:10,287 basehttp 44966 6188756992 "GET /accounts/login/ HTTP/1.1" 200 66194
+WARNING 2025-10-13 21:57:10,418 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 21:57:10,419 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:57:10,420 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 21:57:10,420 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 21:57:12,342 basehttp 44966 6188756992 "GET /membership/ HTTP/1.1" 302 0
+INFO 2025-10-13 21:57:12,351 basehttp 44966 6188756992 "GET /accounts/login/?next=/membership/ HTTP/1.1" 200 65825
+WARNING 2025-10-13 21:57:12,479 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 21:57:12,481 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 21:57:12,481 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 21:57:12,481 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 21:57:13,696 basehttp 44966 6188756992 "GET /donations/ HTTP/1.1" 200 28219
+INFO 2025-10-13 22:00:06,924 basehttp 44966 6188756992 "GET /donations/donate/ HTTP/1.1" 200 33392
+INFO 2025-10-13 22:00:09,972 basehttp 44966 6188756992 "GET /accounts/dashboard/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:00:09,986 basehttp 44966 6188756992 "GET /accounts/login/?next=/accounts/dashboard/ HTTP/1.1" 200 65825
+WARNING 2025-10-13 22:00:10,211 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 22:00:10,212 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 22:00:10,213 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:00:10,213 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:00:11,820 basehttp 44966 6188756992 "GET /donations/ HTTP/1.1" 200 28849
+INFO 2025-10-13 22:00:20,015 basehttp 44966 6188756992 "GET /accounts/dashboard/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:00:20,027 basehttp 44966 6188756992 "GET /accounts/login/?next=/accounts/dashboard/ HTTP/1.1" 200 65825
+WARNING 2025-10-13 22:00:20,161 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 22:00:20,162 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 22:00:20,163 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:00:20,163 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:00:22,840 basehttp 44966 6188756992 "GET /manifesto/ HTTP/1.1" 200 69242
+WARNING 2025-10-13 22:00:23,021 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 22:00:23,021 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 22:00:23,022 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:00:23,022 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:00:24,740 basehttp 44966 6188756992 "GET /campaigns/events/ HTTP/1.1" 200 28889
+INFO 2025-10-13 22:00:44,945 basehttp 44966 6188756992 "GET /accounts/dashboard/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:00:44,958 basehttp 44966 6188756992 "GET /accounts/login/?next=/accounts/dashboard/ HTTP/1.1" 200 65825
+WARNING 2025-10-13 22:00:45,107 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 22:00:45,109 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 22:00:45,109 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:00:45,109 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:00:47,767 basehttp 44966 6188756992 "GET /donations/ HTTP/1.1" 200 28849
+INFO 2025-10-13 22:01:10,718 basehttp 44966 6188756992 "GET /accounts/login/ HTTP/1.1" 200 65825
+WARNING 2025-10-13 22:01:10,899 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 22:01:10,902 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 22:01:10,902 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:01:10,902 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:01:13,538 basehttp 44966 6188756992 "GET /about/ HTTP/1.1" 200 60938
+WARNING 2025-10-13 22:01:13,660 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 22:01:13,660 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 22:01:13,661 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:01:13,661 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:01:19,291 basehttp 44966 6188756992 "GET /privacy-policy/ HTTP/1.1" 200 64379
+WARNING 2025-10-13 22:01:19,406 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 22:01:19,406 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:01:19,411 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 22:01:19,412 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:01:21,648 basehttp 44966 6188756992 "GET / HTTP/1.1" 200 84728
+WARNING 2025-10-13 22:01:22,300 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 22:01:22,302 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:01:22,303 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 22:01:22,304 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:01:26,881 basehttp 44966 6188756992 "GET /accounts/login/ HTTP/1.1" 200 65825
+WARNING 2025-10-13 22:01:27,015 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 22:01:27,015 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:01:27,016 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 22:01:27,016 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:01:28,439 basehttp 44966 6188756992 "GET /membership/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:01:28,446 basehttp 44966 6188756992 "GET /accounts/login/?next=/membership/ HTTP/1.1" 200 65825
+WARNING 2025-10-13 22:01:28,568 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 22:01:28,570 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 22:01:28,570 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:01:28,570 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:01:29,749 basehttp 44966 6188756992 "GET /donations/ HTTP/1.1" 200 30302
+INFO 2025-10-13 22:01:32,345 basehttp 44966 6188756992 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:01:32,353 basehttp 44966 6188756992 "GET /accounts/login/?next=/membership/apply/ HTTP/1.1" 200 65825
+WARNING 2025-10-13 22:01:32,477 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 22:01:32,478 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 22:01:32,479 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:01:32,479 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:01:35,814 basehttp 44966 6188756992 "GET /donations/ HTTP/1.1" 200 30302
+INFO 2025-10-13 22:01:38,212 basehttp 44966 6188756992 "GET /campaigns/events/ HTTP/1.1" 200 30342
+INFO 2025-10-13 22:01:39,966 basehttp 44966 6188756992 "GET /donations/ HTTP/1.1" 200 30302
+INFO 2025-10-13 22:01:41,734 basehttp 44966 6188756992 "GET /accounts/dashboard/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:01:41,741 basehttp 44966 6188756992 "GET /accounts/login/?next=/accounts/dashboard/ HTTP/1.1" 200 65825
+WARNING 2025-10-13 22:01:41,869 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 22:01:41,870 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 22:01:41,871 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:01:41,873 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:01:44,156 basehttp 44966 6188756992 "GET / HTTP/1.1" 200 84728
+WARNING 2025-10-13 22:01:44,777 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 22:01:44,778 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 22:01:44,778 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:01:44,778 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:03:56,610 basehttp 44966 6188756992 "GET / HTTP/1.1" 200 84728
+INFO 2025-10-13 22:03:56,637 basehttp 44966 6188756992 "GET /static/images/nishad-party-logo.png HTTP/1.1" 200 352190
+INFO 2025-10-13 22:03:56,770 basehttp 44966 6188756992 "GET /static/images/banner_nishad_party.png HTTP/1.1" 200 5081361
+INFO 2025-10-13 22:03:57,593 basehttp 44966 6188756992 "GET /campaigns/events/ HTTP/1.1" 200 30342
+WARNING 2025-10-13 22:03:57,738 log 44966 6188756992 Not Found: /favicon.ico
+WARNING 2025-10-13 22:03:57,738 basehttp 44966 6188756992 "GET /favicon.ico HTTP/1.1" 404 6101
+INFO 2025-10-13 22:04:00,967 basehttp 44966 6188756992 "GET /accounts/dashboard/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:04:00,974 basehttp 44966 6188756992 "GET /accounts/login/?next=/accounts/dashboard/ HTTP/1.1" 200 65825
+WARNING 2025-10-13 22:04:01,124 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 22:04:01,126 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 22:04:01,126 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:04:01,126 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:04:03,027 basehttp 44966 6188756992 "GET /photo-gallery/ HTTP/1.1" 200 59722
+WARNING 2025-10-13 22:04:03,160 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 22:04:03,162 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 22:04:03,163 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:04:03,163 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:04:06,042 basehttp 44966 6188756992 "GET /leadership/ HTTP/1.1" 200 63306
+WARNING 2025-10-13 22:04:06,178 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 22:04:06,179 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 22:04:06,179 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:04:06,179 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:04:10,738 basehttp 44966 6188756992 "GET / HTTP/1.1" 200 84728
+WARNING 2025-10-13 22:04:11,222 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 22:04:11,223 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:04:11,224 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 22:04:11,224 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:04:14,015 basehttp 44966 6188756992 "GET /accounts/login/ HTTP/1.1" 200 65825
+WARNING 2025-10-13 22:04:14,161 log 44966 6188756992 Not Found: /sw.js
+WARNING 2025-10-13 22:04:14,162 log 44966 6205583360 Not Found: /manifest.json
+WARNING 2025-10-13 22:04:14,163 basehttp 44966 6188756992 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:04:14,163 basehttp 44966 6205583360 "GET /manifest.json HTTP/1.1" 404 6107
