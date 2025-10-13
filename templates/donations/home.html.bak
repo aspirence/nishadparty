@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+
+{% block title %}Donations - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="bi bi-heart me-2"></i>Donations</h2>
+                {% if is_admin_view %}
+                    <div class="badge bg-danger fs-6">
+                        <i class="bi bi-shield-check me-1"></i>Admin View
+                    </div>
+                {% elif user.is_authenticated %}
+                    <div class="badge bg-primary fs-6">
+                        <i class="bi bi-person me-1"></i>Personal View
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <h3>₹{{ total_raised|floatformat:0 }}</h3>
+                    <p class="mb-0">
+                        {% if is_admin_view %}
+                            Total Amount Raised
+                        {% elif user.is_authenticated %}
+                            Your Total Donations
+                        {% else %}
+                            Total Amount Raised
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <h3>{{ campaigns.count }}</h3>
+                    <p class="mb-0">Active Campaigns</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-info text-white">
+                <div class="card-body text-center">
+                    <h3>{{ recent_donations.count }}</h3>
+                    <p class="mb-0">
+                        {% if is_admin_view %}
+                            Recent Donors
+                        {% elif user.is_authenticated %}
+                            Your Donations
+                        {% else %}
+                            Recent Donors
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Donate Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card border-success">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-lightning me-2"></i>Quick Donations</h5>
+                </div>
+                <div class="card-body">
+                    <p>Contribute to the development of Nishad Party. Every rupee of yours will be used for the welfare of the community.</p>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <a href="{% url 'donations:donate' %}" class="btn btn-success">
+                            <i class="bi bi-heart-fill me-1"></i>Donate Now
+                        </a>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'donations:my_donations' %}" class="btn btn-outline-primary">
+                                <i class="bi bi-list me-1"></i>View My Donations
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Campaigns -->
+    {% if campaigns %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <h4>Active Campaigns</h4>
+        </div>
+    </div>
+    <div class="row g-4 mb-5">
+        {% for campaign in campaigns %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100">
+                {% if campaign.image %}
+                    <img src="{{ campaign.image.url }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <i class="bi bi-image text-muted fs-1"></i>
+                    </div>
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h6 class="card-title">{{ campaign.title }}</h6>
+                    <p class="card-text flex-grow-1">{{ campaign.description|truncatewords:20 }}</p>
+                    
+                    <!-- Progress Bar -->
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <small>₹{{ campaign.raised_amount|floatformat:0 }} Raised</small>
+                            <small>Target: ₹{{ campaign.target_amount|floatformat:0 }}</small>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-success" style="width: {{ campaign.progress_percentage }}%"></div>
+                        </div>
+                        <small class="text-muted">{{ campaign.progress_percentage|floatformat:1 }}% Complete</small>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <a href="{% url 'donations:donate_campaign' campaign.id %}" class="btn btn-primary">
+                            <i class="bi bi-heart me-1"></i>Donate for this Campaign
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer text-muted small">
+                    <i class="bi bi-calendar me-1"></i>Ends: {{ campaign.end_date|date:"d M Y" }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Recent Donations -->
+    {% if recent_donations %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <h4>
+                {% if is_admin_view %}
+                    Recent Donations (All Users)
+                {% elif user.is_authenticated %}
+                    Your Recent Donations
+                {% else %}
+                    Recent Donations
+                {% endif %}
+            </h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    {% if is_admin_view %}
+                                        <th>Donor</th>
+                                    {% endif %}
+                                    <th>Amount</th>
+                                    <th>Purpose</th>
+                                    <th>Date</th>
+                                    {% if not is_admin_view and user.is_authenticated %}
+                                        <th>Status</th>
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for donation in recent_donations %}
+                                <tr>
+                                    {% if is_admin_view %}
+                                        <td>
+                                            {% if donation.anonymous %}
+                                                Anonymous Donor
+                                            {% else %}
+                                                {{ donation.donor_name }}
+                                            {% endif %}
+                                        </td>
+                                    {% endif %}
+                                    <td>₹{{ donation.amount|floatformat:0 }}</td>
+                                    <td>{{ donation.purpose|default:"General Donation" }}</td>
+                                    <td>{{ donation.created_at|date:"d M Y" }}</td>
+                                    {% if not is_admin_view and user.is_authenticated %}
+                                        <td>
+                                            {% if donation.status == 'SUCCESS' %}
+                                                <span class="badge bg-success">Successful</span>
+                                            {% elif donation.status == 'PENDING' %}
+                                                <span class="badge bg-warning">Pending</span>
+                                            {% elif donation.status == 'FAILED' %}
+                                                <span class="badge bg-danger">Failed</span>
+                                            {% endif %}
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Information Section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h5><i class="bi bi-info-circle me-2"></i>About Donations</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Legal Compliance:</strong></p>
+                            <ul class="small">
+                                <li>PAN required for donations above ₹2000</li>
+                                <li>All donations are reported to Election Commission</li>
+                                <li>Receipt provided for income tax exemption</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Payment Options:</strong></p>
+                            <ul class="small">
+                                <li>Online (UPI, Card, Net Banking)</li>
+                                <li>Cheque or Demand Draft</li>
+                                <li>Cash (at office)</li>
+                                <li>Bank Transfer</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

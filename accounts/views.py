@@ -234,90 +234,88 @@ def complete_profile_view(request):
 @login_required
 def dashboard_view(request):
     """
-    Unified dashboard view with all sections and statistics
+    Main single-page dashboard view - shows all information on one page
     """
+    from django.utils import timezone
+    from django.db.models import Sum
+    from decimal import Decimal
+
     context = {
-        'donation_count': 0,
-        'membership_count': 0,
-        'upcoming_events': 0,
-        'pending_gatepasses': 0,
+        'today': timezone.now(),
     }
 
+    # Initialize stats
+    stats = {
+        'total_donations': 0,
+        'donations_amount': Decimal('0.00'),
+        'total_members': 0,
+        'new_members': 0,
+        'total_events': 0,
+        'upcoming_events': 0,
+        'total_assets': 0,
+        'available_assets': 0,
+    }
+
+    # Get Donations stats
     try:
-        # Import models dynamically to avoid import errors if apps don't exist
+        from donations.models import Donation
+        user_donations = Donation.objects.filter(donor=request.user, status='SUCCESS')
+        stats['total_donations'] = user_donations.count()
+        stats['donations_amount'] = user_donations.aggregate(total=Sum('amount'))['total'] or Decimal('0.00')
+        context['recent_donations'] = user_donations.order_by('-created_at')[:5]
+    except:
+        context['recent_donations'] = []
 
-        # Donations statistics
-        try:
-            from donations.models import Donation
-            if request.user.is_authenticated:
-                context['donation_count'] = Donation.objects.filter(user=request.user).count()
-            else:
-                context['donation_count'] = 0
-        except ImportError:
-            context['donation_count'] = 0
+    # Get Membership stats
+    try:
+        from membership.models import Membership
+        stats['total_members'] = Membership.objects.filter(is_active=True, verification_status='APPROVED').count()
+        # New members this month
+        stats['new_members'] = Membership.objects.filter(
+            created_at__gte=timezone.now().replace(day=1)
+        ).count()
+        context['user_membership'] = Membership.objects.filter(user=request.user, is_active=True).first()
+    except:
+        context['user_membership'] = None
 
-        # Membership statistics
-        try:
-            from membership.models import Membership
-            if request.user.is_authenticated:
-                context['membership_count'] = Membership.objects.filter(user=request.user, status='ACTIVE').count()
-            else:
-                context['membership_count'] = 0
-        except ImportError:
-            context['membership_count'] = 0
+    # Get Events stats
+    try:
+        from campaigns.models import Event, EventAttendance
+        stats['total_events'] = Event.objects.count()
+        stats['upcoming_events'] = Event.objects.filter(date_time__gte=timezone.now()).count()
+        context['upcoming_events'] = Event.objects.filter(
+            date_time__gte=timezone.now(),
+            is_public=True
+        ).select_related('campaign').order_by('date_time')[:5]
 
-        # Campaigns/Events statistics
-        try:
-            from campaigns.models import Event, EventRegistration
-            from django.utils import timezone
+        # User's registered events
+        user_registrations = EventAttendance.objects.filter(
+            attendee=request.user
+        ).values_list('event_id', flat=True)
+    except:
+        context['upcoming_events'] = []
 
-            # Count upcoming events
-            context['upcoming_events'] = Event.objects.filter(
-                date_time__gte=timezone.now()
-            ).count()
+    # Get Assets stats
+    try:
+        from assets.models import Asset
+        stats['total_assets'] = Asset.objects.count()
+        stats['available_assets'] = Asset.objects.filter(status='AVAILABLE').count()
+    except:
+        pass
 
-            # User's event registrations
-            if request.user.is_authenticated:
-                context['my_registrations'] = EventRegistration.objects.filter(
-                    user=request.user
-                ).count()
-            else:
-                context['my_registrations'] = 0
+    # Recent activities (mock data - you can customize this)
+    context['recent_activities'] = [
+        {
+            'title': 'Welcome to your dashboard!',
+            'created_at': timezone.now(),
+            'color': 'stat-icon blue',
+            'icon': 'bi-star-fill'
+        }
+    ]
 
-        except ImportError:
-            context['upcoming_events'] = 0
-            context['my_registrations'] = 0
+    context['stats'] = stats
 
-        # Gate pass statistics
-        try:
-            from gatepass.models import GatePass
-            if request.user.is_authenticated:
-                context['pending_gatepasses'] = GatePass.objects.filter(
-                    user=request.user,
-                    status='PENDING'
-                ).count()
-            else:
-                context['pending_gatepasses'] = 0
-        except ImportError:
-            context['pending_gatepasses'] = 0
-
-        # Assets statistics (for admin users)
-        try:
-            from assets.models import Asset, AssetRequest
-            if request.user.is_authenticated and hasattr(request.user, 'user_type'):
-                if request.user.user_type == 'ADMINISTRATOR':
-                    context['total_assets'] = Asset.objects.count()
-                    context['pending_asset_requests'] = AssetRequest.objects.filter(status='PENDING').count()
-                else:
-                    context['my_asset_requests'] = AssetRequest.objects.filter(user=request.user).count()
-        except ImportError:
-            pass
-
-    except Exception as e:
-        # Log error but don't break the page
-        print(f"Error fetching dashboard statistics: {e}")
-
-    return render(request, 'core/dashboard.html', context)
+    return render(request, 'core/main_dashboard.html', context)
 
 def logout_view(request):
     logout(request)
@@ -361,14 +359,22 @@ def admin_user_list(request):
     
     # Get user type choices for filter dropdown
     user_types = USER_TYPE_CHOICES
-    
+
+    # Get active and inactive user counts
+    total_users_count = User.objects.exclude(id=request.user.id).count()
+    active_users_count = User.objects.exclude(id=request.user.id).filter(is_active=True).count()
+    inactive_users_count = User.objects.exclude(id=request.user.id).filter(is_active=False).count()
+
     context = {
         'page_obj': page_obj,
         'users': page_obj,
         'user_types': user_types,
         'search_query': search_query,
         'user_type_filter': user_type_filter,
-        'total_users': users.count(),
+        'total_users': total_users_count,
+        'active_users': active_users_count,
+        'inactive_users': inactive_users_count,
+        'paginator': paginator,
     }
     return render(request, 'accounts/admin_user_list.html', context)
 
@@ -463,5 +469,43 @@ def admin_toggle_user_status(request, user_id):
             'message': f'User successfully {"activated" if user.is_active else "deactivated"}',
             'is_active': user.is_active
         })
-    
+
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
+
+@login_required
+def dashboard_user_management_content(request):
+    """Return user management dashboard content for AJAX loading"""
+    # Check if user is admin
+    if request.user.user_type != 'ADMINISTRATOR':
+        return render(request, 'accounts/dashboard_content_denied.html')
+
+    # Get user statistics
+    total_users = User.objects.count()
+    active_users = User.objects.filter(is_active=True).count()
+    inactive_users = User.objects.filter(is_active=False).count()
+
+    # Count by user types
+    administrators = User.objects.filter(user_type='ADMINISTRATOR').count()
+    members = User.objects.filter(user_type='MEMBER').count()
+    volunteers = User.objects.filter(user_type='VOLUNTEER').count()
+    supporters = User.objects.filter(user_type='SUPPORTER').count()
+
+    # Recent users (last 10)
+    recent_users = User.objects.select_related('userprofile').order_by('-date_joined')[:10]
+
+    # Recently updated users
+    recently_updated = User.objects.select_related('userprofile').order_by('-last_login')[:10]
+
+    context = {
+        'total_users': total_users,
+        'active_users': active_users,
+        'inactive_users': inactive_users,
+        'administrators': administrators,
+        'members': members,
+        'volunteers': volunteers,
+        'supporters': supporters,
+        'recent_users': recent_users,
+        'recently_updated': recently_updated,
+        'user_types': USER_TYPE_CHOICES,
+    }
+    return render(request, 'accounts/dashboard_content.html', context)

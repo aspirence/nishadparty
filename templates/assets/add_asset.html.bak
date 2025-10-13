@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block title %}Add New Asset - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-plus-circle me-2"></i>Add New Asset
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Asset Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="name" id="name" required 
+                                       placeholder="e.g: Canon Camera, Mobile Phone, Key Set">
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="asset_type" class="form-label">Asset Type <span class="text-danger">*</span></label>
+                                <select class="form-select" name="asset_type" id="asset_type" required>
+                                    <option value="">Select Type...</option>
+                                    <option value="VEHICLE">Vehicle</option>
+                                    <option value="EQUIPMENT">Equipment</option>
+                                    <option value="ELECTRONICS">Electronics</option>
+                                    <option value="FURNITURE">Furniture</option>
+                                    <option value="BOAT">Boat</option>
+                                    <option value="SOUND_SYSTEM">Sound System</option>
+                                    <option value="TENT">Tent</option>
+                                    <option value="BANNER">Banner</option>
+                                    <option value="OTHER">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" name="description" id="description" rows="3"
+                                      placeholder="Detailed information about the asset..."></textarea>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="manufacturer" class="form-label">Manufacturer</label>
+                                <input type="text" class="form-control" name="manufacturer" id="manufacturer" 
+                                       placeholder="e.g: Canon, Samsung, etc">
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <label for="model_number" class="form-label">Model Number</label>
+                                <input type="text" class="form-control" name="model_number" id="model_number" 
+                                       placeholder="Model Number">
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <label for="serial_number" class="form-label">Serial Number</label>
+                                <input type="text" class="form-control" name="serial_number" id="serial_number" 
+                                       placeholder="Serial Number">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="purchase_date" class="form-label">Purchase Date</label>
+                                <input type="date" class="form-control" name="purchase_date" id="purchase_date">
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="purchase_cost" class="form-label">Purchase Cost (₹)</label>
+                                <input type="number" class="form-control" name="purchase_cost" id="purchase_cost" 
+                                       min="0" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="current_location" class="form-label">Current Location</label>
+                                <input type="text" class="form-control" name="current_location" id="current_location" 
+                                       placeholder="e.g: Party Office, Warehouse, etc">
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="constituency" class="form-label">Constituency</label>
+                                <input type="text" class="form-control" name="constituency" id="constituency" 
+                                       placeholder="Constituency Name">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="condition" class="form-label">Current Condition</label>
+                                <select class="form-select" name="condition" id="condition">
+                                    <option value="EXCELLENT">Excellent</option>
+                                    <option value="GOOD" selected>Good</option>
+                                    <option value="FAIR">Fair</option>
+                                    <option value="POOR">Poor</option>
+                                    <option value="DAMAGED">Damaged</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="image" class="form-label">Asset Image</label>
+                                <input type="file" class="form-control" name="image" id="image" 
+                                       accept="image/*">
+                                <div class="form-text">Only JPG, PNG, GIF files are accepted.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <h6><i class="bi bi-info-circle me-2"></i>Note</h6>
+                            <ul class="mb-0 small">
+                                <li>Asset code will be generated automatically.</li>
+                                <li>QR code will also be created automatically.</li>
+                                <li>Asset will be automatically set to "Available" status.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'assets:dashboard' %}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-plus me-1"></i>Add Asset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

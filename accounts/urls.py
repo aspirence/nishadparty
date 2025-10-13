@@ -14,4 +14,5 @@ urlpatterns = [
     path('admin/users/<int:user_id>/', views.admin_user_detail, name='admin_user_detail'),
     path('admin/users/<int:user_id>/change-type/', views.admin_change_user_type, name='admin_change_user_type'),
     path('admin/users/<int:user_id>/toggle-status/', views.admin_toggle_user_status, name='admin_toggle_user_status'),
+    path('admin/dashboard-content/', views.dashboard_user_management_content, name='dashboard_user_management_content'),
 ]

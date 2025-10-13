@@ -10,4 +10,5 @@ urlpatterns = [
     path('receipt/<uuid:donation_id>/', views.donation_receipt, name='receipt'),
     path('instructions/<uuid:donation_id>/', views.payment_instructions, name='payment_instructions'),
     path('my-donations/', views.my_donations, name='my_donations'),
+    path('dashboard-content/', views.dashboard_donations_content, name='dashboard_content'),
 ]

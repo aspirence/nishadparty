@@ -1,208 +1,365 @@
-{% extends 'base.html' %}
+{% extends 'dashboard_base.html' %}
 
 {% block title %}{{ asset.name }} - History - Nishad Party{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h2><i class="bi bi-clock-history me-2"></i>Asset History</h2>
-                    <p class="text-muted mb-0">{{ asset.name }} ({{ asset.asset_code }})</p>
-                </div>
-                <a href="{% url 'assets:dashboard' %}" class="btn btn-outline-secondary">
-                    <i class="bi bi-arrow-left me-1"></i>Go Back
-                </a>
-            </div>
+<style>
+    .info-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .info-card .card-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--dark-gray);
+        margin-bottom: 1.25rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #f0f0f0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.25rem;
+    }
+
+    .info-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .info-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #6c757d;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .info-value {
+        font-size: 0.938rem;
+        color: var(--dark-gray);
+        font-weight: 500;
+    }
+
+    .history-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border-left: 4px solid transparent;
+        transition: all 0.2s;
+    }
+
+    .history-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        transform: translateY(-2px);
+    }
+
+    .history-card.pending { border-left-color: #ffc107; }
+    .history-card.accepted { border-left-color: #0d6efd; }
+    .history-card.in-use { border-left-color: #198754; }
+    .history-card.returned { border-left-color: #6c757d; }
+    .history-card.rejected { border-left-color: #dc3545; }
+
+    .history-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .user-info {
+        flex: 1;
+    }
+
+    .user-name {
+        font-weight: 600;
+        color: var(--dark-gray);
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .user-meta {
+        font-size: 0.813rem;
+        color: #6c757d;
+    }
+
+    .history-meta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .meta-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .meta-label {
+        font-size: 0.75rem;
+        color: #6c757d;
+        font-weight: 600;
+    }
+
+    .meta-value {
+        font-size: 0.875rem;
+        color: var(--dark-gray);
+    }
+
+    .notes-section {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border-left: 3px solid var(--primary-red);
+    }
+
+    .notes-section small {
+        display: block;
+        margin-bottom: 0.5rem;
+        line-height: 1.5;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem 1rem;
+        color: #6c757d;
+    }
+
+    .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+    }
+
+    @media (max-width: 768px) {
+        .info-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .history-header {
+            flex-direction: column;
+        }
+
+        .history-meta {
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+    }
+</style>
+
+<div class="container" style="padding-top: 2rem;">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">
+                <i class="bi bi-clock-history me-2"></i>Asset History
+            </h1>
+            <p class="page-subtitle">{{ asset.name }} ({{ asset.asset_code }})</p>
+        </div>
+        <div>
+            <a href="{% url 'assets:dashboard' %}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Go Back
+            </a>
         </div>
     </div>
 
     <!-- Asset Details -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h6 class="mb-0"><i class="bi bi-info-circle me-2"></i>Asset Information</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <strong>Name:</strong><br>
-                            {{ asset.name }}
-                        </div>
-                        <div class="col-md-3">
-                            <strong>Code:</strong><br>
-                            {{ asset.asset_code }}
-                        </div>
-                        <div class="col-md-3">
-                            <strong>Current Status:</strong><br>
-                            {% if asset.status == 'AVAILABLE' %}
-                                <span class="badge bg-success">Available</span>
-                            {% elif asset.status == 'IN_USE' %}
-                                <span class="badge bg-warning">In Use</span>
-                            {% elif asset.status == 'MAINTENANCE' %}
-                                <span class="badge bg-info">In Maintenance</span>
-                            {% elif asset.status == 'DAMAGED' %}
-                                <span class="badge bg-danger">Damaged</span>
-                            {% endif %}
-                        </div>
-                        <div class="col-md-3">
-                            <strong>Condition:</strong><br>
-                            {{ asset.get_condition_display }}
-                        </div>
-                    </div>
-                    {% if asset.current_location %}
-                    <div class="row mt-2">
-                        <div class="col-md-12">
-                            <strong>Current Location:</strong> {{ asset.current_location }}
-                        </div>
-                    </div>
+    <div class="info-card">
+        <div class="card-title">
+            <i class="bi bi-info-circle"></i>
+            <span>Asset Information</span>
+        </div>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="info-label">Asset Name</span>
+                <span class="info-value">{{ asset.name }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Asset Code</span>
+                <span class="info-value">{{ asset.asset_code }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Current Status</span>
+                <div class="info-value">
+                    {% if asset.status == 'AVAILABLE' %}
+                        <span class="badge bg-success">Available</span>
+                    {% elif asset.status == 'IN_USE' %}
+                        <span class="badge bg-warning">In Use</span>
+                    {% elif asset.status == 'MAINTENANCE' %}
+                        <span class="badge bg-info">In Maintenance</span>
+                    {% elif asset.status == 'DAMAGED' %}
+                        <span class="badge bg-danger">Damaged</span>
                     {% endif %}
                 </div>
             </div>
+            <div class="info-item">
+                <span class="info-label">Condition</span>
+                <span class="info-value">{{ asset.get_condition_display }}</span>
+            </div>
+            {% if asset.current_location %}
+            <div class="info-item" style="grid-column: 1 / -1;">
+                <span class="info-label">Current Location</span>
+                <span class="info-value">{{ asset.current_location }}</span>
+            </div>
+            {% endif %}
         </div>
     </div>
 
     <!-- Assignment History -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h6 class="mb-0"><i class="bi bi-people me-2"></i>Assignment History</h6>
+    <div class="info-card">
+        <div class="card-title">
+            <i class="bi bi-people"></i>
+            <span>Assignment History</span>
+        </div>
+        {% if assignments %}
+            {% for assignment in assignments %}
+            <div class="history-card {% if assignment.status == 'PENDING' %}pending{% elif assignment.status == 'ACCEPTED' %}accepted{% elif assignment.status == 'IN_USE' %}in-use{% elif assignment.status == 'RETURNED' %}returned{% elif assignment.status == 'REJECTED' %}rejected{% endif %}">
+                <div class="history-header">
+                    <div class="user-info">
+                        <div class="user-name">{{ assignment.checked_out_by.get_full_name|default:assignment.checked_out_by.phone_number }}</div>
+                        {% if assignment.assigned_by %}
+                        <div class="user-meta">
+                            <i class="bi bi-person-check me-1"></i>
+                            Assigned by: {{ assignment.assigned_by.get_full_name|default:assignment.assigned_by.phone_number }}
+                        </div>
+                        {% endif %}
+                        <div class="user-meta mt-1">
+                            <i class="bi bi-briefcase me-1"></i>
+                            Purpose: {{ assignment.purpose }}
+                        </div>
+                    </div>
+                    <div>
+                        {% if assignment.status == 'PENDING' %}
+                            <span class="badge bg-warning">Pending</span>
+                        {% elif assignment.status == 'ACCEPTED' %}
+                            <span class="badge bg-primary">Accepted</span>
+                        {% elif assignment.status == 'IN_USE' %}
+                            <span class="badge bg-success">In Use</span>
+                        {% elif assignment.status == 'RETURNED' %}
+                            <span class="badge bg-secondary">Returned</span>
+                            {% if assignment.damage_reported %}
+                                <span class="badge bg-danger ms-1">Damage</span>
+                            {% endif %}
+                        {% elif assignment.status == 'REJECTED' %}
+                            <span class="badge bg-danger">Rejected</span>
+                        {% endif %}
+                    </div>
                 </div>
-                <div class="card-body">
-                    {% if assignments %}
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>User</th>
-                                    <th>Purpose</th>
-                                    <th>Status</th>
-                                    <th>Assignment Date</th>
-                                    <th>Expected Return</th>
-                                    <th>Actual Return</th>
-                                    <th>Duration</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for assignment in assignments %}
-                                <tr>
-                                    <td>
-                                        {{ assignment.checked_out_by.get_full_name|default:assignment.checked_out_by.phone_number }}<br>
-                                        {% if assignment.assigned_by %}
-                                            <small class="text-muted">Assigned by: {{ assignment.assigned_by.get_full_name|default:assignment.assigned_by.phone_number }}</small>
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ assignment.purpose }}</td>
-                                    <td>
-                                        {% if assignment.status == 'PENDING' %}
-                                            <span class="badge bg-warning">Pending</span>
-                                        {% elif assignment.status == 'ACCEPTED' %}
-                                            <span class="badge bg-primary">Accepted</span>
-                                        {% elif assignment.status == 'IN_USE' %}
-                                            <span class="badge bg-success">In Use</span>
-                                        {% elif assignment.status == 'RETURNED' %}
-                                            <span class="badge bg-secondary">Returned</span>
-                                            {% if assignment.damage_reported %}
-                                                <span class="badge bg-danger ms-1">Damage</span>
-                                            {% endif %}
-                                        {% elif assignment.status == 'REJECTED' %}
-                                            <span class="badge bg-danger">Rejected</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ assignment.assignment_date|date:"d M Y" }}</td>
-                                    <td class="{% if assignment.is_overdue %}text-danger{% endif %}">
-                                        {{ assignment.expected_return_date|date:"d M Y" }}
-                                    </td>
-                                    <td>
-                                        {% if assignment.actual_return_date %}
-                                            {{ assignment.actual_return_date|date:"d M Y" }}
-                                        {% else %}
-                                            <span class="text-muted">-</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ assignment.days_assigned }} days</td>
-                                </tr>
-                                {% if assignment.return_notes or assignment.rejection_reason %}
-                                <tr>
-                                    <td colspan="7" class="bg-light">
-                                        {% if assignment.return_notes %}
-                                            <small><strong>Return Notes:</strong> {{ assignment.return_notes }}</small><br>
-                                        {% endif %}
-                                        {% if assignment.rejection_reason %}
-                                            <small><strong>Rejection Reason:</strong> {{ assignment.rejection_reason }}</small><br>
-                                        {% endif %}
-                                        {% if assignment.damage_reported %}
-                                            <small class="text-danger"><strong>Damage Report:</strong> {{ assignment.damage_description }}</small>
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                                {% endif %}
-                                {% endfor %}
-                            </tbody>
-                        </table>
+
+                <div class="history-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Assignment Date</span>
+                        <span class="meta-value">{{ assignment.assignment_date|date:"d M Y" }}</span>
                     </div>
-                    {% else %}
-                    <div class="text-center text-muted py-4">
-                        <i class="bi bi-clock fs-1 mb-2 d-block"></i>
-                        <p>No assignment history is available for this asset.</p>
+                    <div class="meta-item">
+                        <span class="meta-label">Expected Return</span>
+                        <span class="meta-value {% if assignment.is_overdue %}text-danger{% endif %}">
+                            {{ assignment.expected_return_date|date:"d M Y" }}
+                            {% if assignment.is_overdue %}<i class="bi bi-exclamation-circle ms-1"></i>{% endif %}
+                        </span>
                     </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Actual Return</span>
+                        <span class="meta-value">
+                            {% if assignment.actual_return_date %}
+                                {{ assignment.actual_return_date|date:"d M Y" }}
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Duration</span>
+                        <span class="meta-value">{{ assignment.days_assigned }} days</span>
+                    </div>
+                </div>
+
+                {% if assignment.return_notes or assignment.rejection_reason or assignment.damage_reported %}
+                <div class="notes-section">
+                    {% if assignment.return_notes %}
+                        <small><strong><i class="bi bi-sticky me-1"></i>Return Notes:</strong> {{ assignment.return_notes }}</small>
+                    {% endif %}
+                    {% if assignment.rejection_reason %}
+                        <small><strong><i class="bi bi-x-circle me-1"></i>Rejection Reason:</strong> {{ assignment.rejection_reason }}</small>
+                    {% endif %}
+                    {% if assignment.damage_reported %}
+                        <small class="text-danger"><strong><i class="bi bi-exclamation-triangle me-1"></i>Damage Report:</strong> {{ assignment.damage_description }}</small>
                     {% endif %}
                 </div>
+                {% endif %}
             </div>
+            {% endfor %}
+        {% else %}
+        <div class="empty-state">
+            <i class="bi bi-clock-history d-block"></i>
+            <p>No assignment history is available for this asset.</p>
         </div>
+        {% endif %}
     </div>
 
     <!-- Maintenance History -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h6 class="mb-0"><i class="bi bi-gear me-2"></i>Maintenance History</h6>
-                </div>
-                <div class="card-body">
-                    {% if maintenance_records %}
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Type</th>
-                                    <th>Description</th>
-                                    <th>Date</th>
-                                    <th>Cost</th>
-                                    <th>Person</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for maintenance in maintenance_records %}
-                                <tr>
-                                    <td>{{ maintenance.maintenance_type }}</td>
-                                    <td>{{ maintenance.description|truncatewords:10 }}</td>
-                                    <td>{{ maintenance.maintenance_date|date:"d M Y" }}</td>
-                                    <td>
-                                        {% if maintenance.cost %}
-                                            ₹{{ maintenance.cost|floatformat:0 }}
-                                        {% else %}
-                                            <span class="text-muted">-</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ maintenance.performed_by }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+    <div class="info-card">
+        <div class="card-title">
+            <i class="bi bi-gear"></i>
+            <span>Maintenance History</span>
+        </div>
+        {% if maintenance_records %}
+            {% for maintenance in maintenance_records %}
+            <div class="history-card">
+                <div class="history-header">
+                    <div class="user-info">
+                        <div class="user-name">{{ maintenance.maintenance_type }}</div>
+                        <div class="user-meta">{{ maintenance.description }}</div>
                     </div>
-                    {% else %}
-                    <div class="text-center text-muted py-4">
-                        <i class="bi bi-gear fs-1 mb-2 d-block"></i>
-                        <p>No maintenance record is available for this asset.</p>
+                    <div>
+                        {% if maintenance.cost %}
+                            <span class="badge bg-primary">₹{{ maintenance.cost|floatformat:0 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="history-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Maintenance Date</span>
+                        <span class="meta-value">{{ maintenance.maintenance_date|date:"d M Y" }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Performed By</span>
+                        <span class="meta-value">{{ maintenance.performed_by }}</span>
+                    </div>
+                    {% if maintenance.cost %}
+                    <div class="meta-item">
+                        <span class="meta-label">Cost</span>
+                        <span class="meta-value">₹{{ maintenance.cost|floatformat:0 }}</span>
                     </div>
                     {% endif %}
                 </div>
             </div>
+            {% endfor %}
+        {% else %}
+        <div class="empty-state">
+            <i class="bi bi-gear d-block"></i>
+            <p>No maintenance record is available for this asset.</p>
         </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

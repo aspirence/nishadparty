@@ -1,0 +1,727 @@
+{% extends 'dashboard_base.html' %}
+{% load i18n %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_css %}
+<style>
+    .main-dashboard {
+        background: transparent;
+        padding: 0;
+    }
+
+    .dashboard-date {
+        color: var(--medium-gray);
+        font-size: 0.813rem;
+        margin-top: 0.25rem;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    .stat-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+
+    .stat-icon.red { background: linear-gradient(135deg, #d50000, #b71c1c); color: white; }
+    .stat-icon.blue { background: linear-gradient(135deg, #1976d2, #0d47a1); color: white; }
+    .stat-icon.green { background: linear-gradient(135deg, #388e3c, #1b5e20); color: white; }
+    .stat-icon.orange { background: linear-gradient(135deg, #f57c00, #e65100); color: white; }
+    .stat-icon.purple { background: linear-gradient(135deg, #7b1fa2, #4a148c); color: white; }
+
+    .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--dark-gray);
+        margin: 0;
+    }
+
+    .stat-label {
+        color: var(--medium-gray);
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    .stat-trend {
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+    }
+
+    .stat-trend.up { color: #388e3c; }
+    .stat-trend.down { color: #d32f2f; }
+
+    /* Quick Actions Grid */
+    .quick-actions-section {
+        margin-bottom: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--dark-gray);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .quick-actions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .quick-action-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        text-decoration: none;
+        color: var(--dark-gray);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .quick-action-card:hover {
+        border-color: var(--primary-red);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(213, 0, 0, 0.15);
+        text-decoration: none;
+        color: var(--primary-red);
+    }
+
+    .quick-action-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 1rem;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+    }
+
+    .quick-action-icon.red { background: rgba(213, 0, 0, 0.1); color: var(--primary-red); }
+    .quick-action-icon.blue { background: rgba(25, 118, 210, 0.1); color: #1976d2; }
+    .quick-action-icon.green { background: rgba(56, 142, 60, 0.1); color: #388e3c; }
+    .quick-action-icon.orange { background: rgba(245, 124, 0, 0.1); color: #f57c00; }
+
+    .quick-action-title {
+        font-weight: 600;
+        margin: 0;
+    }
+
+    /* Two Column Layout */
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    @media (max-width: 968px) {
+        .dashboard-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .dashboard-card {
+        background: white;
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .card-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--dark-gray);
+        margin: 0;
+    }
+
+    .card-link {
+        color: var(--primary-red);
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .card-link:hover {
+        text-decoration: underline;
+    }
+
+    /* List Items */
+    .list-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 0.75rem;
+        transition: background 0.2s;
+    }
+
+    .list-item:hover {
+        background: #f5f5f5;
+    }
+
+    .list-item-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+    }
+
+    .list-item-content {
+        flex: 1;
+    }
+
+    .list-item-title {
+        font-weight: 600;
+        color: var(--dark-gray);
+        margin: 0 0 0.25rem 0;
+    }
+
+    .list-item-subtitle {
+        font-size: 0.875rem;
+        color: var(--medium-gray);
+        margin: 0;
+    }
+
+    .list-item-action {
+        color: var(--primary-red);
+        text-decoration: none;
+        font-size: 1.25rem;
+    }
+
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 3rem 1rem;
+        color: var(--medium-gray);
+    }
+
+    .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+    }
+
+    /* Activity Timeline */
+    .activity-timeline {
+        position: relative;
+    }
+
+    .timeline-item {
+        position: relative;
+        padding-left: 3rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .timeline-item:last-child {
+        padding-bottom: 0;
+    }
+
+    .timeline-dot {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.875rem;
+    }
+
+    .timeline-line {
+        position: absolute;
+        left: 15px;
+        top: 32px;
+        width: 2px;
+        height: calc(100% - 32px);
+        background: #e0e0e0;
+    }
+
+    .timeline-content {
+        background: #f5f5f5;
+        padding: 1rem;
+        border-radius: 8px;
+    }
+
+    .timeline-time {
+        font-size: 0.75rem;
+        color: var(--medium-gray);
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+        .dashboard-date {
+            font-size: 0.75rem;
+        }
+
+        /* Stats Grid - Single column on mobile */
+        .stats-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .stat-card {
+            padding: 1.25rem;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+            font-size: 1.25rem;
+        }
+
+        /* Quick Actions - 2 columns on mobile */
+        .quick-actions-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+
+        .quick-action-card {
+            padding: 1rem;
+        }
+
+        .quick-action-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .quick-action-title {
+            font-size: 0.875rem;
+        }
+
+        /* Dashboard Grid - Single column */
+        .dashboard-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .dashboard-card {
+            padding: 1.25rem;
+        }
+
+        .card-title {
+            font-size: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+        }
+
+        /* List Items - Compact on mobile */
+        .list-item {
+            padding: 0.75rem;
+        }
+
+        .list-item-icon {
+            width: 36px;
+            height: 36px;
+            font-size: 1.1rem;
+            margin-right: 0.75rem;
+        }
+
+        .list-item-title {
+            font-size: 0.9rem;
+        }
+
+        .list-item-subtitle {
+            font-size: 0.8rem;
+        }
+
+        .list-item-action {
+            font-size: 1.1rem;
+        }
+
+        /* Timeline - More compact */
+        .timeline-item {
+            padding-left: 2.5rem;
+            padding-bottom: 1.25rem;
+        }
+
+        .timeline-dot {
+            width: 28px;
+            height: 28px;
+            font-size: 0.75rem;
+        }
+
+        .timeline-line {
+            left: 13px;
+            top: 28px;
+        }
+
+        .timeline-content {
+            padding: 0.875rem;
+            font-size: 0.875rem;
+        }
+
+        /* Empty State */
+        .empty-state {
+            padding: 2rem 1rem;
+        }
+
+        .empty-state i {
+            font-size: 2.5rem;
+        }
+
+        .empty-state p {
+            font-size: 0.875rem;
+        }
+
+        /* Badges */
+        .badge {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+        }
+    }
+
+    /* Small Mobile - Extra compact */
+    @media (max-width: 480px) {
+        .dashboard-title h1 {
+            font-size: 1.25rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+        }
+
+        .quick-actions-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .quick-action-card {
+            display: flex;
+            align-items: center;
+            text-align: left;
+            gap: 1rem;
+        }
+
+        .quick-action-icon {
+            margin: 0;
+        }
+    }
+
+    /* Tablet Styles */
+    @media (max-width: 1024px) and (min-width: 769px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .quick-actions-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="main-dashboard">
+    <!-- Dashboard Header -->
+    <div class="page-header">
+        <div class="page-header-title">
+            <i class="bi bi-speedometer2"></i>
+            <div>
+                <h1>{% trans "Dashboard" %}</h1>
+                <p class="dashboard-date">{{ today|date:"l, d F Y" }}</p>
+            </div>
+        </div>
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-house"></i> {% trans "Home" %}
+        </a>
+    </div>
+
+    <!-- Key Statistics -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <div>
+                    <h2 class="stat-value">{{ stats.total_donations }}</h2>
+                    <p class="stat-label">{% trans "Total Donations" %}</p>
+                </div>
+                <div class="stat-icon red">
+                    <i class="bi bi-heart-fill"></i>
+                </div>
+            </div>
+            <p class="stat-trend up">
+                <i class="bi bi-arrow-up"></i> ₹{{ stats.donations_amount|floatformat:0 }}
+            </p>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <div>
+                    <h2 class="stat-value">{{ stats.total_members }}</h2>
+                    <p class="stat-label">{% trans "Active Members" %}</p>
+                </div>
+                <div class="stat-icon blue">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+            </div>
+            <p class="stat-trend up">
+                <i class="bi bi-arrow-up"></i> +{{ stats.new_members }} {% trans "this month" %}
+            </p>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <div>
+                    <h2 class="stat-value">{{ stats.total_events }}</h2>
+                    <p class="stat-label">{% trans "Total Events" %}</p>
+                </div>
+                <div class="stat-icon green">
+                    <i class="bi bi-calendar-event"></i>
+                </div>
+            </div>
+            <p class="stat-trend">
+                {{ stats.upcoming_events }} {% trans "upcoming" %}
+            </p>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <div>
+                    <h2 class="stat-value">{{ stats.total_assets }}</h2>
+                    <p class="stat-label">{% trans "Total Assets" %}</p>
+                </div>
+                <div class="stat-icon orange">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+            </div>
+            <p class="stat-trend">
+                {{ stats.available_assets }} {% trans "available" %}
+            </p>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions-section">
+        <h3 class="section-title">
+            <i class="bi bi-lightning-charge-fill"></i>
+            {% trans "Quick Actions" %}
+        </h3>
+        <div class="quick-actions-grid">
+            <a href="{% url 'donations:donate' %}" class="quick-action-card">
+                <div class="quick-action-icon red">
+                    <i class="bi bi-heart-fill"></i>
+                </div>
+                <p class="quick-action-title">{% trans "Make Donation" %}</p>
+            </a>
+
+            <a href="{% url 'membership:apply_with_payment' %}" class="quick-action-card">
+                <div class="quick-action-icon blue">
+                    <i class="bi bi-person-plus"></i>
+                </div>
+                <p class="quick-action-title">{% trans "Join Membership" %}</p>
+            </a>
+
+            <a href="{% url 'campaigns:events_list' %}" class="quick-action-card">
+                <div class="quick-action-icon green">
+                    <i class="bi bi-calendar3"></i>
+                </div>
+                <p class="quick-action-title">{% trans "View Events" %}</p>
+            </a>
+
+            <a href="{% url 'membership:card' %}" class="quick-action-card">
+                <div class="quick-action-icon orange">
+                    <i class="bi bi-credit-card"></i>
+                </div>
+                <p class="quick-action-title">{% trans "My Card" %}</p>
+            </a>
+        </div>
+    </div>
+
+    <!-- Two Column Grid -->
+    <div class="dashboard-grid">
+        <!-- Recent Activities -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="bi bi-clock-history"></i> {% trans "Recent Activities" %}
+                </h3>
+                <a href="#" class="card-link">{% trans "View All" %}</a>
+            </div>
+
+            {% if recent_activities %}
+            <div class="activity-timeline">
+                {% for activity in recent_activities %}
+                <div class="timeline-item">
+                    {% if not forloop.last %}<div class="timeline-line"></div>{% endif %}
+                    <div class="timeline-dot {{ activity.color }}">
+                        <i class="bi {{ activity.icon }}"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <p class="timeline-time">{{ activity.created_at|timesince }} {% trans "ago" %}</p>
+                        <p style="margin: 0.5rem 0 0 0; font-weight: 500;">{{ activity.title }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="bi bi-inbox"></i>
+                <p>{% trans "No recent activities" %}</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Upcoming Events -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="bi bi-calendar-week"></i> {% trans "Upcoming Events" %}
+                </h3>
+                <a href="{% url 'campaigns:events_list' %}" class="card-link">{% trans "View All" %}</a>
+            </div>
+
+            {% if upcoming_events %}
+            {% for event in upcoming_events %}
+            <div class="list-item">
+                <div class="list-item-icon blue">
+                    <i class="bi bi-calendar-event"></i>
+                </div>
+                <div class="list-item-content">
+                    <p class="list-item-title">{{ event.title }}</p>
+                    <p class="list-item-subtitle">
+                        <i class="bi bi-clock"></i> {{ event.date_time|date:"d M Y, g:i A" }}
+                    </p>
+                </div>
+                <a href="{% url 'campaigns:event_detail' event.slug %}" class="list-item-action">
+                    <i class="bi bi-arrow-right-circle"></i>
+                </a>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="empty-state">
+                <i class="bi bi-calendar-x"></i>
+                <p>{% trans "No upcoming events" %}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Second Row -->
+    <div class="dashboard-grid">
+        <!-- My Donations -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="bi bi-heart"></i> {% trans "My Donations" %}
+                </h3>
+                <a href="{% url 'donations:my_donations' %}" class="card-link">{% trans "View All" %}</a>
+            </div>
+
+            {% if recent_donations %}
+            {% for donation in recent_donations %}
+            <div class="list-item">
+                <div class="list-item-icon red">
+                    <i class="bi bi-currency-rupee"></i>
+                </div>
+                <div class="list-item-content">
+                    <p class="list-item-title">₹{{ donation.amount|floatformat:0 }}</p>
+                    <p class="list-item-subtitle">{{ donation.created_at|date:"d M Y" }} • {{ donation.purpose|default:"General" }}</p>
+                </div>
+                <span class="badge bg-success">{{ donation.get_status_display }}</span>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="empty-state">
+                <i class="bi bi-heart"></i>
+                <p>{% trans "No donations yet" %}</p>
+                <a href="{% url 'donations:donate' %}" class="btn btn-primary mt-2">{% trans "Make Your First Donation" %}</a>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Membership Status -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="bi bi-award"></i> {% trans "Membership Status" %}
+                </h3>
+                <a href="{% url 'membership:card' %}" class="card-link">{% trans "View Card" %}</a>
+            </div>
+
+            {% if user_membership %}
+            <div class="list-item" style="background: linear-gradient(135deg, var(--primary-red), var(--primary-red-dark)); color: white; border-radius: 12px;">
+                <div class="list-item-icon" style="background: rgba(255,255,255,0.2);">
+                    <i class="bi bi-award-fill" style="color: white;"></i>
+                </div>
+                <div class="list-item-content">
+                    <p class="list-item-title" style="color: white;">
+                        {{ user_membership.tier.name|default:"Active Member" }}
+                    </p>
+                    <p class="list-item-subtitle" style="color: rgba(255,255,255,0.9);">
+                        ID: {{ user_membership.membership_id }}
+                    </p>
+                    <p class="list-item-subtitle" style="color: rgba(255,255,255,0.9);">
+                        Valid until: {{ user_membership.end_date|date:"d M Y" }}
+                    </p>
+                </div>
+                <span class="badge bg-light text-dark">{{ user_membership.get_verification_status_display }}</span>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="bi bi-award"></i>
+                <p>{% trans "No active membership" %}</p>
+                <a href="{% url 'membership:apply_with_payment' %}" class="btn btn-primary mt-2">{% trans "Apply for Membership" %}</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

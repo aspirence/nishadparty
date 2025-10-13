@@ -10,10 +10,12 @@ urlpatterns = [
     path('event/<slug:event_slug>/', views.event_detail, name='event_detail'),
     path('event/<slug:event_slug>/register/', views.event_register, name='event_register'),
     path('my-events/', views.my_events, name='my_events'),
-    
+    path('dashboard-content/', views.dashboard_campaigns_content, name='dashboard_content'),
+
     # Admin views
     path('admin/', views.admin_events_dashboard, name='admin_events_dashboard'),
     path('admin/add/', views.admin_add_event, name='admin_add_event'),
     path('admin/edit/<uuid:event_id>/', views.admin_edit_event, name='admin_edit_event'),
     path('admin/delete/<uuid:event_id>/', views.admin_delete_event, name='admin_delete_event'),
+    path('admin/dashboard-content/', views.dashboard_event_management_content, name='dashboard_event_management_content'),
 ]

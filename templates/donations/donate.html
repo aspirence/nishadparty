@@ -1,50 +1,228 @@
-{% extends 'base.html' %}
+{% extends 'dashboard_base.html' %}
 
 {% block title %}
-{% if campaign %}{{ campaign.title }} - Donations{% else %}Make Donations{% endif %} - Nishad Party
+{% if campaign %}{{ campaign.title }} - Donations{% else %}Make Donation{% endif %} - Nishad Party
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .donation-form-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .form-section {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .form-section-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--dark-gray);
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #f0f0f0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .form-section-title i {
+        color: var(--primary-red);
+        font-size: 1.125rem;
+    }
+
+    .quick-amount-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .quick-amount-btn {
+        padding: 0.75rem;
+        border: 2px solid #e0e0e0;
+        background: white;
+        border-radius: 8px;
+        font-weight: 600;
+        color: var(--dark-gray);
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+    }
+
+    .quick-amount-btn:hover {
+        border-color: var(--primary-red);
+        background: rgba(213, 0, 0, 0.05);
+        color: var(--primary-red);
+    }
+
+    .quick-amount-btn.active {
+        border-color: var(--primary-red);
+        background: var(--primary-red);
+        color: white;
+    }
+
+    .campaign-info-card {
+        background: linear-gradient(135deg, var(--primary-red), var(--primary-red-dark));
+        color: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 12px rgba(213, 0, 0, 0.2);
+    }
+
+    .campaign-info-card h4 {
+        color: white;
+        margin-bottom: 1rem;
+    }
+
+    .progress {
+        height: 8px;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .progress-bar {
+        border-radius: 4px;
+        background: var(--accent-gold);
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: var(--dark-gray);
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control,
+    .form-select {
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 0.75rem;
+        font-size: 0.875rem;
+        transition: all 0.2s;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: var(--primary-red);
+        box-shadow: 0 0 0 3px rgba(213, 0, 0, 0.1);
+    }
+
+    .input-group-text {
+        border: 2px solid #e0e0e0;
+        border-right: none;
+        background: #f8f9fa;
+        font-weight: 600;
+        color: var(--dark-gray);
+    }
+
+    .input-group .form-control {
+        border-left: none;
+    }
+
+    .payment-method-card {
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 0.75rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .payment-method-card:hover {
+        border-color: var(--primary-red);
+        background: rgba(213, 0, 0, 0.02);
+    }
+
+    .payment-method-card input[type="radio"]:checked + label {
+        color: var(--primary-red);
+        font-weight: 600;
+    }
+
+    .form-check-input:checked {
+        background-color: var(--primary-red);
+        border-color: var(--primary-red);
+    }
+
+    .alert {
+        border: none;
+        border-radius: 8px;
+        padding: 1rem;
+    }
+
+    .btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+
+    @media (max-width: 768px) {
+        .form-section {
+            padding: 1.25rem;
+        }
+
+        .quick-amount-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            {% if campaign %}
-            <!-- Campaign Info -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h4><i class="bi bi-bullseye me-2"></i>{{ campaign.title }}</h4>
-                    <p>{{ campaign.description }}</p>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p><strong>Target Amount:</strong> ₹{{ campaign.target_amount|floatformat:0 }}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong>Raised Amount:</strong> ₹{{ campaign.raised_amount|floatformat:0 }}</p>
-                        </div>
-                    </div>
-                    <div class="progress mb-2">
-                        <div class="progress-bar bg-success" style="width: {{ campaign.progress_percentage }}%"></div>
-                    </div>
-                    <small class="text-muted">{{ campaign.progress_percentage|floatformat:1 }}% Complete</small>
+<div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-header-title">
+            <i class="bi bi-heart-fill"></i>
+            <h1>{% if campaign %}Donate to {{ campaign.title }}{% else %}Make Donation{% endif %}</h1>
+        </div>
+        <a href="{% url 'donations:my_donations' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-list"></i> My Donations
+        </a>
+    </div>
+
+    <div class="donation-form-container">
+        {% if campaign %}
+        <!-- Campaign Info -->
+        <div class="campaign-info-card">
+            <h4><i class="bi bi-bullseye me-2"></i>{{ campaign.title }}</h4>
+            <p style="opacity: 0.95; margin-bottom: 1.5rem;">{{ campaign.description }}</p>
+            <div class="row mb-3">
+                <div class="col-6">
+                    <div style="font-size: 0.813rem; opacity: 0.9;">Target Amount</div>
+                    <div style="font-size: 1.25rem; font-weight: 700;">₹{{ campaign.target_amount|floatformat:0 }}</div>
+                </div>
+                <div class="col-6">
+                    <div style="font-size: 0.813rem; opacity: 0.9;">Raised Amount</div>
+                    <div style="font-size: 1.25rem; font-weight: 700;">₹{{ campaign.raised_amount|floatformat:0 }}</div>
                 </div>
             </div>
-            {% endif %}
+            <div class="progress mb-2">
+                <div class="progress-bar" style="width: {{ campaign.progress_percentage }}%"></div>
+            </div>
+            <div style="font-size: 0.813rem; opacity: 0.9;">{{ campaign.progress_percentage|floatformat:1 }}% Complete</div>
+        </div>
+        {% endif %}
 
-            <!-- Donation Form -->
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="mb-0">
-                        <i class="bi bi-heart me-2"></i>
-                        {% if campaign %}Make Donations for {{ campaign.title }}{% else %}Make Donations{% endif %}
-                    </h4>
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Donor Information -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="bi bi-person"></i>
+                    Personal Information
                 </div>
-                <div class="card-body">
-                    <form method="post">
-                        {% csrf_token %}
-                        
-                        <!-- Donor Information -->
-                        <div class="mb-4">
-                            <h6>Personal Information</h6>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -76,128 +254,137 @@
                                 </div>
                             </div>
                             
-                            <div class="mb-3">
-                                <label class="form-label">Address</label>
-                                <textarea name="donor_address" class="form-control" rows="2"></textarea>
-                            </div>
-                        </div>
-
-                        <!-- Donation Amount -->
-                        <div class="mb-4">
-                            <h6>Donation Amount</h6>
-                            <div class="mb-3">
-                                <label class="form-label">Amount (₹) *</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">₹</span>
-                                    <input type="number" name="amount" class="form-control" min="1" step="0.01" required>
-                                </div>
-                            </div>
-                            
-                            <!-- Quick Amount Buttons -->
-                            <div class="mb-3">
-                                <label class="form-label">Quick Selection:</label>
-                                <div class="d-flex gap-2 flex-wrap">
-                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="setAmount(500)">₹500</button>
-                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="setAmount(1000)">₹1,000</button>
-                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="setAmount(2000)">₹2,000</button>
-                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="setAmount(5000)">₹5,000</button>
-                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="setAmount(10000)">₹10,000</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- PAN Card (for amounts >= 2000) -->
-                        <div class="mb-4" id="panSection" style="display: none;">
-                            <div class="alert alert-info">
-                                <i class="bi bi-info-circle me-2"></i>
-                                PAN card number is required for donations of ₹2000 or more
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">PAN Card Number</label>
-                                <input type="text" name="donor_pan" class="form-control" 
-                                       pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" maxlength="10" 
-                                       placeholder="ABCDE1234F" style="text-transform: uppercase;">
-                                <div class="form-text">Example: ABCDE1234F</div>
-                            </div>
-                        </div>
-
-                        <!-- Payment Method -->
-                        <div class="mb-4">
-                            <h6>Payment Method</h6>
-                            <div class="mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="payment_method" 
-                                           id="online" value="ONLINE" checked>
-                                    <label class="form-check-label" for="online">
-                                        Online Payment (UPI, Card, Net Banking)
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="payment_method" 
-                                           id="cheque" value="CHEQUE">
-                                    <label class="form-check-label" for="cheque">
-                                        Cheque / Demand Draft
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="payment_method" 
-                                           id="cash" value="CASH">
-                                    <label class="form-check-label" for="cash">
-                                        Cash (at office)
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Purpose -->
-                        <div class="mb-4">
-                            <div class="mb-3">
-                                <label class="form-label">Purpose of Donation</label>
-                                <input type="text" name="purpose" class="form-control" 
-                                       value="{% if campaign %}{{ campaign.title }}{% endif %}"
-                                       placeholder="General Donation">
-                                <div class="form-text">Optional - specify if you have any specific purpose</div>
-                            </div>
-                        </div>
-
-                        <!-- Anonymous Option -->
-                        <div class="mb-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="anonymous" id="anonymous">
-                                <label class="form-check-label" for="anonymous">
-                                    Anonymous Donation (do not make my name public)
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Terms -->
-                        <div class="mb-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="termsCheck" required>
-                                <label class="form-check-label" for="termsCheck">
-                                    I confirm that this donation is voluntary and in accordance with political party donation rules
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{% url 'donations:home' %}" class="btn btn-secondary">
-                                <i class="bi bi-arrow-left me-1"></i>Back
-                            </a>
-                            <button type="submit" class="btn btn-success">
-                                <i class="bi bi-heart-fill me-1"></i>Make Donation
-                            </button>
-                        </div>
-                    </form>
+                <div class="mb-3">
+                    <label class="form-label">Address</label>
+                    <textarea name="donor_address" class="form-control" rows="2"></textarea>
                 </div>
             </div>
-        </div>
+
+            <!-- Donation Amount -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="bi bi-currency-rupee"></i>
+                    Donation Amount
+                </div>
+
+                <label class="form-label">Quick Selection</label>
+                <div class="quick-amount-grid">
+                    <button type="button" class="quick-amount-btn" onclick="setAmount(500)">₹500</button>
+                    <button type="button" class="quick-amount-btn" onclick="setAmount(1000)">₹1,000</button>
+                    <button type="button" class="quick-amount-btn" onclick="setAmount(2000)">₹2,000</button>
+                    <button type="button" class="quick-amount-btn" onclick="setAmount(5000)">₹5,000</button>
+                    <button type="button" class="quick-amount-btn" onclick="setAmount(10000)">₹10,000</button>
+                </div>
+
+                <label class="form-label">Or Enter Custom Amount *</label>
+                <div class="input-group">
+                    <span class="input-group-text">₹</span>
+                    <input type="number" name="amount" class="form-control" min="1" step="0.01" placeholder="Enter amount" required>
+                </div>
+            </div>
+
+            <!-- PAN Card (for amounts >= 2000) -->
+            <div class="form-section" id="panSection" style="display: none;">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    PAN card number is required for donations of ₹2,000 or more as per government regulations
+                </div>
+                <label class="form-label">PAN Card Number *</label>
+                <input type="text" name="donor_pan" class="form-control"
+                       pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" maxlength="10"
+                       placeholder="ABCDE1234F" style="text-transform: uppercase;">
+                <div class="form-text">Example: ABCDE1234F</div>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="bi bi-credit-card"></i>
+                    Payment Method
+                </div>
+
+                <div class="form-check payment-method-card">
+                    <input class="form-check-input" type="radio" name="payment_method"
+                           id="online" value="ONLINE" checked>
+                    <label class="form-check-label" for="online" style="flex: 1; cursor: pointer;">
+                        <div style="font-weight: 600;">Online Payment</div>
+                        <small style="color: var(--medium-gray);">UPI, Card, Net Banking</small>
+                    </label>
+                </div>
+
+                <div class="form-check payment-method-card">
+                    <input class="form-check-input" type="radio" name="payment_method"
+                           id="cheque" value="CHEQUE">
+                    <label class="form-check-label" for="cheque" style="flex: 1; cursor: pointer;">
+                        <div style="font-weight: 600;">Cheque / Demand Draft</div>
+                        <small style="color: var(--medium-gray);">Bank payment</small>
+                    </label>
+                </div>
+
+                <div class="form-check payment-method-card">
+                    <input class="form-check-input" type="radio" name="payment_method"
+                           id="cash" value="CASH">
+                    <label class="form-check-label" for="cash" style="flex: 1; cursor: pointer;">
+                        <div style="font-weight: 600;">Cash</div>
+                        <small style="color: var(--medium-gray);">Pay at office</small>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Additional Information -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="bi bi-pencil"></i>
+                    Additional Information
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Purpose of Donation (Optional)</label>
+                    <input type="text" name="purpose" class="form-control"
+                           value="{% if campaign %}{{ campaign.title }}{% endif %}"
+                           placeholder="General Donation">
+                </div>
+
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" name="anonymous" id="anonymous">
+                    <label class="form-check-label" for="anonymous">
+                        Make this an anonymous donation (do not display my name publicly)
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                    <label class="form-check-label" for="termsCheck">
+                        I confirm that this donation is voluntary and in accordance with political party donation rules *
+                    </label>
+                </div>
+            </div>
+
+            <!-- Submit Buttons -->
+            <div class="d-flex gap-2 justify-content-end">
+                <a href="{% url 'donations:my_donations' %}" class="btn btn-secondary">
+                    <i class="bi bi-x-circle me-1"></i>Cancel
+                </a>
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-heart-fill me-1"></i>Make Donation
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 
+{% block extra_js %}
 <script>
 function setAmount(amount) {
+    // Set amount value
     document.querySelector('input[name="amount"]').value = amount;
+
+    // Update active state of quick amount buttons
+    document.querySelectorAll('.quick-amount-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+
     checkPanRequirement();
 }
 
@@ -205,7 +392,7 @@ function checkPanRequirement() {
     const amount = parseFloat(document.querySelector('input[name="amount"]').value) || 0;
     const panSection = document.getElementById('panSection');
     const panInput = document.querySelector('input[name="donor_pan"]');
-    
+
     if (amount >= 2000) {
         panSection.style.display = 'block';
         panInput.required = true;
@@ -218,7 +405,24 @@ function checkPanRequirement() {
 
 // Add event listener for amount input
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelector('input[name="amount"]').addEventListener('input', checkPanRequirement);
+    const amountInput = document.querySelector('input[name="amount"]');
+
+    amountInput.addEventListener('input', function() {
+        // Remove active state from all quick amount buttons when manually typing
+        document.querySelectorAll('.quick-amount-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        checkPanRequirement();
+    });
+
+    // Make payment method cards clickable
+    document.querySelectorAll('.payment-method-card').forEach(card => {
+        card.addEventListener('click', function() {
+            const radio = this.querySelector('input[type="radio"]');
+            radio.checked = true;
+        });
+    });
 });
 </script>
+{% endblock %}
 {% endblock %}

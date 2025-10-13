@@ -1,0 +1,483 @@
+{% load i18n %}
+
+<div class="assets-dashboard-content">
+    {% if is_admin %}
+    <!-- Admin View -->
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-primary">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+                <div class="stat-details">
+                    <div class="stat-label">{% trans "Total Assets" %}</div>
+                    <div class="stat-value">{{ total_assets }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-success">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+                <div class="stat-details">
+                    <div class="stat-label">{% trans "Available" %}</div>
+                    <div class="stat-value">{{ available_assets }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-warning">
+                    <i class="bi bi-person-check"></i>
+                </div>
+                <div class="stat-details">
+                    <div class="stat-label">{% trans "In Use" %}</div>
+                    <div class="stat-value">{{ in_use_assets }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-info">
+                    <i class="bi bi-tools"></i>
+                </div>
+                <div class="stat-details">
+                    <div class="stat-label">{% trans "Maintenance" %}</div>
+                    <div class="stat-value">{{ maintenance_assets }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Cards -->
+    {% if pending_assignments > 0 or overdue_assignments > 0 %}
+    <div class="row mb-4">
+        {% if pending_assignments > 0 %}
+        <div class="col-md-6 mb-3">
+            <div class="alert alert-warning d-flex align-items-center">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <div>
+                    <strong>{{ pending_assignments }}</strong> {% trans "pending assignment(s) awaiting acceptance" %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if overdue_assignments > 0 %}
+        <div class="col-md-6 mb-3">
+            <div class="alert alert-danger d-flex align-items-center">
+                <i class="bi bi-clock-fill me-2"></i>
+                <div>
+                    <strong>{{ overdue_assignments }}</strong> {% trans "overdue assignment(s) need attention" %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Quick Actions -->
+    <div class="section-header mb-3">
+        <h3 class="section-title">
+            <i class="bi bi-lightning-charge"></i>
+            {% trans "Quick Actions" %}
+        </h3>
+    </div>
+    <div class="quick-actions-grid mb-4">
+        <a href="{% url 'assets:list' %}" class="quick-action-btn">
+            <i class="bi bi-list-ul"></i>
+            <span>{% trans "View All Assets" %}</span>
+        </a>
+        <a href="{% url 'assets:add' %}" class="quick-action-btn">
+            <i class="bi bi-plus-circle"></i>
+            <span>{% trans "Add New Asset" %}</span>
+        </a>
+        <a href="{% url 'assets:assign' %}" class="quick-action-btn">
+            <i class="bi bi-person-plus"></i>
+            <span>{% trans "Assign Asset" %}</span>
+        </a>
+        <a href="{% url 'assets:dashboard' %}" class="quick-action-btn">
+            <i class="bi bi-grid"></i>
+            <span>{% trans "Full Dashboard" %}</span>
+        </a>
+    </div>
+
+    <!-- Recent Assets -->
+    <div class="section-header mb-3">
+        <h3 class="section-title">
+            <i class="bi bi-clock-history"></i>
+            {% trans "Recently Added Assets" %}
+        </h3>
+    </div>
+    {% if recent_assets %}
+    <div class="assets-table-wrapper mb-4">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{% trans "Asset Code" %}</th>
+                    <th>{% trans "Name" %}</th>
+                    <th>{% trans "Type" %}</th>
+                    <th>{% trans "Status" %}</th>
+                    <th>{% trans "Location" %}</th>
+                    <th>{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for asset in recent_assets %}
+                <tr>
+                    <td><strong>{{ asset.asset_code }}</strong></td>
+                    <td>{{ asset.name }}</td>
+                    <td>
+                        <span class="badge bg-secondary">{{ asset.get_asset_type_display }}</span>
+                    </td>
+                    <td>
+                        {% if asset.status == 'AVAILABLE' %}
+                            <span class="badge bg-success">{% trans "Available" %}</span>
+                        {% elif asset.status == 'IN_USE' %}
+                            <span class="badge bg-warning">{% trans "In Use" %}</span>
+                        {% elif asset.status == 'MAINTENANCE' %}
+                            <span class="badge bg-info">{% trans "Maintenance" %}</span>
+                        {% else %}
+                            <span class="badge bg-secondary">{{ asset.get_status_display }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ asset.current_location|truncatewords:5 }}</td>
+                    <td>
+                        <a href="{% url 'assets:history' asset.id %}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a href="{% url 'assets:edit' asset.id %}" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i>
+        {% trans "No assets have been added yet." %}
+    </div>
+    {% endif %}
+
+    <!-- Recent Assignments -->
+    <div class="section-header mb-3">
+        <h3 class="section-title">
+            <i class="bi bi-arrow-left-right"></i>
+            {% trans "Recent Assignments" %}
+        </h3>
+    </div>
+    {% if recent_assignments %}
+    <div class="assignments-table-wrapper">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{% trans "Asset" %}</th>
+                    <th>{% trans "Assigned To" %}</th>
+                    <th>{% trans "Assignment Date" %}</th>
+                    <th>{% trans "Expected Return" %}</th>
+                    <th>{% trans "Status" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for assignment in recent_assignments %}
+                <tr>
+                    <td><strong>{{ assignment.asset.name }}</strong></td>
+                    <td>{{ assignment.checked_out_by.full_name }}</td>
+                    <td>{{ assignment.assignment_date|date:"d M Y" }}</td>
+                    <td>{{ assignment.expected_return_date|date:"d M Y" }}</td>
+                    <td>
+                        {% if assignment.status == 'PENDING' %}
+                            <span class="badge bg-warning">{% trans "Pending" %}</span>
+                        {% elif assignment.status == 'ACCEPTED' or assignment.status == 'IN_USE' %}
+                            <span class="badge bg-info">{% trans "Active" %}</span>
+                        {% elif assignment.status == 'RETURNED' %}
+                            <span class="badge bg-success">{% trans "Returned" %}</span>
+                        {% elif assignment.status == 'REJECTED' %}
+                            <span class="badge bg-danger">{% trans "Rejected" %}</span>
+                        {% endif %}
+                        {% if assignment.is_overdue %}
+                            <span class="badge bg-danger ms-1">{% trans "Overdue" %}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center mt-3">
+        <a href="{% url 'assets:dashboard' %}" class="btn btn-outline-primary">
+            {% trans "View Full Dashboard" %} <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i>
+        {% trans "No asset assignments yet." %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <!-- User View -->
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-info">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+                <div class="stat-details">
+                    <div class="stat-label">{% trans "Active Assignments" %}</div>
+                    <div class="stat-value">{{ active_assignments_count }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-warning">
+                    <i class="bi bi-hourglass-split"></i>
+                </div>
+                <div class="stat-details">
+                    <div class="stat-label">{% trans "Pending Acceptance" %}</div>
+                    <div class="stat-value">{{ pending_assignments_count }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-success">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+                <div class="stat-details">
+                    <div class="stat-label">{% trans "Returned Assets" %}</div>
+                    <div class="stat-value">{{ returned_assignments_count }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="section-header mb-3">
+        <h3 class="section-title">
+            <i class="bi bi-lightning-charge"></i>
+            {% trans "Quick Actions" %}
+        </h3>
+    </div>
+    <div class="quick-actions-grid mb-4">
+        <a href="{% url 'assets:dashboard' %}" class="quick-action-btn">
+            <i class="bi bi-grid"></i>
+            <span>{% trans "My Dashboard" %}</span>
+        </a>
+        <a href="{% url 'assets:list' %}" class="quick-action-btn">
+            <i class="bi bi-list-ul"></i>
+            <span>{% trans "My Assignments" %}</span>
+        </a>
+    </div>
+
+    <!-- User's Asset Assignments -->
+    <div class="section-header mb-3">
+        <h3 class="section-title">
+            <i class="bi bi-clock-history"></i>
+            {% trans "My Recent Assignments" %}
+        </h3>
+    </div>
+    {% if user_assignments %}
+    <div class="assignments-table-wrapper">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{% trans "Asset" %}</th>
+                    <th>{% trans "Assignment Date" %}</th>
+                    <th>{% trans "Expected Return" %}</th>
+                    <th>{% trans "Status" %}</th>
+                    <th>{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for assignment in user_assignments %}
+                <tr>
+                    <td>
+                        <strong>{{ assignment.asset.name }}</strong><br>
+                        <small class="text-muted">{{ assignment.asset.asset_code }}</small>
+                    </td>
+                    <td>{{ assignment.assignment_date|date:"d M Y" }}</td>
+                    <td>{{ assignment.expected_return_date|date:"d M Y" }}</td>
+                    <td>
+                        {% if assignment.status == 'PENDING' %}
+                            <span class="badge bg-warning">{% trans "Pending" %}</span>
+                        {% elif assignment.status == 'ACCEPTED' or assignment.status == 'IN_USE' %}
+                            <span class="badge bg-info">{% trans "Active" %}</span>
+                        {% elif assignment.status == 'RETURNED' %}
+                            <span class="badge bg-success">{% trans "Returned" %}</span>
+                        {% elif assignment.status == 'REJECTED' %}
+                            <span class="badge bg-danger">{% trans "Rejected" %}</span>
+                        {% endif %}
+                        {% if assignment.is_overdue %}
+                            <span class="badge bg-danger ms-1">{% trans "Overdue" %}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if assignment.status == 'PENDING' %}
+                            <a href="{% url 'assets:accept' assignment.id %}" class="btn btn-sm btn-success">
+                                <i class="bi bi-check-circle"></i> {% trans "Accept" %}
+                            </a>
+                            <a href="{% url 'assets:reject' assignment.id %}" class="btn btn-sm btn-danger">
+                                <i class="bi bi-x-circle"></i> {% trans "Reject" %}
+                            </a>
+                        {% elif assignment.status == 'ACCEPTED' or assignment.status == 'IN_USE' %}
+                            <a href="{% url 'assets:return' assignment.id %}" class="btn btn-sm btn-primary">
+                                <i class="bi bi-arrow-return-left"></i> {% trans "Return" %}
+                            </a>
+                        {% endif %}
+                        <a href="{% url 'assets:history' assignment.asset.id %}" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center mt-3">
+        <a href="{% url 'assets:dashboard' %}" class="btn btn-outline-primary">
+            {% trans "View Full Dashboard" %} <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i>
+        {% trans "You don't have any asset assignments yet." %}
+    </div>
+    {% endif %}
+    {% endif %}
+</div>
+
+<style>
+.assets-dashboard-content {
+    padding: 1rem;
+}
+
+.stat-card {
+    background: var(--secondary-white);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-normal);
+    height: 100%;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+.stat-details {
+    flex: 1;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--medium-gray);
+    margin-bottom: 0.25rem;
+}
+
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+}
+
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.quick-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.25rem;
+    background: var(--secondary-white);
+    border: 2px solid var(--light-gray);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--dark-gray);
+    transition: all var(--transition-fast);
+    text-align: center;
+}
+
+.quick-action-btn:hover {
+    border-color: var(--primary-red);
+    background: linear-gradient(135deg, rgba(213, 0, 0, 0.05), rgba(213, 0, 0, 0.1));
+    transform: translateY(-2px);
+    color: var(--primary-red);
+    text-decoration: none;
+}
+
+.quick-action-btn i {
+    font-size: 1.5rem;
+}
+
+.assets-table-wrapper,
+.assignments-table-wrapper {
+    background: var(--secondary-white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.table {
+    margin: 0;
+}
+
+.table thead {
+    background: linear-gradient(135deg, var(--primary-red), var(--primary-red-dark));
+    color: white;
+}
+
+.table thead th {
+    border: none;
+    padding: 1rem;
+    font-weight: 600;
+}
+
+.table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark-gray);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.alert {
+    border-radius: 12px;
+    padding: 1rem;
+}
+</style>

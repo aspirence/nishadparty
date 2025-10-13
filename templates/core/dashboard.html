@@ -519,7 +519,7 @@
 
                         {% if user.is_authenticated %}
                             <li class="sidebar-nav-item">
-                                <a href="#donations" class="sidebar-nav-link" data-section="donations">
+                                <a href="#donations" class="sidebar-nav-link" data-section="donations" data-ajax-url="{% url 'donations:dashboard_content' %}">
                                     <i class="bi bi-heart"></i>
                                     Donations
                                 </a>
@@ -562,25 +562,19 @@
 
                             {% if user.user_type == 'ADMINISTRATOR' %}
                                 <li class="sidebar-nav-item">
-                                    <a href="#user-management" class="sidebar-nav-link" data-section="user-management">
+                                    <a href="#user-management" class="sidebar-nav-link" data-section="user-management" data-ajax-url="{% url 'dashboard_user_management_content' %}">
                                         <i class="bi bi-people"></i>
                                         User Management
                                     </a>
                                 </li>
 
                                 <li class="sidebar-nav-item">
-                                    <a href="#event-management" class="sidebar-nav-link" data-section="event-management">
+                                    <a href="#event-management" class="sidebar-nav-link" data-section="event-management" data-ajax-url="{% url 'campaigns:dashboard_event_management_content' %}">
                                         <i class="bi bi-calendar-event"></i>
                                         Event Management
                                     </a>
                                 </li>
 
-                                <li class="sidebar-nav-item">
-                                    <a href="#asset-management" class="sidebar-nav-link" data-section="asset-management">
-                                        <i class="bi bi-box-seam"></i>
-                                        Asset Management
-                                    </a>
-                                </li>
                             {% endif %}
                         {% endif %}
 
@@ -667,19 +661,14 @@
                             </h2>
                         </div>
 
-                        <div class="quick-actions">
-                            <a href="{% url 'donations:donate' %}" class="quick-action-btn">
-                                <i class="bi bi-heart-fill"></i>
-                                <span>Make New Donation</span>
-                            </a>
-                            <a href="{% url 'donations:my_donations' %}" class="quick-action-btn">
-                                <i class="bi bi-list-ul"></i>
-                                <span>My Donations</span>
-                            </a>
-                            <a href="{% url 'donations:home' %}" class="quick-action-btn">
-                                <i class="bi bi-receipt"></i>
-                                <span>Donations Home</span>
-                            </a>
+                        <!-- Dynamic content will be loaded here -->
+                        <div id="donations-dynamic-content">
+                            <div class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-3 text-muted">Loading donations information...</p>
+                            </div>
                         </div>
                     </div>
 
@@ -692,19 +681,14 @@
                             </h2>
                         </div>
 
-                        <div class="quick-actions">
-                            <a href="{% url 'membership:home' %}" class="quick-action-btn">
-                                <i class="bi bi-person-plus"></i>
-                                <span>Join Membership</span>
-                            </a>
-                            <a href="{% url 'membership:home' %}" class="quick-action-btn">
-                                <i class="bi bi-speedometer2"></i>
-                                <span>My Membership</span>
-                            </a>
-                            <a href="{% url 'membership:card' %}" class="quick-action-btn">
-                                <i class="bi bi-award"></i>
-                                <span>Membership Card</span>
-                            </a>
+                        <!-- Dynamic content will be loaded here -->
+                        <div id="membership-dynamic-content">
+                            <div class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-3 text-muted">Loading membership information...</p>
+                            </div>
                         </div>
                     </div>
 
@@ -717,19 +701,14 @@
                             </h2>
                         </div>
 
-                        <div class="quick-actions">
-                            <a href="{% url 'campaigns:events_list' %}" class="quick-action-btn">
-                                <i class="bi bi-calendar-event"></i>
-                                <span>View All Events</span>
-                            </a>
-                            <a href="{% url 'campaigns:my_events' %}" class="quick-action-btn">
-                                <i class="bi bi-clipboard-check"></i>
-                                <span>My Registrations</span>
-                            </a>
-                            <a href="{% url 'campaigns:calendar' %}" class="quick-action-btn">
-                                <i class="bi bi-images"></i>
-                                <span>Event Calendar</span>
-                            </a>
+                        <!-- Dynamic content will be loaded here -->
+                        <div id="campaigns-dynamic-content">
+                            <div class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-3 text-muted">Loading campaigns information...</p>
+                            </div>
                         </div>
                     </div>
 
@@ -818,23 +797,14 @@
                             </h2>
                         </div>
 
-                        <div class="quick-actions">
-                            <a href="{% url 'admin_user_list' %}" class="quick-action-btn">
-                                <i class="bi bi-list-ul"></i>
-                                <span>View All Users</span>
-                            </a>
-                            <a href="{% url 'admin_user_list' %}" class="quick-action-btn">
-                                <i class="bi bi-person-plus"></i>
-                                <span>Add New User</span>
-                            </a>
-                            <a href="{% url 'admin_user_list' %}" class="quick-action-btn">
-                                <i class="bi bi-search"></i>
-                                <span>Search Users</span>
-                            </a>
-                            <a href="{% url 'admin_user_list' %}" class="quick-action-btn">
-                                <i class="bi bi-shield-check"></i>
-                                <span>Manage Permissions</span>
-                            </a>
+                        <!-- Dynamic content will be loaded here -->
+                        <div id="user-management-dynamic-content">
+                            <div class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-3 text-muted">Loading user management information...</p>
+                            </div>
                         </div>
                     </div>
 
@@ -847,23 +817,14 @@
                             </h2>
                         </div>
 
-                        <div class="quick-actions">
-                            <a href="{% url 'campaigns:admin_events_dashboard' %}" class="quick-action-btn">
-                                <i class="bi bi-speedometer2"></i>
-                                <span>Events Dashboard</span>
-                            </a>
-                            <a href="{% url 'campaigns:admin_add_event' %}" class="quick-action-btn">
-                                <i class="bi bi-plus-circle"></i>
-                                <span>Create New Event</span>
-                            </a>
-                            <a href="{% url 'campaigns:admin_events_dashboard' %}" class="quick-action-btn">
-                                <i class="bi bi-list-check"></i>
-                                <span>Manage Events</span>
-                            </a>
-                            <a href="{% url 'campaigns:admin_events_dashboard' %}" class="quick-action-btn">
-                                <i class="bi bi-people-fill"></i>
-                                <span>View Registrations</span>
-                            </a>
+                        <!-- Dynamic content will be loaded here -->
+                        <div id="event-management-dynamic-content">
+                            <div class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-3 text-muted">Loading event management information...</p>
+                            </div>
                         </div>
                     </div>
 
@@ -1076,12 +1037,59 @@ document.addEventListener('DOMContentLoaded', function() {
             const section = document.getElementById(sectionId);
             if (section) {
                 section.classList.add('active');
+
+                // Load dynamic content if this section has an AJAX URL
+                const ajaxUrl = this.getAttribute('data-ajax-url');
+                if (ajaxUrl) {
+                    loadDynamicContent(sectionId, ajaxUrl);
+                }
             }
 
             // Update URL hash without scrolling
             history.pushState(null, null, '#' + sectionId);
         });
     });
+
+    // Function to load dynamic content via AJAX
+    function loadDynamicContent(sectionId, url) {
+        const contentContainer = document.getElementById(sectionId + '-dynamic-content');
+        if (!contentContainer) return;
+
+        // Check if content is already loaded
+        if (contentContainer.dataset.loaded === 'true') return;
+
+        // Show loading spinner
+        contentContainer.innerHTML = `
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-3 text-muted">Loading ${sectionId} information...</p>
+            </div>
+        `;
+
+        // Fetch content
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(html => {
+                contentContainer.innerHTML = html;
+                contentContainer.dataset.loaded = 'true';
+            })
+            .catch(error => {
+                console.error('Error loading content:', error);
+                contentContainer.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        Failed to load content. Please try again later.
+                    </div>
+                `;
+            });
+    }
 
     // Handle direct hash navigation
     function showSectionFromHash() {
@@ -1096,6 +1104,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 targetLink.classList.add('active');
                 targetSection.classList.add('active');
+
+                // Load dynamic content if this section has an AJAX URL
+                const ajaxUrl = targetLink.getAttribute('data-ajax-url');
+                if (ajaxUrl) {
+                    loadDynamicContent(hash, ajaxUrl);
+                }
             }
         }
     }

@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Accept Asset Assignment - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">
+                        <i class="bi bi-exclamation-triangle me-2"></i>Accept Asset Assignment
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <h6><i class="bi bi-info-circle me-2"></i>Asset Information</h6>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <strong>Asset:</strong><br>
+                                {{ assignment.asset.name }}<br>
+                                <small class="text-muted">Code: {{ assignment.asset.asset_code }}</small>
+                            </div>
+                            <div class="col-sm-6">
+                                <strong>Current Status:</strong><br>
+                                {{ assignment.asset.get_condition_display }}<br>
+                                <small class="text-muted">{{ assignment.asset.current_location|default:"Location Unknown" }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <strong>Purpose:</strong><br>
+                                {{ assignment.purpose }}
+                            </div>
+                            <div class="col-sm-6">
+                                <strong>Return Date:</strong><br>
+                                <span class="text-primary">{{ assignment.expected_return_date|date:"d M Y, H:i" }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if assignment.admin_notes %}
+                    <div class="mb-3">
+                        <strong>Administrative Notes:</strong>
+                        <div class="border rounded p-2 bg-light">
+                            {{ assignment.admin_notes }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="user_notes" class="form-label">Your Notes (Optional)</label>
+                            <textarea class="form-control" name="user_notes" id="user_notes" rows="3" 
+                                      placeholder="Any notes or questions..."></textarea>
+                        </div>
+                        
+                        <div class="alert alert-warning">
+                            <h6><i class="bi bi-exclamation-triangle me-2"></i>Important</h6>
+                            <ul class="mb-0 small">
+                                <li>After accepting the asset, you will be responsible for its proper use and security.</li>
+                                <li>Please return the asset on the scheduled time.</li>
+                                <li>Report any damage or problems immediately.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'accounts:dashboard' %}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Go Back
+                            </a>
+                            <div>
+                                <a href="{% url 'assets:reject' assignment.id %}" class="btn btn-danger me-2">
+                                    <i class="bi bi-x me-1"></i>Reject
+                                </a>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-check me-1"></i>Accept
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,732 @@
+{% extends 'base.html' %}
+
+{% block title %}Complete Profile - Nishad Party{% endblock %}
+
+{% block extra_css %}
+<style>
+.profile-container {
+    min-height: calc(100vh - 140px);
+    padding: 2rem 0;
+}
+
+.profile-card {
+    border: none;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.profile-header {
+    background: linear-gradient(135deg, #17a2b8, #20c997);
+    border: none;
+    padding: 2.5rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.profile-header::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -15%;
+    width: 100px;
+    height: 100px;
+    background: rgba(32, 201, 151, 0.15);
+    border-radius: 50%;
+    animation: profileFloat 8s ease-in-out infinite;
+}
+
+@keyframes profileFloat {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    33% { transform: translateY(-15px) scale(1.1); }
+    66% { transform: translateY(10px) scale(0.9); }
+}
+
+.profile-header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--secondary-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.profile-header .profile-icon {
+    font-size: 2rem;
+    background: rgba(32, 201, 151, 0.2);
+    padding: 0.5rem;
+    border-radius: 12px;
+    border: 2px solid rgba(32, 201, 151, 0.3);
+}
+
+.profile-body {
+    padding: 3rem 2.5rem 2.5rem;
+}
+
+.profile-welcome {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    text-align: center;
+}
+
+.profile-section {
+    margin-bottom: 3rem;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.section-header h3 {
+    color: var(--primary-red);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.section-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.modern-form-group {
+    margin-bottom: 1.5rem;
+}
+
+.modern-form-label {
+    font-weight: 600;
+    color: var(--dark-gray);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.required-asterisk {
+    color: var(--primary-red);
+    font-weight: 700;
+}
+
+.modern-form-input {
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 0.875rem 1rem;
+    font-size: 0.95rem;
+    background: var(--secondary-white);
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.modern-form-input:focus {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px rgba(213, 0, 0, 0.1);
+    outline: none;
+}
+
+.modern-form-input::placeholder {
+    color: #9ca3af;
+    font-weight: 400;
+}
+
+.modern-form-select {
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 0.875rem 1rem;
+    font-size: 0.95rem;
+    background: var(--secondary-white);
+    transition: all 0.3s ease;
+    font-weight: 500;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+}
+
+.modern-form-select:focus {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px rgba(213, 0, 0, 0.1);
+    outline: none;
+}
+
+.modern-form-textarea {
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 0.875rem 1rem;
+    font-size: 0.95rem;
+    background: var(--secondary-white);
+    transition: all 0.3s ease;
+    font-weight: 500;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.modern-form-textarea:focus {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px rgba(213, 0, 0, 0.1);
+    outline: none;
+}
+
+.file-input-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.modern-file-input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.file-input-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    border: 2px dashed #d1d5db;
+    border-radius: 12px;
+    background: #f9fafb;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.file-input-label:hover {
+    border-color: var(--primary-red);
+    background: rgba(213, 0, 0, 0.05);
+    color: var(--primary-red);
+}
+
+.file-input-icon {
+    font-size: 1.25rem;
+    color: var(--primary-red);
+}
+
+.form-help-text {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.secondary-button {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 12px;
+    border: 2px solid #6c757d;
+    background: transparent;
+    color: #6c757d;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.secondary-button:hover {
+    border-color: var(--primary-red);
+    color: var(--primary-red);
+    background: rgba(213, 0, 0, 0.05);
+    text-decoration: none;
+}
+
+.primary-button {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.primary-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, #B71C1C, var(--primary-red));
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 1rem 0;
+    }
+    
+    .profile-body {
+        padding: 2rem 1.5rem;
+    }
+    
+    .profile-header {
+        padding: 2rem 1.5rem 1.5rem;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    
+    .profile-actions {
+        flex-direction: column;
+    }
+    
+    .secondary-button,
+    .primary-button {
+        justify-content: center;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="profile-card card">
+                    <div class="profile-header card-header">
+                        <h1>
+                            <i class="bi bi-person-plus profile-icon"></i>
+                            Complete Your Profile
+                        </h1>
+                    </div>
+                    <div class="profile-body card-body">
+                        <p class="profile-welcome">
+                            Please fill in your information so we can provide you with better service and connect you with the right opportunities.
+                        </p>
+                    
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Personal Information -->
+                        <div class="profile-section">
+                            <div class="section-header">
+                                <div class="section-icon">
+                                    <i class="bi bi-person-fill"></i>
+                                </div>
+                                <h3>Personal Information</h3>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="modern-form-group">
+                                    <label for="first_name" class="modern-form-label">
+                                        First Name <span class="required-asterisk">*</span>
+                                    </label>
+                                    <input type="text" class="modern-form-input" id="first_name" name="first_name" 
+                                           value="{{ user.first_name }}" placeholder="Enter your first name" required>
+                                </div>
+                                <div class="modern-form-group">
+                                    <label for="last_name" class="modern-form-label">
+                                        Last Name <span class="required-asterisk">*</span>
+                                    </label>
+                                    <input type="text" class="modern-form-input" id="last_name" name="last_name" 
+                                           value="{{ user.last_name }}" placeholder="Enter your last name" required>
+                                </div>
+                            </div>
+                            
+                            <div class="modern-form-group">
+                                <label for="email" class="modern-form-label">
+                                    <i class="bi bi-envelope"></i>
+                                    Email Address
+                                </label>
+                                <input type="email" class="modern-form-input" id="email" name="email" 
+                                       value="{{ user.email }}" placeholder="Enter your email address">
+                            </div>
+                            
+                            <div class="modern-form-group">
+                                <label for="date_of_birth" class="modern-form-label">
+                                    <i class="bi bi-calendar3"></i>
+                                    Date of Birth
+                                </label>
+                                <input type="date" class="modern-form-input" id="date_of_birth" name="date_of_birth" 
+                                       value="{{ profile.date_of_birth|date:'Y-m-d' }}">
+                            </div>
+                            
+                            <div class="modern-form-group">
+                                <label for="preferred_language" class="modern-form-label">
+                                    <i class="bi bi-translate"></i>
+                                    Preferred Language
+                                </label>
+                                <select class="modern-form-select" id="preferred_language" name="preferred_language">
+                                    <option value="hi" {% if user.preferred_language == 'hi' %}selected{% endif %}>Hindi</option>
+                                    <option value="en" {% if user.preferred_language == 'en' %}selected{% endif %}>English</option>
+                                    <option value="bho" {% if user.preferred_language == 'bho' %}selected{% endif %}>Bhojpuri</option>
+                                    <option value="awa" {% if user.preferred_language == 'awa' %}selected{% endif %}>Awadhi</option>
+                                    <option value="mag" {% if user.preferred_language == 'mag' %}selected{% endif %}>Magahi</option>
+                                    <option value="mai" {% if user.preferred_language == 'mai' %}selected{% endif %}>Maithili</option>
+                                    <option value="bn" {% if user.preferred_language == 'bn' %}selected{% endif %}>Bengali</option>
+                                    <option value="as" {% if user.preferred_language == 'as' %}selected{% endif %}>Assamese</option>
+                                    <option value="or" {% if user.preferred_language == 'or' %}selected{% endif %}>Odia</option>
+                                    <option value="gu" {% if user.preferred_language == 'gu' %}selected{% endif %}>Gujarati</option>
+                                </select>
+                            </div>
+                            
+                            <div class="modern-form-group">
+                                <label for="avatar" class="modern-form-label">
+                                    <i class="bi bi-camera"></i>
+                                    Profile Photo
+                                </label>
+                                {% if profile.avatar %}
+                                <div style="margin-bottom: 1rem;">
+                                    <img src="{{ profile.avatar.url }}" alt="Current profile photo"
+                                         style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid var(--accent-gold); box-shadow: var(--shadow-md);">
+                                    <p class="form-help-text mt-2"><i class="bi bi-check-circle text-success me-1"></i>Current profile photo</p>
+                                </div>
+                                {% endif %}
+                                <div class="file-input-container">
+                                    <input type="file" class="modern-file-input" id="avatar" name="avatar" accept="image/*">
+                                    <label for="avatar" class="file-input-label">
+                                        <i class="bi bi-cloud-upload file-input-icon"></i>
+                                        <span>{% if profile.avatar %}Change profile photo{% else %}Choose profile photo or drag & drop{% endif %}</span>
+                                    </label>
+                                </div>
+                                <div class="form-help-text">JPG, PNG or GIF file (maximum 2MB)</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Location Information -->
+                        <div class="profile-section">
+                            <div class="section-header">
+                                <div class="section-icon">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                </div>
+                                <h3>Location Information</h3>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="modern-form-group">
+                                    <label for="state" class="modern-form-label">
+                                        <i class="bi bi-map"></i>
+                                        State
+                                    </label>
+                                    <input type="text" class="modern-form-input" id="state" name="state" 
+                                           value="{{ user.state }}" placeholder="e.g: Uttar Pradesh">
+                                </div>
+                                <div class="modern-form-group">
+                                    <label for="district" class="modern-form-label">
+                                        <i class="bi bi-building"></i>
+                                        District
+                                    </label>
+                                    <input type="text" class="modern-form-input" id="district" name="district" 
+                                           value="{{ user.district }}" placeholder="e.g: Allahabad">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="modern-form-group">
+                                    <label for="constituency" class="modern-form-label">
+                                        <i class="bi bi-bank"></i>
+                                        Assembly Constituency
+                                    </label>
+                                    <input type="text" class="modern-form-input" id="constituency" name="constituency" 
+                                           value="{{ user.constituency }}" placeholder="e.g: Koraon">
+                                </div>
+                                <div class="modern-form-group">
+                                    <label for="pincode" class="modern-form-label">
+                                        <i class="bi bi-mailbox"></i>
+                                        Pin Code
+                                    </label>
+                                    <input type="text" class="modern-form-input" id="pincode" name="pincode" 
+                                           value="{{ profile.pincode }}" maxlength="6" pattern="[0-9]{6}" placeholder="6-digit PIN">
+                                </div>
+                            </div>
+                            
+                            <div class="modern-form-group">
+                                <label for="address" class="modern-form-label">
+                                    <i class="bi bi-house"></i>
+                                    Complete Address
+                                </label>
+                                <textarea class="modern-form-textarea" id="address" name="address" rows="3" 
+                                          placeholder="Village/City, Post Office, Police Station">{{ profile.address }}</textarea>
+                            </div>
+                        </div>
+                        
+                        <!-- Community Information -->
+                        <div class="profile-section">
+                            <div class="section-header">
+                                <div class="section-icon">
+                                    <i class="bi bi-people-fill"></i>
+                                </div>
+                                <h3>Community Information</h3>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="modern-form-group">
+                                    <label for="community_type" class="modern-form-label">
+                                        <i class="bi bi-water"></i>
+                                        Community Type
+                                    </label>
+                                    <select class="modern-form-select" id="community_type" name="community_type">
+                                        <option value="">Choose your community</option>
+                                        <option value="FISHING" {% if profile.community_type == 'FISHING' %}selected{% endif %}>Fishing Community</option>
+                                        <option value="BOATING" {% if profile.community_type == 'BOATING' %}selected{% endif %}>Boating Community</option>
+                                        <option value="ALLIED" {% if profile.community_type == 'ALLIED' %}selected{% endif %}>Allied Fishing Services</option>
+                                        <option value="OTHER" {% if profile.community_type == 'OTHER' %}selected{% endif %}>Other</option>
+                                    </select>
+                                </div>
+                                <div class="modern-form-group">
+                                    <label for="occupation" class="modern-form-label">
+                                        <i class="bi bi-briefcase"></i>
+                                        Occupation
+                                    </label>
+                                    <input type="text" class="modern-form-input" id="occupation" name="occupation" 
+                                           value="{{ profile.occupation }}" placeholder="e.g: Fishing, Boat Repair">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="modern-form-group">
+                                    <label for="experience_years" class="modern-form-label">
+                                        <i class="bi bi-award"></i>
+                                        Experience (in years)
+                                    </label>
+                                    <input type="number" class="modern-form-input" id="experience_years" name="experience_years" 
+                                           value="{{ profile.experience_years }}" min="0" max="80" placeholder="Years of experience">
+                                </div>
+                                <div class="modern-form-group">
+                                    <label for="fishing_license_number" class="modern-form-label">
+                                        <i class="bi bi-card-text"></i>
+                                        Fishing License Number
+                                    </label>
+                                    <input type="text" class="modern-form-input" id="fishing_license_number" name="fishing_license_number" 
+                                           value="{{ user.fishing_license_number }}" placeholder="License number (if any)">
+                                </div>
+                            </div>
+                            
+                            <div class="modern-form-group">
+                                <label for="boat_registration" class="modern-form-label">
+                                    <i class="bi bi-life-preserver"></i>
+                                    Boat Registration Number
+                                </label>
+                                <input type="text" class="modern-form-input" id="boat_registration" name="boat_registration" 
+                                       value="{{ user.boat_registration }}" placeholder="Boat registration number (if any)">
+                            </div>
+                            
+                            <div class="modern-form-group">
+                                <label for="bio" class="modern-form-label">
+                                    <i class="bi bi-chat-square-text"></i>
+                                    About Yourself
+                                </label>
+                                <textarea class="modern-form-textarea" id="bio" name="bio" rows="4" 
+                                          placeholder="Tell us about yourself, your goals, and how you'd like to contribute to the community...">{{ profile.bio }}</textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-actions">
+                            <a href="{% url 'dashboard' %}" class="secondary-button">
+                                <i class="bi bi-arrow-left"></i>
+                                Complete Later
+                            </a>
+                            <button type="submit" class="primary-button">
+                                <i class="bi bi-check-circle-fill"></i>
+                                Save Profile
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // File upload preview and validation
+    const avatarInput = document.getElementById('avatar');
+    const fileLabel = document.querySelector('label[for="avatar"]');
+    const originalLabelText = fileLabel.innerHTML;
+    
+    if (avatarInput) {
+        avatarInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Validate file size (2MB max)
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('File size should be less than 2MB.');
+                    this.value = '';
+                    fileLabel.innerHTML = originalLabelText;
+                    return;
+                }
+                
+                // Validate file type
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                if (!validTypes.includes(file.type)) {
+                    alert('Please choose JPG, PNG or GIF file.');
+                    this.value = '';
+                    fileLabel.innerHTML = originalLabelText;
+                    return;
+                }
+                
+                // Update label with filename
+                fileLabel.innerHTML = `
+                    <i class="bi bi-check-circle file-input-icon"></i>
+                    <span>${file.name}</span>
+                `;
+                fileLabel.style.borderColor = '#28a745';
+                fileLabel.style.background = 'rgba(40, 167, 69, 0.1)';
+                fileLabel.style.color = '#28a745';
+            } else {
+                fileLabel.innerHTML = originalLabelText;
+                fileLabel.style.borderColor = '';
+                fileLabel.style.background = '';
+                fileLabel.style.color = '';
+            }
+        });
+    }
+    
+    // Auto-capitalize names
+    const nameInputs = document.querySelectorAll('#first_name, #last_name');
+    nameInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            // Capitalize first letter of each word
+            this.value = this.value.replace(/\b\w/g, l => l.toUpperCase());
+        });
+    });
+    
+    // Format pincode - only digits
+    const pincodeInput = document.getElementById('pincode');
+    if (pincodeInput) {
+        pincodeInput.addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '').slice(0, 6);
+        });
+    }
+    
+    // Format experience years - only numbers
+    const experienceInput = document.getElementById('experience_years');
+    if (experienceInput) {
+        experienceInput.addEventListener('input', function() {
+            const value = parseInt(this.value);
+            if (value < 0) this.value = 0;
+            if (value > 80) this.value = 80;
+        });
+    }
+    
+    // Form validation with visual feedback
+    const form = document.querySelector('form');
+    const submitButton = document.querySelector('.primary-button[type=\"submit\"]');
+    const originalSubmitText = submitButton.innerHTML;
+    
+    form.addEventListener('submit', function(e) {
+        const firstName = document.getElementById('first_name').value.trim();
+        const lastName = document.getElementById('last_name').value.trim();
+        
+        if (!firstName || !lastName) {
+            e.preventDefault();
+            
+            // Highlight empty required fields
+            if (!firstName) {
+                document.getElementById('first_name').style.borderColor = '#dc3545';
+                document.getElementById('first_name').focus();
+            }
+            if (!lastName) {
+                document.getElementById('last_name').style.borderColor = '#dc3545';
+            }
+            
+            alert('Please fill in your complete name.');
+            return false;
+        }
+        
+        // Show loading state
+        submitButton.disabled = true;
+        submitButton.innerHTML = `
+            <div style=\"width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-top: 2px solid white; border-radius: 50%; animation: spin 1s linear infinite; margin-right: 0.5rem;\"></div>
+            Saving Profile...
+        `;
+    });
+    
+    // Clear error styling when user starts typing
+    const requiredInputs = document.querySelectorAll('#first_name, #last_name');
+    requiredInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            this.style.borderColor = '';
+        });
+    });
+    
+    // Auto-save indicator (optional enhancement)
+    let saveTimeout;
+    const autoSaveInputs = document.querySelectorAll('.modern-form-input, .modern-form-select, .modern-form-textarea');
+    autoSaveInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            clearTimeout(saveTimeout);
+            
+            // Show "changes detected" indicator
+            const indicator = document.createElement('div');
+            indicator.className = 'text-muted small';
+            indicator.style.cssText = 'position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); color: white; padding: 10px 15px; border-radius: 8px; z-index: 1000;';
+            indicator.innerHTML = '<i class=\"bi bi-pencil me-2\"></i>Changes detected';
+            
+            // Remove existing indicators
+            document.querySelectorAll('[data-save-indicator]').forEach(el => el.remove());
+            indicator.setAttribute('data-save-indicator', 'true');
+            document.body.appendChild(indicator);
+            
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                if (indicator.parentNode) {
+                    indicator.remove();
+                }
+            }, 3000);
+        });
+    });
+});
+
+// Add CSS animation for spinner
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}

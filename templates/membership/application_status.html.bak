@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block title %}Application Status - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">
+                <i class="bi bi-file-earmark-text me-2"></i>Application Status
+                <span class="badge bg-{{ membership.verification_status|lower }} ms-2">
+                    {% if membership.verification_status == 'PENDING' %}Pending
+                    {% elif membership.verification_status == 'APPROVED' %}Approved
+                    {% elif membership.verification_status == 'REJECTED' %}Rejected
+                    {% endif %}
+                </span>
+            </h2>
+        </div>
+    </div>
+
+    <!-- Progress Steps -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h6>Application Progress</h6>
+                    <div class="progress mb-3" style="height: 20px;">
+                        <div class="progress-bar" role="progressbar" 
+                             style="width: {% if membership.verification_status == 'APPROVED' %}100{% elif documents %}75{% else %}25{% endif %}%">
+                            {% if membership.verification_status == 'APPROVED' %}Complete
+                            {% elif documents %}Documents Uploaded
+                            {% else %}Application Submitted
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row text-center small">
+                        <div class="col-3">
+                            <i class="bi bi-check-circle text-success fs-4"></i><br>Application Submitted
+                        </div>
+                        <div class="col-3">
+                            <i class="bi bi-{% if documents %}check-circle text-success{% else %}circle text-muted{% endif %} fs-4"></i><br>Documents Upload
+                        </div>
+                        <div class="col-3">
+                            <i class="bi bi-{% if membership.verification_status == 'PENDING' %}clock text-warning{% elif membership.verification_status == 'APPROVED' %}check-circle text-success{% else %}x-circle text-danger{% endif %} fs-4"></i><br>Verification
+                        </div>
+                        <div class="col-3">
+                            <i class="bi bi-{% if membership.verification_status == 'APPROVED' %}check-circle text-success{% else %}circle text-muted{% endif %} fs-4"></i><br>Membership Active
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Application Details -->
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6><i class="bi bi-info-circle me-2"></i>Application Details</h6>
+                </div>
+                <div class="card-body">
+                    <p><strong>Application ID:</strong> {{ membership.id }}</p>
+                    <p><strong>Plan:</strong> {{ membership.tier.name }}</p>
+                    <p><strong>Price:</strong> ₹{{ membership.tier.price }}</p>
+                    <p><strong>Application Date:</strong> {{ membership.created_at|date:"d M Y" }}</p>
+                    <p><strong>Expiry Date:</strong> {{ membership.end_date|date:"d M Y" }}</p>
+                    
+                    {% if membership.verification_status == 'REJECTED' and membership.rejection_reason %}
+                        <div class="alert alert-danger">
+                            <strong>Rejection Reason:</strong><br>
+                            {{ membership.rejection_reason }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Document Upload -->
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6><i class="bi bi-file-earmark-arrow-up me-2"></i>Document Upload</h6>
+                </div>
+                <div class="card-body">
+                    {% if membership.verification_status == 'PENDING' %}
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label class="form-label">Document Type</label>
+                                <select name="document_type" class="form-select" required>
+                                    <option value="">Choose...</option>
+                                    {% for choice in document_choices %}
+                                        <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Document Number (if applicable)</label>
+                                <input type="text" name="document_number" class="form-control" placeholder="Document Number">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Choose File</label>
+                                <input type="file" name="document_file" class="form-control" accept="image/*,.pdf" required>
+                                <div class="form-text">Upload only PDF or image files</div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-cloud-upload me-1"></i>Upload
+                            </button>
+                        </form>
+                    {% else %}
+                        <p class="text-muted">Document upload is no longer possible</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Uploaded Documents -->
+    {% if documents %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h6><i class="bi bi-files me-2"></i>Uploaded Documents</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Document Type</th>
+                                    <th>Document Number</th>
+                                    <th>Upload Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for doc in documents %}
+                                <tr>
+                                    <td>{{ doc.get_document_type_display }}</td>
+                                    <td>{{ doc.document_number|default:"-" }}</td>
+                                    <td>{{ doc.created_at|date:"d M Y" }}</td>
+                                    <td>
+                                        <span class="badge bg-{{ doc.verification_status|lower }}">
+                                            {% if doc.verification_status == 'PENDING' %}Pending
+                                            {% elif doc.verification_status == 'VERIFIED' %}Verified
+                                            {% elif doc.verification_status == 'REJECTED' %}Rejected
+                                            {% endif %}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="{{ doc.document_file.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-eye"></i> View
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Action Buttons -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="d-flex gap-2">
+                <a href="{% url 'membership:home' %}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left me-1"></i>Go Back
+                </a>
+                {% if membership.verification_status == 'APPROVED' %}
+                    <a href="{% url 'membership:card' %}" class="btn btn-success">
+                        <i class="bi bi-card-heading me-1"></i>View Membership Card
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

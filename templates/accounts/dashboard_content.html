@@ -1,0 +1,464 @@
+{% load i18n %}
+
+<div class="user-management-dashboard-content">
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-primary">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <div class="stat-details">
+                    <div class="stat-label">{% trans "Total Users" %}</div>
+                    <div class="stat-value">{{ total_users }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-success">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <div class="stat-details">
+                    <div class="stat-label">{% trans "Active Users" %}</div>
+                    <div class="stat-value">{{ active_users }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-warning">
+                    <i class="bi bi-x-circle-fill"></i>
+                </div>
+                <div class="stat-details">
+                    <div class="stat-label">{% trans "Inactive Users" %}</div>
+                    <div class="stat-value">{{ inactive_users }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-danger">
+                    <i class="bi bi-shield-fill"></i>
+                </div>
+                <div class="stat-details">
+                    <div class="stat-label">{% trans "Administrators" %}</div>
+                    <div class="stat-value">{{ administrators }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Type Distribution -->
+    <div class="section-header mb-3">
+        <h3 class="section-title">
+            <i class="bi bi-pie-chart"></i>
+            {% trans "User Type Distribution" %}
+        </h3>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="type-card">
+                <div class="type-icon bg-danger">
+                    <i class="bi bi-shield-fill-check"></i>
+                </div>
+                <div class="type-info">
+                    <div class="type-label">{% trans "Administrators" %}</div>
+                    <div class="type-count">{{ administrators }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="type-card">
+                <div class="type-icon bg-primary">
+                    <i class="bi bi-person-badge"></i>
+                </div>
+                <div class="type-info">
+                    <div class="type-label">{% trans "Members" %}</div>
+                    <div class="type-count">{{ members }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="type-card">
+                <div class="type-icon bg-success">
+                    <i class="bi bi-hand-thumbs-up"></i>
+                </div>
+                <div class="type-info">
+                    <div class="type-label">{% trans "Volunteers" %}</div>
+                    <div class="type-count">{{ volunteers }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="type-card">
+                <div class="type-icon bg-info">
+                    <i class="bi bi-heart"></i>
+                </div>
+                <div class="type-info">
+                    <div class="type-label">{% trans "Supporters" %}</div>
+                    <div class="type-count">{{ supporters }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="section-header mb-3">
+        <h3 class="section-title">
+            <i class="bi bi-lightning-charge"></i>
+            {% trans "Quick Actions" %}
+        </h3>
+    </div>
+    <div class="quick-actions-grid mb-4">
+        <a href="{% url 'admin_user_list' %}" class="quick-action-btn">
+            <i class="bi bi-list-ul"></i>
+            <span>{% trans "View All Users" %}</span>
+        </a>
+        <a href="{% url 'admin_user_list' %}?user_type=MEMBER" class="quick-action-btn">
+            <i class="bi bi-person-badge"></i>
+            <span>{% trans "View Members" %}</span>
+        </a>
+        <a href="{% url 'admin_user_list' %}?user_type=VOLUNTEER" class="quick-action-btn">
+            <i class="bi bi-hand-thumbs-up"></i>
+            <span>{% trans "View Volunteers" %}</span>
+        </a>
+        <a href="{% url 'admin_user_list' %}" class="quick-action-btn">
+            <i class="bi bi-search"></i>
+            <span>{% trans "Search Users" %}</span>
+        </a>
+    </div>
+
+    <!-- Recent Users -->
+    <div class="section-header mb-3">
+        <h3 class="section-title">
+            <i class="bi bi-clock-history"></i>
+            {% trans "Recently Joined Users" %}
+        </h3>
+    </div>
+    {% if recent_users %}
+    <div class="users-table-wrapper mb-4">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{% trans "Name" %}</th>
+                    <th>{% trans "Phone" %}</th>
+                    <th>{% trans "Email" %}</th>
+                    <th>{% trans "Type" %}</th>
+                    <th>{% trans "Status" %}</th>
+                    <th>{% trans "Joined" %}</th>
+                    <th>{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in recent_users %}
+                <tr>
+                    <td>
+                        <div class="user-info">
+                            {% if user.userprofile and user.userprofile.avatar %}
+                                <img src="{{ user.userprofile.avatar.url }}" alt="{{ user.get_full_name }}" class="user-avatar-small">
+                            {% else %}
+                                <div class="user-avatar-placeholder-small">
+                                    <i class="bi bi-person"></i>
+                                </div>
+                            {% endif %}
+                            <strong>{{ user.get_full_name|default:"N/A" }}</strong>
+                        </div>
+                    </td>
+                    <td>{{ user.phone_number }}</td>
+                    <td>{{ user.email|default:"-" }}</td>
+                    <td>
+                        <span class="badge
+                            {% if user.user_type == 'ADMINISTRATOR' %}bg-danger
+                            {% elif user.user_type == 'MEMBER' %}bg-primary
+                            {% elif user.user_type == 'VOLUNTEER' %}bg-success
+                            {% else %}bg-info{% endif %}">
+                            {{ user.get_user_type_display }}
+                        </span>
+                    </td>
+                    <td>
+                        {% if user.is_active %}
+                            <span class="badge bg-success">{% trans "Active" %}</span>
+                        {% else %}
+                            <span class="badge bg-secondary">{% trans "Inactive" %}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ user.date_joined|date:"d M Y" }}</td>
+                    <td>
+                        <a href="{% url 'admin_user_detail' user.id %}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-eye"></i> {% trans "View" %}
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center mb-4">
+        <a href="{% url 'admin_user_list' %}" class="btn btn-outline-primary">
+            {% trans "View All Users" %} <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i>
+        {% trans "No users found." %}
+    </div>
+    {% endif %}
+
+    <!-- Recently Active Users -->
+    <div class="section-header mb-3">
+        <h3 class="section-title">
+            <i class="bi bi-activity"></i>
+            {% trans "Recently Active Users" %}
+        </h3>
+    </div>
+    {% if recently_updated %}
+    <div class="users-table-wrapper">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{% trans "Name" %}</th>
+                    <th>{% trans "Phone" %}</th>
+                    <th>{% trans "Type" %}</th>
+                    <th>{% trans "Last Login" %}</th>
+                    <th>{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in recently_updated %}
+                <tr>
+                    <td>
+                        <div class="user-info">
+                            {% if user.userprofile and user.userprofile.avatar %}
+                                <img src="{{ user.userprofile.avatar.url }}" alt="{{ user.get_full_name }}" class="user-avatar-small">
+                            {% else %}
+                                <div class="user-avatar-placeholder-small">
+                                    <i class="bi bi-person"></i>
+                                </div>
+                            {% endif %}
+                            <strong>{{ user.get_full_name|default:"N/A" }}</strong>
+                        </div>
+                    </td>
+                    <td>{{ user.phone_number }}</td>
+                    <td>
+                        <span class="badge
+                            {% if user.user_type == 'ADMINISTRATOR' %}bg-danger
+                            {% elif user.user_type == 'MEMBER' %}bg-primary
+                            {% elif user.user_type == 'VOLUNTEER' %}bg-success
+                            {% else %}bg-info{% endif %}">
+                            {{ user.get_user_type_display }}
+                        </span>
+                    </td>
+                    <td>
+                        {% if user.last_login %}
+                            {{ user.last_login|date:"d M Y, g:i A" }}
+                        {% else %}
+                            <span class="text-muted">{% trans "Never" %}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'admin_user_detail' user.id %}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-eye"></i> {% trans "View" %}
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i>
+        {% trans "No active users found." %}
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.user-management-dashboard-content {
+    padding: 1rem;
+}
+
+.stat-card {
+    background: var(--secondary-white);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-normal);
+    height: 100%;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.stat-details {
+    flex: 1;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--medium-gray);
+    margin-bottom: 0.25rem;
+}
+
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+}
+
+.type-card {
+    background: var(--secondary-white);
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-normal);
+}
+
+.type-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.type-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: white;
+}
+
+.type-info {
+    flex: 1;
+}
+
+.type-label {
+    font-size: 0.875rem;
+    color: var(--medium-gray);
+    margin-bottom: 0.25rem;
+}
+
+.type-count {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+}
+
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.quick-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.25rem;
+    background: var(--secondary-white);
+    border: 2px solid var(--light-gray);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--dark-gray);
+    transition: all var(--transition-fast);
+    text-align: center;
+}
+
+.quick-action-btn:hover {
+    border-color: var(--primary-red);
+    background: linear-gradient(135deg, rgba(213, 0, 0, 0.05), rgba(213, 0, 0, 0.1));
+    transform: translateY(-2px);
+    color: var(--primary-red);
+    text-decoration: none;
+}
+
+.quick-action-btn i {
+    font-size: 1.5rem;
+}
+
+.users-table-wrapper {
+    background: var(--secondary-white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.table {
+    margin: 0;
+}
+
+.table thead {
+    background: linear-gradient(135deg, var(--primary-red), var(--primary-red-dark));
+    color: white;
+}
+
+.table thead th {
+    border: none;
+    padding: 1rem;
+    font-weight: 600;
+}
+
+.table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.user-avatar-small {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-avatar-placeholder-small {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-red), var(--primary-red-dark));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark-gray);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+</style>

@@ -376,26 +376,96 @@ def delete_asset(request, asset_id):
     if not admin_required(request.user):
         messages.error(request, _('You do not have permission to access this page.'))
         return redirect('assets:dashboard')
-    
+
     asset = get_object_or_404(Asset, id=asset_id)
-    
+
     # Check if asset has active assignments
     active_assignments = AssetCheckout.objects.filter(
-        asset=asset, 
+        asset=asset,
         status__in=['PENDING', 'ACCEPTED', 'IN_USE']
     ).exists()
-    
+
     if active_assignments:
         messages.error(request, _('This asset cannot be deleted because it is currently assigned.'))
         return redirect('assets:list')
-    
+
     if request.method == 'POST':
         asset_name = asset.name
         asset.delete()
         messages.success(request, _('Asset "{}" deleted successfully.'.format(asset_name)))
         return redirect('assets:list')
-    
+
     context = {
         'asset': asset,
     }
     return render(request, 'assets/delete_asset.html', context)
+
+@login_required
+def dashboard_assets_content(request):
+    """Return assets dashboard content for AJAX loading"""
+    if request.user.user_type == 'ADMINISTRATOR':
+        # Admin statistics
+        total_assets = Asset.objects.count()
+        available_assets = Asset.objects.filter(status='AVAILABLE').count()
+        in_use_assets = Asset.objects.filter(status='IN_USE').count()
+        maintenance_assets = Asset.objects.filter(status='MAINTENANCE').count()
+
+        # Recent assets
+        recent_assets = Asset.objects.all().order_by('-created_at')[:5]
+
+        # Recent assignments
+        recent_assignments = AssetCheckout.objects.select_related('asset', 'checked_out_by').order_by('-assignment_date')[:5]
+
+        # Pending assignments
+        pending_assignments = AssetCheckout.objects.filter(status='PENDING').select_related('asset', 'checked_out_by').count()
+
+        # Overdue assignments
+        overdue_assignments = AssetCheckout.objects.filter(
+            status__in=['ACCEPTED', 'IN_USE'],
+            expected_return_date__lt=timezone.now()
+        ).count()
+
+        context = {
+            'is_admin': True,
+            'total_assets': total_assets,
+            'available_assets': available_assets,
+            'in_use_assets': in_use_assets,
+            'maintenance_assets': maintenance_assets,
+            'recent_assets': recent_assets,
+            'recent_assignments': recent_assignments,
+            'pending_assignments': pending_assignments,
+            'overdue_assignments': overdue_assignments,
+        }
+    else:
+        # User statistics
+        user_assignments = AssetCheckout.objects.filter(
+            checked_out_by=request.user
+        ).select_related('asset').order_by('-assignment_date')[:5]
+
+        # Count of active assignments
+        active_assignments_count = AssetCheckout.objects.filter(
+            checked_out_by=request.user,
+            status__in=['ACCEPTED', 'IN_USE']
+        ).count()
+
+        # Count of pending assignments
+        pending_assignments_count = AssetCheckout.objects.filter(
+            checked_out_by=request.user,
+            status='PENDING'
+        ).count()
+
+        # Count of returned assignments
+        returned_assignments_count = AssetCheckout.objects.filter(
+            checked_out_by=request.user,
+            status='RETURNED'
+        ).count()
+
+        context = {
+            'is_admin': False,
+            'user_assignments': user_assignments,
+            'active_assignments_count': active_assignments_count,
+            'pending_assignments_count': pending_assignments_count,
+            'returned_assignments_count': returned_assignments_count,
+        }
+
+    return render(request, 'assets/dashboard_content.html', context)

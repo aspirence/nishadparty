@@ -375,16 +375,107 @@ def admin_delete_event(request, event_id):
     if not admin_required(request.user):
         messages.error(request, _('You do not have permission to access this page.'))
         return redirect('campaigns:events_list')
-    
+
     event = get_object_or_404(Event, id=event_id)
-    
+
     if request.method == 'POST':
         event_title = event.title
         event.delete()
         messages.success(request, _('Event "{}" deleted successfully.'.format(event_title)))
         return redirect('campaigns:admin_events_dashboard')
-    
+
     context = {
         'event': event,
     }
     return render(request, 'campaigns/admin_delete_event.html', context)
+
+@login_required
+def dashboard_campaigns_content(request):
+    """Dashboard content view for campaigns section"""
+    # Get event statistics
+    total_events = Event.objects.filter(is_public=True).count()
+    upcoming_events_count = Event.objects.filter(
+        is_public=True,
+        date_time__gte=timezone.now()
+    ).count()
+
+    # Get user's registered events
+    user_registered_events = EventAttendance.objects.filter(
+        attendee=request.user
+    ).select_related('event', 'event__campaign')
+
+    registered_events_count = user_registered_events.count()
+
+    # Get upcoming registered events
+    upcoming_registered = user_registered_events.filter(
+        event__date_time__gte=timezone.now()
+    ).order_by('event__date_time')[:5]
+
+    # Get past registered events
+    past_registered = user_registered_events.filter(
+        event__date_time__lt=timezone.now()
+    ).order_by('-event__date_time')[:5]
+
+    # Get upcoming public events (not registered yet)
+    upcoming_public_events = Event.objects.filter(
+        is_public=True,
+        date_time__gte=timezone.now()
+    ).exclude(
+        id__in=user_registered_events.values_list('event_id', flat=True)
+    ).select_related('campaign', 'contact_person').order_by('date_time')[:5]
+
+    context = {
+        'total_events': total_events,
+        'upcoming_events_count': upcoming_events_count,
+        'registered_events_count': registered_events_count,
+        'upcoming_registered': upcoming_registered,
+        'past_registered': past_registered,
+        'upcoming_public_events': upcoming_public_events,
+    }
+    return render(request, 'campaigns/dashboard_content.html', context)
+
+@login_required
+def dashboard_event_management_content(request):
+    """Return event management dashboard content for AJAX loading (Admin only)"""
+    # Check if user is admin
+    if not admin_required(request.user):
+        return render(request, 'campaigns/dashboard_content_denied.html')
+
+    # Get event statistics
+    total_events = Event.objects.count()
+    upcoming_events = Event.objects.filter(date_time__gte=timezone.now()).count()
+    ongoing_events = Event.objects.filter(status='ONGOING').count()
+    completed_events = Event.objects.filter(status='COMPLETED').count()
+    cancelled_events = Event.objects.filter(status='CANCELLED').count()
+
+    # Get total registrations
+    total_registrations = EventAttendance.objects.filter(status='CONFIRMED').count()
+    pending_registrations = EventAttendance.objects.filter(status='REGISTERED').count()
+
+    # Recent events
+    recent_events = Event.objects.select_related('campaign', 'contact_person').order_by('-created_at')[:5]
+
+    # Upcoming events that need attention
+    upcoming_events_list = Event.objects.filter(
+        date_time__gte=timezone.now(),
+        status='SCHEDULED'
+    ).select_related('campaign', 'contact_person').order_by('date_time')[:5]
+
+    # Events with most registrations
+    popular_events = Event.objects.filter(
+        date_time__gte=timezone.now()
+    ).select_related('campaign', 'contact_person').order_by('-eventattendance__id')[:5]
+
+    context = {
+        'total_events': total_events,
+        'upcoming_events': upcoming_events,
+        'ongoing_events': ongoing_events,
+        'completed_events': completed_events,
+        'cancelled_events': cancelled_events,
+        'total_registrations': total_registrations,
+        'pending_registrations': pending_registrations,
+        'recent_events': recent_events,
+        'upcoming_events_list': upcoming_events_list,
+        'popular_events': popular_events,
+    }
+    return render(request, 'campaigns/event_management_dashboard_content.html', context)

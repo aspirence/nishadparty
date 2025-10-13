@@ -1,0 +1,317 @@
+{% load i18n %}
+
+<div class="donations-dashboard-content">
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-6 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-success">
+                    <i class="bi bi-currency-rupee"></i>
+                </div>
+                <div class="stat-details">
+                    <div class="stat-label">{% trans "Total Donated" %}</div>
+                    <div class="stat-value">₹{{ total_donated|floatformat:2 }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-primary">
+                    <i class="bi bi-heart-fill"></i>
+                </div>
+                <div class="stat-details">
+                    <div class="stat-label">{% trans "Total Donations" %}</div>
+                    <div class="stat-value">{{ donation_count }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="section-header mb-3">
+        <h3 class="section-title">
+            <i class="bi bi-lightning-charge"></i>
+            {% trans "Quick Actions" %}
+        </h3>
+    </div>
+    <div class="quick-actions-grid mb-4">
+        <a href="{% url 'donations:donate' %}" class="quick-action-btn">
+            <i class="bi bi-heart-fill"></i>
+            <span>{% trans "Make New Donation" %}</span>
+        </a>
+        <a href="{% url 'donations:my_donations' %}" class="quick-action-btn">
+            <i class="bi bi-list-ul"></i>
+            <span>{% trans "View All Donations" %}</span>
+        </a>
+        <a href="{% url 'donations:home' %}" class="quick-action-btn">
+            <i class="bi bi-house-heart"></i>
+            <span>{% trans "Donation Campaigns" %}</span>
+        </a>
+    </div>
+
+    <!-- Active Campaigns -->
+    {% if active_campaigns %}
+    <div class="section-header mb-3">
+        <h3 class="section-title">
+            <i class="bi bi-megaphone"></i>
+            {% trans "Active Campaigns" %}
+        </h3>
+    </div>
+    <div class="campaigns-list mb-4">
+        {% for campaign in active_campaigns %}
+        <div class="campaign-card">
+            <div class="campaign-header">
+                <h4 class="campaign-title">{{ campaign.title }}</h4>
+                <span class="badge bg-success">{% trans "Active" %}</span>
+            </div>
+            <div class="campaign-body">
+                <p class="campaign-description">{{ campaign.description|truncatewords:20 }}</p>
+                <div class="campaign-progress">
+                    <div class="progress" style="height: 8px;">
+                        {% widthratio campaign.raised_amount campaign.target_amount 100 as progress_percent %}
+                        <div class="progress-bar bg-success" role="progressbar"
+                             style="width: {{ progress_percent }}%;"
+                             aria-valuenow="{{ progress_percent }}"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                    </div>
+                    <div class="campaign-stats mt-2">
+                        <span class="text-muted">₹{{ campaign.raised_amount|floatformat:0 }} / ₹{{ campaign.target_amount|floatformat:0 }}</span>
+                        <span class="badge bg-info">{{ progress_percent }}%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="campaign-footer">
+                <a href="{% url 'donations:donate_campaign' campaign.id %}" class="btn btn-sm btn-primary">
+                    <i class="bi bi-heart"></i> {% trans "Donate Now" %}
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Recent Donations -->
+    <div class="section-header mb-3">
+        <h3 class="section-title">
+            <i class="bi bi-clock-history"></i>
+            {% trans "Recent Donations" %}
+        </h3>
+    </div>
+    {% if user_donations %}
+    <div class="donations-table-wrapper">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{% trans "Date" %}</th>
+                    <th>{% trans "Amount" %}</th>
+                    <th>{% trans "Purpose" %}</th>
+                    <th>{% trans "Status" %}</th>
+                    <th>{% trans "Payment Method" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for donation in user_donations %}
+                <tr>
+                    <td>{{ donation.created_at|date:"d M Y" }}</td>
+                    <td><strong>₹{{ donation.amount|floatformat:2 }}</strong></td>
+                    <td>{{ donation.purpose|default:"General Donation" }}</td>
+                    <td>
+                        {% if donation.status == 'SUCCESS' %}
+                            <span class="badge bg-success">{% trans "Success" %}</span>
+                        {% elif donation.status == 'PENDING' %}
+                            <span class="badge bg-warning">{% trans "Pending" %}</span>
+                        {% else %}
+                            <span class="badge bg-danger">{% trans "Failed" %}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if donation.payment_method == 'ONLINE' %}
+                            <i class="bi bi-credit-card"></i> {% trans "Online" %}
+                        {% elif donation.payment_method == 'CASH' %}
+                            <i class="bi bi-cash"></i> {% trans "Cash" %}
+                        {% else %}
+                            <i class="bi bi-bank"></i> {% trans "Bank Transfer" %}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center mt-3">
+        <a href="{% url 'donations:my_donations' %}" class="btn btn-outline-primary">
+            {% trans "View All Donations" %} <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i>
+        {% trans "You haven't made any donations yet. Start contributing to support our cause!" %}
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.donations-dashboard-content {
+    padding: 1rem;
+}
+
+.stat-card {
+    background: var(--secondary-white);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-normal);
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.stat-details {
+    flex: 1;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--medium-gray);
+    margin-bottom: 0.25rem;
+}
+
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+}
+
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.quick-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.25rem;
+    background: var(--secondary-white);
+    border: 2px solid var(--light-gray);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--dark-gray);
+    transition: all var(--transition-fast);
+    text-align: center;
+}
+
+.quick-action-btn:hover {
+    border-color: var(--primary-red);
+    background: linear-gradient(135deg, rgba(213, 0, 0, 0.05), rgba(213, 0, 0, 0.1));
+    transform: translateY(-2px);
+    color: var(--primary-red);
+    text-decoration: none;
+}
+
+.quick-action-btn i {
+    font-size: 1.5rem;
+}
+
+.campaign-card {
+    background: var(--secondary-white);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-normal);
+}
+
+.campaign-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.campaign-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 1rem;
+}
+
+.campaign-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--dark-gray);
+    margin: 0;
+}
+
+.campaign-description {
+    color: var(--medium-gray);
+    margin-bottom: 1rem;
+}
+
+.campaign-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.campaign-footer {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--light-gray);
+}
+
+.donations-table-wrapper {
+    background: var(--secondary-white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.table {
+    margin: 0;
+}
+
+.table thead {
+    background: linear-gradient(135deg, var(--primary-red), var(--primary-red-dark));
+    color: white;
+}
+
+.table thead th {
+    border: none;
+    padding: 1rem;
+    font-weight: 600;
+}
+
+.table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark-gray);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+</style>

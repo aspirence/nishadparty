@@ -11,4 +11,5 @@ urlpatterns = [
     path('payment/complete/<uuid:membership_id>/', views.payment_complete, name='payment_complete'),
     path('status/<uuid:membership_id>/', views.application_status, name='application_status'),
     path('card/', views.membership_card, name='card'),
+    path('dashboard-content/', views.dashboard_membership_content, name='dashboard_content'),
 ]

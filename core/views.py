@@ -329,3 +329,88 @@ def dashboard_view(request):
         print(f"Error fetching dashboard statistics: {e}")
 
     return render(request, 'core/dashboard.html', context)
+
+@login_required
+def main_dashboard_view(request):
+    """
+    Main single-page dashboard view - shows all information on one page
+    """
+    from django.utils import timezone
+    from decimal import Decimal
+
+    context = {
+        'today': timezone.now(),
+    }
+
+    # Initialize stats
+    stats = {
+        'total_donations': 0,
+        'donations_amount': Decimal('0.00'),
+        'total_members': 0,
+        'new_members': 0,
+        'total_events': 0,
+        'upcoming_events': 0,
+        'total_assets': 0,
+        'available_assets': 0,
+    }
+
+    # Get Donations stats
+    try:
+        from donations.models import Donation
+        user_donations = Donation.objects.filter(donor=request.user, status='SUCCESS')
+        stats['total_donations'] = user_donations.count()
+        stats['donations_amount'] = user_donations.aggregate(total=Sum('amount'))['total'] or Decimal('0.00')
+        context['recent_donations'] = user_donations.order_by('-created_at')[:5]
+    except:
+        context['recent_donations'] = []
+
+    # Get Membership stats
+    try:
+        from membership.models import Membership
+        stats['total_members'] = Membership.objects.filter(is_active=True, verification_status='APPROVED').count()
+        # New members this month
+        stats['new_members'] = Membership.objects.filter(
+            created_at__gte=timezone.now().replace(day=1)
+        ).count()
+        context['user_membership'] = Membership.objects.filter(user=request.user, is_active=True).first()
+    except:
+        context['user_membership'] = None
+
+    # Get Events stats
+    try:
+        from campaigns.models import Event, EventAttendance
+        stats['total_events'] = Event.objects.count()
+        stats['upcoming_events'] = Event.objects.filter(date_time__gte=timezone.now()).count()
+        context['upcoming_events'] = Event.objects.filter(
+            date_time__gte=timezone.now(),
+            is_public=True
+        ).select_related('campaign').order_by('date_time')[:5]
+
+        # User's registered events
+        user_registrations = EventAttendance.objects.filter(
+            attendee=request.user
+        ).values_list('event_id', flat=True)
+    except:
+        context['upcoming_events'] = []
+
+    # Get Assets stats
+    try:
+        from assets.models import Asset
+        stats['total_assets'] = Asset.objects.count()
+        stats['available_assets'] = Asset.objects.filter(status='AVAILABLE').count()
+    except:
+        pass
+
+    # Recent activities (mock data - you can customize this)
+    context['recent_activities'] = [
+        {
+            'title': 'Welcome to your dashboard!',
+            'created_at': timezone.now(),
+            'color': 'stat-icon blue',
+            'icon': 'bi-star-fill'
+        }
+    ]
+
+    context['stats'] = stats
+
+    return render(request, 'core/main_dashboard.html', context)

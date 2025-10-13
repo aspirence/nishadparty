@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% if campaign %}{{ campaign.title }} - Donations{% else %}Make Donations{% endif %} - Nishad Party
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            {% if campaign %}
+            <!-- Campaign Info -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4><i class="bi bi-bullseye me-2"></i>{{ campaign.title }}</h4>
+                    <p>{{ campaign.description }}</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Target Amount:</strong> ₹{{ campaign.target_amount|floatformat:0 }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Raised Amount:</strong> ₹{{ campaign.raised_amount|floatformat:0 }}</p>
+                        </div>
+                    </div>
+                    <div class="progress mb-2">
+                        <div class="progress-bar bg-success" style="width: {{ campaign.progress_percentage }}%"></div>
+                    </div>
+                    <small class="text-muted">{{ campaign.progress_percentage|floatformat:1 }}% Complete</small>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Donation Form -->
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="bi bi-heart me-2"></i>
+                        {% if campaign %}Make Donations for {{ campaign.title }}{% else %}Make Donations{% endif %}
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <!-- Donor Information -->
+                        <div class="mb-4">
+                            <h6>Personal Information</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Full Name *</label>
+                                        <input type="text" name="donor_name" class="form-control" 
+                                               value="{% if user.is_authenticated %}{{ user.get_full_name }}{% endif %}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Email *</label>
+                                        <input type="email" name="donor_email" class="form-control" 
+                                               value="{% if user.is_authenticated %}{{ user.email }}{% endif %}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Phone Number *</label>
+                                        <input type="tel" name="donor_phone" class="form-control" 
+                                               value="{% if user.is_authenticated %}{{ user.phone_number }}{% endif %}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Constituency</label>
+                                        <input type="text" name="constituency" class="form-control" 
+                                               value="{% if user.is_authenticated %}{{ user.constituency }}{% endif %}">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Address</label>
+                                <textarea name="donor_address" class="form-control" rows="2"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Donation Amount -->
+                        <div class="mb-4">
+                            <h6>Donation Amount</h6>
+                            <div class="mb-3">
+                                <label class="form-label">Amount (₹) *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₹</span>
+                                    <input type="number" name="amount" class="form-control" min="1" step="0.01" required>
+                                </div>
+                            </div>
+                            
+                            <!-- Quick Amount Buttons -->
+                            <div class="mb-3">
+                                <label class="form-label">Quick Selection:</label>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="setAmount(500)">₹500</button>
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="setAmount(1000)">₹1,000</button>
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="setAmount(2000)">₹2,000</button>
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="setAmount(5000)">₹5,000</button>
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="setAmount(10000)">₹10,000</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PAN Card (for amounts >= 2000) -->
+                        <div class="mb-4" id="panSection" style="display: none;">
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-2"></i>
+                                PAN card number is required for donations of ₹2000 or more
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">PAN Card Number</label>
+                                <input type="text" name="donor_pan" class="form-control" 
+                                       pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" maxlength="10" 
+                                       placeholder="ABCDE1234F" style="text-transform: uppercase;">
+                                <div class="form-text">Example: ABCDE1234F</div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method -->
+                        <div class="mb-4">
+                            <h6>Payment Method</h6>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="payment_method" 
+                                           id="online" value="ONLINE" checked>
+                                    <label class="form-check-label" for="online">
+                                        Online Payment (UPI, Card, Net Banking)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="payment_method" 
+                                           id="cheque" value="CHEQUE">
+                                    <label class="form-check-label" for="cheque">
+                                        Cheque / Demand Draft
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="payment_method" 
+                                           id="cash" value="CASH">
+                                    <label class="form-check-label" for="cash">
+                                        Cash (at office)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Purpose -->
+                        <div class="mb-4">
+                            <div class="mb-3">
+                                <label class="form-label">Purpose of Donation</label>
+                                <input type="text" name="purpose" class="form-control" 
+                                       value="{% if campaign %}{{ campaign.title }}{% endif %}"
+                                       placeholder="General Donation">
+                                <div class="form-text">Optional - specify if you have any specific purpose</div>
+                            </div>
+                        </div>
+
+                        <!-- Anonymous Option -->
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="anonymous" id="anonymous">
+                                <label class="form-check-label" for="anonymous">
+                                    Anonymous Donation (do not make my name public)
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Terms -->
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                                <label class="form-check-label" for="termsCheck">
+                                    I confirm that this donation is voluntary and in accordance with political party donation rules
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'donations:home' %}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Back
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-heart-fill me-1"></i>Make Donation
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function setAmount(amount) {
+    document.querySelector('input[name="amount"]').value = amount;
+    checkPanRequirement();
+}
+
+function checkPanRequirement() {
+    const amount = parseFloat(document.querySelector('input[name="amount"]').value) || 0;
+    const panSection = document.getElementById('panSection');
+    const panInput = document.querySelector('input[name="donor_pan"]');
+    
+    if (amount >= 2000) {
+        panSection.style.display = 'block';
+        panInput.required = true;
+    } else {
+        panSection.style.display = 'none';
+        panInput.required = false;
+        panInput.value = '';
+    }
+}
+
+// Add event listener for amount input
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('input[name="amount"]').addEventListener('input', checkPanRequirement);
+});
+</script>
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Asset - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-pencil me-2"></i>Edit Asset: {{ asset.name }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Asset Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="name" id="name" required 
+                                       value="{{ asset.name }}" placeholder="e.g.: Canon Camera, Mobile Phone, Key Set">
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="asset_type" class="form-label">Asset Type <span class="text-danger">*</span></label>
+                                <select class="form-select" name="asset_type" id="asset_type" required>
+                                    <option value="">Select Type...</option>
+                                    <option value="VEHICLE" {% if asset.asset_type == 'VEHICLE' %}selected{% endif %}>Vehicle</option>
+                                    <option value="EQUIPMENT" {% if asset.asset_type == 'EQUIPMENT' %}selected{% endif %}>Equipment</option>
+                                    <option value="ELECTRONICS" {% if asset.asset_type == 'ELECTRONICS' %}selected{% endif %}>Electronics</option>
+                                    <option value="FURNITURE" {% if asset.asset_type == 'FURNITURE' %}selected{% endif %}>Furniture</option>
+                                    <option value="BOAT" {% if asset.asset_type == 'BOAT' %}selected{% endif %}>Boat</option>
+                                    <option value="SOUND_SYSTEM" {% if asset.asset_type == 'SOUND_SYSTEM' %}selected{% endif %}>Sound System</option>
+                                    <option value="TENT" {% if asset.asset_type == 'TENT' %}selected{% endif %}>Tent</option>
+                                    <option value="BANNER" {% if asset.asset_type == 'BANNER' %}selected{% endif %}>Banner</option>
+                                    <option value="OTHER" {% if asset.asset_type == 'OTHER' %}selected{% endif %}>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" name="description" id="description" rows="3"
+                                      placeholder="Detailed information about the asset...">{{ asset.description }}</textarea>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="manufacturer" class="form-label">Manufacturer</label>
+                                <input type="text" class="form-control" name="manufacturer" id="manufacturer" 
+                                       value="{{ asset.manufacturer }}" placeholder="e.g.: Canon, Samsung, etc">
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <label for="model_number" class="form-label">Model Number</label>
+                                <input type="text" class="form-control" name="model_number" id="model_number" 
+                                       value="{{ asset.model_number }}" placeholder="Model Number">
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <label for="serial_number" class="form-label">Serial Number</label>
+                                <input type="text" class="form-control" name="serial_number" id="serial_number" 
+                                       value="{{ asset.serial_number }}" placeholder="Serial Number">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="purchase_date" class="form-label">Purchase Date</label>
+                                <input type="date" class="form-control" name="purchase_date" id="purchase_date"
+                                       {% if asset.purchase_date %}value="{{ asset.purchase_date|date:'Y-m-d' }}"{% endif %}>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="purchase_cost" class="form-label">Purchase Cost (₹)</label>
+                                <input type="number" class="form-control" name="purchase_cost" id="purchase_cost" 
+                                       min="0" step="0.01" value="{{ asset.purchase_cost|default:'' }}" placeholder="0.00">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="current_location" class="form-label">Current Location</label>
+                                <input type="text" class="form-control" name="current_location" id="current_location" 
+                                       value="{{ asset.current_location }}" placeholder="e.g.: Party Office, Warehouse, etc">
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="constituency" class="form-label">Constituency</label>
+                                <input type="text" class="form-control" name="constituency" id="constituency" 
+                                       value="{{ asset.constituency }}" placeholder="Name of constituency">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="condition" class="form-label">Current Condition</label>
+                                <select class="form-select" name="condition" id="condition">
+                                    <option value="EXCELLENT" {% if asset.condition == 'EXCELLENT' %}selected{% endif %}>Excellent</option>
+                                    <option value="GOOD" {% if asset.condition == 'GOOD' %}selected{% endif %}>Good</option>
+                                    <option value="FAIR" {% if asset.condition == 'FAIR' %}selected{% endif %}>Fair</option>
+                                    <option value="POOR" {% if asset.condition == 'POOR' %}selected{% endif %}>Poor</option>
+                                    <option value="DAMAGED" {% if asset.condition == 'DAMAGED' %}selected{% endif %}>Damaged</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="image" class="form-label">Asset Image</label>
+                                <input type="file" class="form-control" name="image" id="image" accept="image/*">
+                                {% if asset.image %}
+                                    <div class="form-text text-success">
+                                        <i class="bi bi-check me-1"></i>Current Image: {{ asset.image.name }}
+                                    </div>
+                                {% endif %}
+                                <div class="form-text">Only JPG, PNG, GIF files are acceptable.</div>
+                            </div>
+                        </div>
+                        
+                        {% if asset.image %}
+                        <div class="mb-3">
+                            <label class="form-label">Current Image</label><br>
+                            <img src="{{ asset.image.url }}" alt="{{ asset.name }}" 
+                                 class="img-thumbnail" style="max-width: 200px; max-height: 150px;">
+                        </div>
+                        {% endif %}
+                        
+                        <div class="alert alert-info">
+                            <h6><i class="bi bi-info-circle me-2"></i>Asset Information</h6>
+                            <div class="row small">
+                                <div class="col-md-4">
+                                    <strong>Asset Code:</strong> {{ asset.asset_code }}
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Current Status:</strong> {{ asset.get_status_display }}
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Creation Date:</strong> {{ asset.created_at|date:"d M Y" }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'assets:list' %}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="bi bi-pencil me-1"></i>Update Asset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %>

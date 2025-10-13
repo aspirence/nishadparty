@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ event.title }} - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'campaigns:events_list' %}">Events</a></li>
+                    <li class="breadcrumb-item active">{{ event.title }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Event Details -->
+            <div class="card">
+                {% if event.image %}
+                    <img src="{{ event.image.url }}" class="card-img-top" style="height: 300px; object-fit: cover;">
+                {% endif %}
+                
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <span class="badge bg-primary fs-6">
+                            {% if event.event_type == 'RALLY' %}Rally
+                            {% elif event.event_type == 'MEETING' %}Public Meeting
+                            {% elif event.event_type == 'SEMINAR' %}Seminar
+                            {% elif event.event_type == 'WORKSHOP' %}Workshop
+                            {% elif event.event_type == 'CONFERENCE' %}Conference
+                            {% elif event.event_type == 'DOOR_TO_DOOR' %}Door to Door Campaign
+                            {% elif event.event_type == 'BOAT_CAMPAIGN' %}Boat Campaign
+                            {% elif event.event_type == 'FISHING_DEMO' %}Fishing Demonstration
+                            {% elif event.event_type == 'COMMUNITY_FEAST' %}Community Feast
+                            {% else %}{{ event.get_event_type_display }}
+                            {% endif %}
+                        </span>
+                        <span class="badge bg-{{ event.status|lower }}">
+                            {% if event.status == 'SCHEDULED' %}Scheduled
+                            {% elif event.status == 'ONGOING' %}Ongoing
+                            {% elif event.status == 'COMPLETED' %}Completed
+                            {% elif event.status == 'CANCELLED' %}Cancelled
+                            {% elif event.status == 'POSTPONED' %}Postponed
+                            {% endif %}
+                        </span>
+                    </div>
+                    
+                    <h2 class="card-title">{{ event.title }}</h2>
+                    <p class="card-text">{{ event.description|linebreaks }}</p>
+                    
+                    <!-- Event Info -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h6><i class="bi bi-calendar me-2"></i>Date and Time</h6>
+                            <p class="mb-2">{{ event.date_time|date:"l, d F Y" }}</p>
+                            <p class="mb-0">
+                                {{ event.date_time|date:"h:i A" }}
+                                {% if event.end_time %} - {{ event.end_time|date:"h:i A" }}{% endif %}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6><i class="bi bi-geo-alt me-2"></i>Location</h6>
+                            <p class="mb-2"><strong>{{ event.venue }}</strong></p>
+                            <p class="mb-0">{{ event.address }}</p>
+                        </div>
+                    </div>
+
+                    {% if event.campaign %}
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h6><i class="bi bi-flag me-2"></i>Campaign</h6>
+                            <p class="mb-0">{{ event.campaign.title }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6><i class="bi bi-map me-2"></i>Constituency</h6>
+                            <p class="mb-0">{{ event.campaign.constituency }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if event.contact_person or event.contact_phone %}
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h6><i class="bi bi-person-lines-fill me-2"></i>Contact Information</h6>
+                            {% if event.contact_person %}
+                                <p class="mb-1"><strong>Contact Person:</strong> {{ event.contact_person.get_full_name }}</p>
+                            {% endif %}
+                            {% if event.contact_phone %}
+                                <p class="mb-0"><strong>Phone:</strong> {{ event.contact_phone }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if event.requirements %}
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h6><i class="bi bi-list-check me-2"></i>Requirements</h6>
+                            <p>{{ event.requirements|linebreaks }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if event.agenda %}
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h6><i class="bi bi-clock-history me-2"></i>Agenda</h6>
+                            <ul class="list-group list-group-flush">
+                                {% for item in event.agenda %}
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>{{ item.topic|default:item }}</span>
+                                    {% if item.time %}<small class="text-muted">{{ item.time }}</small>{% endif %}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- Registration Card -->
+            {% if event.registration_required %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0"><i class="bi bi-person-check me-2"></i>Registration</h6>
+                </div>
+                <div class="card-body">
+                    {% if user_registered %}
+                        <div class="alert alert-success">
+                            <i class="bi bi-check-circle me-2"></i>
+                            Your registration is complete
+                        </div>
+                        <p><strong>Registration Date:</strong> {{ user_attendance.registered_at|date:"d M Y, h:i A" }}</p>
+                        {% if user_attendance.special_requirements %}
+                            <p><strong>Special Requirements:</strong> {{ user_attendance.special_requirements }}</p>
+                        {% endif %}
+                    {% elif can_register %}
+                        <p>Register to participate in this event.</p>
+                        <div class="d-grid">
+                            <a href="{% url 'campaigns:event_register' event.slug %}" class="btn btn-success">
+                                <i class="bi bi-person-plus me-1"></i>Register Now
+                            </a>
+                        </div>
+                    {% elif not user.is_authenticated %}
+                        <p>Please login to register.</p>
+                        <div class="d-grid">
+                            <a href="{% url 'phone_login' %}?next={% url 'campaigns:event_detail' event.slug %}" class="btn btn-primary">
+                                <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            {% if not event.is_registration_open %}
+                                Registration is closed
+                            {% elif event.max_attendees > 0 and registered_count >= event.max_attendees %}
+                                Event is fully booked
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                    <!-- Registration Stats -->
+                    <hr>
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <h5 class="text-primary">{{ registered_count }}</h5>
+                            <small class="text-muted">Registered</small>
+                        </div>
+                        <div class="col-6">
+                            <h5 class="text-info">
+                                {% if event.max_attendees > 0 %}
+                                    {{ event.max_attendees|sub:registered_count }}
+                                {% else %}
+                                    ∞
+                                {% endif %}
+                            </h5>
+                            <small class="text-muted">Available Seats</small>
+                        </div>
+                    </div>
+
+                    {% if event.registration_deadline %}
+                    <hr>
+                    <p class="small text-muted mb-0">
+                        <i class="bi bi-clock me-1"></i>
+                        <strong>Registration Deadline:</strong> {{ event.registration_deadline|date:"d M Y, h:i A" }}
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Event Info Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0"><i class="bi bi-info-circle me-2"></i>Event Information</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <strong>Status:</strong>
+                        <span class="badge bg-{{ event.status|lower }} ms-2">
+                            {% if event.status == 'SCHEDULED' %}Scheduled
+                            {% elif event.status == 'ONGOING' %}Ongoing
+                            {% elif event.status == 'COMPLETED' %}Completed
+                            {% elif event.status == 'CANCELLED' %}Cancelled
+                            {% elif event.status == 'POSTPONED' %}Postponed
+                            {% endif %}
+                        </span>
+                    </div>
+                    
+                    {% if event.estimated_cost > 0 %}
+                    <div class="mb-3">
+                        <strong>Estimated Cost:</strong> ₹{{ event.estimated_cost|floatformat:0 }}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mb-0">
+                        <strong>Created:</strong> {{ event.created_at|date:"d M Y" }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <a href="{% url 'campaigns:events_list' %}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Events List
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

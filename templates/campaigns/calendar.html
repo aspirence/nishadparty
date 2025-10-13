@@ -1,9 +1,57 @@
-{% extends 'base.html' %}
+{% extends 'dashboard_base.html' %}
 
 {% block title %}Events Calendar - Nishad Party{% endblock %}
 
 {% block extra_css %}
 <style>
+/* Calendar Card */
+.calendar-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+/* Navigation Card */
+.nav-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-card h4 {
+    margin: 0;
+    font-weight: 700;
+    color: var(--dark-gray);
+}
+
+.nav-btn {
+    padding: 0.5rem 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background: white;
+    color: var(--dark-gray);
+    font-weight: 600;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-btn:hover {
+    border-color: var(--primary-red);
+    color: var(--primary-red);
+    background: rgba(213, 0, 0, 0.05);
+}
+
+/* Calendar Table */
 .calendar-table {
     width: 100%;
     margin-bottom: 0;
@@ -13,21 +61,26 @@
     width: 14.28%;
     height: 120px;
     vertical-align: top;
-    padding: 8px;
-    border: 1px solid #dee2e6;
+    padding: 0.75rem;
+    border: 1px solid #e0e0e0;
     position: relative;
 }
 
 .calendar-table th {
     height: auto;
     text-align: center;
-    background-color: #f8f9fa;
-    font-weight: 600;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    font-weight: 700;
+    color: var(--dark-gray);
+    padding: 1rem;
+    font-size: 0.875rem;
 }
 
 .calendar-date {
-    font-weight: 600;
-    color: #495057;
+    font-weight: 700;
+    color: var(--dark-gray);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
 }
 
 .calendar-date.other-month {
@@ -35,29 +88,36 @@
 }
 
 .calendar-date.today {
-    background-color: #007bff;
+    background: linear-gradient(135deg, var(--primary-red), var(--primary-red-dark));
     color: white;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
 }
 
 .event-item {
-    background-color: #e3f2fd;
+    background: #e3f2fd;
     border-left: 3px solid #2196f3;
-    margin: 2px 0;
-    padding: 2px 4px;
+    margin: 3px 0;
+    padding: 4px 6px;
     font-size: 0.75rem;
-    border-radius: 2px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s;
 }
 
 .event-item:hover {
-    background-color: #bbdefb;
+    background: #bbdefb;
+    transform: translateX(2px);
+}
+
+.event-item a {
+    color: #1976d2;
+    text-decoration: none;
+    font-weight: 600;
 }
 
 .event-item.event-rally {
@@ -65,9 +125,17 @@
     background-color: #ffebee;
 }
 
+.event-item.event-rally a {
+    color: #c62828;
+}
+
 .event-item.event-meeting {
     border-left-color: #4caf50;
-    background-color: #e8f5e8;
+    background-color: #e8f5e9;
+}
+
+.event-item.event-meeting a {
+    color: #2e7d32;
 }
 
 .event-item.event-seminar {
@@ -75,65 +143,169 @@
     background-color: #fff3e0;
 }
 
+.event-item.event-seminar a {
+    color: #e65100;
+}
+
+/* Sidebar Cards */
+.sidebar-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 1.5rem;
+}
+
+.sidebar-card-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 2px solid #f0f0f0;
+    font-weight: 700;
+    color: var(--dark-gray);
+    font-size: 0.875rem;
+}
+
+.sidebar-card-header i {
+    color: var(--primary-red);
+}
+
+.sidebar-card-body {
+    padding: 1.25rem;
+}
+
+.upcoming-event-item {
+    padding: 0.875rem;
+    margin-bottom: 0.75rem;
+    border-radius: 8px;
+    background: #f8f9fa;
+    border-left: 3px solid var(--primary-red);
+    transition: all 0.2s;
+}
+
+.upcoming-event-item:hover {
+    background: #e9ecef;
+    transform: translateX(4px);
+}
+
+.upcoming-event-item:last-child {
+    margin-bottom: 0;
+}
+
+.upcoming-event-title {
+    font-weight: 700;
+    color: var(--dark-gray);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.upcoming-event-title a {
+    color: var(--dark-gray);
+    text-decoration: none;
+}
+
+.upcoming-event-title a:hover {
+    color: var(--primary-red);
+}
+
+.upcoming-event-meta {
+    font-size: 0.75rem;
+    color: var(--medium-gray);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.upcoming-event-meta i {
+    color: var(--primary-red);
+    margin-right: 0.375rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.813rem;
+}
+
+.legend-item:last-child {
+    margin-bottom: 0;
+}
+
+.legend-color {
+    width: 24px;
+    height: 16px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
 @media (max-width: 768px) {
+    .nav-card {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .nav-card h4 {
+        font-size: 1.25rem;
+    }
+
     .calendar-table th, .calendar-table td {
         height: 80px;
-        font-size: 0.8rem;
-        padding: 4px;
+        font-size: 0.75rem;
+        padding: 0.5rem;
     }
-    
+
     .event-item {
         font-size: 0.65rem;
-        padding: 1px 2px;
+        padding: 2px 4px;
+        margin: 2px 0;
+    }
+
+    .calendar-date {
+        font-size: 0.75rem;
+    }
+
+    .calendar-date.today {
+        width: 28px;
+        height: 28px;
     }
 }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2><i class="bi bi-calendar me-2"></i>Events Calendar</h2>
-                <div class="btn-group">
-                    <a href="{% url 'campaigns:events_list' %}" class="btn btn-outline-primary">
-                        <i class="bi bi-list me-1"></i>View List
-                    </a>
-                    <a href="{% url 'campaigns:calendar' %}" class="btn btn-primary">
-                        <i class="bi bi-calendar me-1"></i>View Calendar
-                    </a>
-                </div>
-            </div>
+<div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-header-title">
+            <i class="bi bi-calendar3"></i>
+            <h1>Events Calendar</h1>
+        </div>
+        <div class="btn-group">
+            <a href="{% url 'campaigns:events_list' %}" class="btn btn-outline-primary">
+                <i class="bi bi-list me-1"></i>View List
+            </a>
+            <a href="{% url 'campaigns:calendar' %}" class="btn btn-primary">
+                <i class="bi bi-calendar me-1"></i>View Calendar
+            </a>
         </div>
     </div>
 
     <!-- Calendar Navigation -->
-    <div class="row mb-3">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <a href="?year={{ prev_year }}&month={{ prev_month }}" class="btn btn-outline-secondary">
-                            <i class="bi bi-chevron-left"></i> Previous
-                        </a>
-                        
-                        <h4 class="mb-0">{{ month_name }} {{ year }}</h4>
-                        
-                        <a href="?year={{ next_year }}&month={{ next_month }}" class="btn btn-outline-secondary">
-                            Next <i class="bi bi-chevron-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="nav-card">
+        <a href="?year={{ prev_year }}&month={{ prev_month }}" class="nav-btn">
+            <i class="bi bi-chevron-left"></i> Previous
+        </a>
+
+        <h4>{{ month_name }} {{ year }}</h4>
+
+        <a href="?year={{ next_year }}&month={{ next_month }}" class="nav-btn">
+            Next <i class="bi bi-chevron-right"></i>
+        </a>
     </div>
 
     <div class="row">
         <div class="col-lg-9">
             <!-- Calendar -->
-            <div class="card">
-                <div class="card-body p-0">
+            <div class="calendar-card">
                     <table class="calendar-table table">
                         <thead>
                             <tr>
@@ -176,67 +348,64 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                </div>
             </div>
         </div>
 
         <div class="col-lg-3">
             <!-- Upcoming Events -->
-            <div class="card">
-                <div class="card-header">
-                    <h6 class="mb-0"><i class="bi bi-clock me-2"></i>Upcoming Events</h6>
+            <div class="sidebar-card">
+                <div class="sidebar-card-header">
+                    <i class="bi bi-clock me-2"></i>Upcoming Events
                 </div>
-                <div class="card-body">
+                <div class="sidebar-card-body">
                     {% if upcoming_events %}
                         {% for event in upcoming_events %}
-                        <div class="mb-3 pb-3 border-bottom">
-                            <h6 class="mb-1">
-                                <a href="{% url 'campaigns:event_detail' event.slug %}" class="text-decoration-none">
+                        <div class="upcoming-event-item">
+                            <div class="upcoming-event-title">
+                                <a href="{% url 'campaigns:event_detail' event.slug %}">
                                     {{ event.title }}
                                 </a>
-                            </h6>
-                            <small class="text-muted">
-                                <i class="bi bi-calendar me-1"></i>{{ event.date_time|date:"d M, H:i" }}<br>
-                                <i class="bi bi-geo-alt me-1"></i>{{ event.venue }}
-                            </small>
+                            </div>
+                            <div class="upcoming-event-meta">
+                                <span><i class="bi bi-calendar3"></i>{{ event.date_time|date:"d M, H:i" }}</span>
+                                <span><i class="bi bi-geo-alt"></i>{{ event.venue }}</span>
+                            </div>
                             {% if event.registration_required and event.is_registration_open %}
-                                <div class="mt-2">
-                                    <a href="{% url 'campaigns:event_detail' event.slug %}" class="btn btn-sm btn-outline-primary">
-                                        Register
+                                <div style="margin-top: 0.75rem;">
+                                    <a href="{% url 'campaigns:event_detail' event.slug %}" class="btn btn-sm btn-primary" style="font-size: 0.75rem;">
+                                        <i class="bi bi-check-circle me-1"></i>Register
                                     </a>
                                 </div>
                             {% endif %}
                         </div>
                         {% endfor %}
                     {% else %}
-                        <p class="text-muted mb-0">No upcoming events</p>
+                        <p style="text-align: center; color: var(--medium-gray); margin: 0;">No upcoming events</p>
                     {% endif %}
                 </div>
             </div>
 
             <!-- Legend -->
-            <div class="card mt-3">
-                <div class="card-header">
-                    <h6 class="mb-0"><i class="bi bi-info-circle me-2"></i>Event Types</h6>
+            <div class="sidebar-card">
+                <div class="sidebar-card-header">
+                    <i class="bi bi-info-circle me-2"></i>Event Types
                 </div>
-                <div class="card-body">
-                    <div class="small">
-                        <div class="mb-2">
-                            <span class="event-item event-rally d-inline-block me-2" style="width: 20px; height: 15px;"></span>
-                            Rally
-                        </div>
-                        <div class="mb-2">
-                            <span class="event-item event-meeting d-inline-block me-2" style="width: 20px; height: 15px;"></span>
-                            Meeting
-                        </div>
-                        <div class="mb-2">
-                            <span class="event-item event-seminar d-inline-block me-2" style="width: 20px; height: 15px;"></span>
-                            Seminar
-                        </div>
-                        <div class="mb-0">
-                            <span class="event-item d-inline-block me-2" style="width: 20px; height: 15px;"></span>
-                            Other
-                        </div>
+                <div class="sidebar-card-body">
+                    <div class="legend-item">
+                        <div class="legend-color event-item event-rally"></div>
+                        <span>Rally</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color event-item event-meeting"></div>
+                        <span>Meeting</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color event-item event-seminar"></div>
+                        <span>Seminar</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color event-item"></div>
+                        <span>Other</span>
                     </div>
                 </div>
             </div>

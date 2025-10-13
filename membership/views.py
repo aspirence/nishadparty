@@ -238,3 +238,22 @@ def membership_card(request):
         }
 
     return render(request, 'membership/card.html', context)
+
+@login_required
+def dashboard_membership_content(request):
+    """Return membership dashboard content for AJAX loading"""
+    # Get user's membership
+    user_membership = Membership.objects.filter(user=request.user, is_active=True).first()
+
+    # Get all membership applications
+    all_memberships = Membership.objects.filter(user=request.user).order_by('-created_at')[:5]
+
+    # Get available tiers
+    membership_tiers = MembershipTier.objects.filter(is_active=True)
+
+    context = {
+        'user_membership': user_membership,
+        'all_memberships': all_memberships,
+        'membership_tiers': membership_tiers,
+    }
+    return render(request, 'membership/dashboard_content.html', context)

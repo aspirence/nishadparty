@@ -1,0 +1,494 @@
+{% extends 'base.html' %}
+
+{% block title %}Membership Card - Nishad Party{% endblock %}
+
+{% block extra_css %}
+<style>
+.card-container {
+    perspective: 1000px;
+    max-width: 400px;
+    margin: 2rem auto;
+}
+
+.membership-card {
+    background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 50%, #8B0000 100%);
+    color: var(--secondary-white);
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(213, 0, 0, 0.3);
+    width: 100%;
+    aspect-ratio: 1.6/1;
+    transform: rotateY(0deg);
+    transition: all 0.6s ease;
+    cursor: pointer;
+}
+
+.membership-card:hover {
+    transform: rotateY(-5deg) rotateX(2deg);
+    box-shadow: 0 25px 50px rgba(213, 0, 0, 0.4);
+}
+
+.membership-card::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -20%;
+    width: 120%;
+    height: 120%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="none" stroke="rgba(255,215,0,0.1)" stroke-width="3"/><circle cx="30" cy="70" r="15" fill="none" stroke="rgba(255,215,0,0.08)" stroke-width="2"/><circle cx="75" cy="25" r="20" fill="none" stroke="rgba(255,215,0,0.06)" stroke-width="4"/></svg>') no-repeat;
+    opacity: 0.4;
+    animation: cardFloat 8s ease-in-out infinite;
+}
+
+@keyframes cardFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(2deg); }
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.card-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.card-logo i {
+    font-size: 2rem;
+    color: var(--accent-gold);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.card-tier {
+    background: rgba(255, 215, 0, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.card-body {
+    position: relative;
+    z-index: 2;
+}
+
+.member-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.member-details {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+}
+
+.detail-label {
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+.detail-value {
+    font-weight: 600;
+    text-align: right;
+}
+
+.card-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    background: rgba(255, 215, 0, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.validity-info {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.validity-date {
+    font-weight: 600;
+    color: var(--accent-gold);
+}
+
+.card-status {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    padding: 0.4rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.card-actions {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.action-btn {
+    padding: 0.875rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-download {
+    background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dark));
+    color: var(--dark-gray);
+    border: none;
+}
+
+.btn-download:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    color: var(--dark-gray);
+}
+
+.btn-print {
+    background: var(--secondary-white);
+    color: var(--primary-red);
+    border: 2px solid var(--primary-red);
+}
+
+.btn-print:hover {
+    background: var(--primary-red);
+    color: var(--secondary-white);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.card-back {
+    background: linear-gradient(135deg, var(--dark-gray) 0%, #2C2C2C 100%);
+    color: var(--secondary-white);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-top: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.benefits-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--accent-gold);
+}
+
+.benefits-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.benefits-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.benefits-list li:last-child {
+    border-bottom: none;
+}
+
+.benefits-list .check-icon {
+    color: var(--accent-gold);
+    font-size: 1rem;
+}
+
+@media print {
+    .btn, .breadcrumb, nav, footer, .card-actions {
+        display: none !important;
+    }
+
+    .membership-card {
+        box-shadow: none;
+        border: 2px solid var(--primary-red);
+    }
+
+    .card-back {
+        box-shadow: none;
+        border: 1px solid #ddd;
+        margin-top: 1rem;
+        page-break-before: always;
+    }
+}
+
+@media (max-width: 768px) {
+    .card-container {
+        max-width: 100%;
+        margin: 1rem auto;
+    }
+
+    .membership-card {
+        padding: 1.5rem;
+    }
+
+    .member-name {
+        font-size: 1.25rem;
+    }
+
+    .card-logo {
+        font-size: 1.25rem;
+    }
+
+    .action-btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <!-- Page Title -->
+            <div class="text-center mb-4">
+                <h1 class="display-6 fw-bold">Digital Membership Card</h1>
+                <p class="text-muted">Official Nishad Party Membership</p>
+            </div>
+
+            {% if has_membership %}
+            <!-- Digital Membership Card -->
+            <div class="card-container">
+                <div class="membership-card">
+                    <div class="card-header">
+                        <div class="card-logo">
+                            <i class="bi bi-ship"></i>
+                            Nishad Party
+                        </div>
+                        <div class="card-tier">{{ membership.tier.name }}</div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="member-name">{{ membership.user.get_full_name|default:"Member Name" }}</div>
+
+                        <div class="member-details">
+                            <div class="detail-row">
+                                <span class="detail-label">Member ID</span>
+                                <span class="detail-value card-number">{{ membership.membership_id }}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Phone</span>
+                                <span class="detail-value">{{ membership.user.phone_number }}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Constituency</span>
+                                <span class="detail-value">{{ membership.user.constituency|default:"Not specified" }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="validity-info">
+                            Valid until<br>
+                            <span class="validity-date">{{ membership.end_date|date:"d M Y" }}</span>
+                        </div>
+                        <div class="card-status">
+                            <i class="bi bi-check-circle-fill"></i>
+                            Active
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Back (Benefits) -->
+            <div class="card-back">
+                <div class="benefits-title">
+                    <i class="bi bi-star-fill me-2"></i>
+                    Membership Benefits
+                </div>
+                <ul class="benefits-list">
+                    {% for benefit in membership.tier.benefits %}
+                        <li>
+                            <i class="bi bi-check-circle-fill check-icon"></i>
+                            {{ benefit }}
+                        </li>
+                    {% empty %}
+                        <li><i class="bi bi-check-circle-fill check-icon"></i>Full party membership privileges</li>
+                        <li><i class="bi bi-check-circle-fill check-icon"></i>Voting rights in party decisions</li>
+                        <li><i class="bi bi-check-circle-fill check-icon"></i>Access to community services</li>
+                        <li><i class="bi bi-check-circle-fill check-icon"></i>Participation in party activities</li>
+                        <li><i class="bi bi-check-circle-fill check-icon"></i>Digital membership card</li>
+                        <li><i class="bi bi-check-circle-fill check-icon"></i>Newsletter and updates</li>
+                        <li><i class="bi bi-check-circle-fill check-icon"></i>Priority support access</li>
+                    {% endfor %}
+                </ul>
+
+                <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(255, 215, 0, 0.2); text-center; font-size: 0.9rem; opacity: 0.8;">
+                    <strong>Nishad Party</strong> - Nirbal Indian Shoshit Hamara Aam Dal<br>
+                    For Fishermen and Sailor Community<br>
+                    <small>This is an official digital membership card. Keep it safe.</small>
+                </div>
+            </div>
+
+            <!-- Additional Member Information -->
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6><i class="bi bi-person-circle me-2"></i>Member Information</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-2">
+                                <div class="col-sm-6">
+                                    <strong>Full Name:</strong><br>
+                                    {{ membership.user.get_full_name|default:"Not provided" }}
+                                </div>
+                                <div class="col-sm-6">
+                                    <strong>Phone:</strong><br>
+                                    {{ membership.user.phone_number }}
+                                </div>
+                                <div class="col-sm-6">
+                                    <strong>District:</strong><br>
+                                    {{ membership.user.district|default:"Not specified" }}
+                                </div>
+                                <div class="col-sm-6">
+                                    <strong>State:</strong><br>
+                                    {{ membership.user.state|default:"Not specified" }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6><i class="bi bi-calendar-check me-2"></i>Membership Details</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-2">
+                                <div class="col-sm-6">
+                                    <strong>Plan:</strong><br>
+                                    {{ membership.tier.name }}
+                                </div>
+                                <div class="col-sm-6">
+                                    <strong>Duration:</strong><br>
+                                    {{ membership.tier.duration_months }} months
+                                </div>
+                                <div class="col-sm-6">
+                                    <strong>Start Date:</strong><br>
+                                    {{ membership.start_date|date:"d M Y" }}
+                                </div>
+                                <div class="col-sm-6">
+                                    <strong>Expiry Date:</strong><br>
+                                    {{ membership.end_date|date:"d M Y" }}
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <strong>Status:</strong>
+                                <span class="badge bg-success ms-2">
+                                    <i class="bi bi-check-circle me-1"></i>Active & Verified
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="card-actions">
+                <a href="javascript:window.print()" class="action-btn btn-print">
+                    <i class="bi bi-printer"></i>
+                    Print Card
+                </a>
+                <a href="{% url 'membership:home' %}" class="action-btn btn-download">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Membership
+                </a>
+            </div>
+
+            {% else %}
+            <!-- No Membership Message -->
+            <div class="text-center py-5">
+                <div class="card p-5" style="max-width: 600px; margin: 0 auto; border-radius: 20px; box-shadow: var(--shadow-lg);">
+                    <div style="font-size: 5rem; color: var(--primary-red); margin-bottom: 1.5rem;">
+                        <i class="bi bi-card-heading"></i>
+                    </div>
+                    <h2 class="mb-3" style="color: var(--dark-gray);">No Active Membership</h2>
+
+                    {% if pending_membership %}
+                        {% if pending_membership.verification_status == 'PENDING' %}
+                            <p class="text-muted mb-4">Your membership application is currently under review. You'll be able to access your digital membership card once it's approved.</p>
+                            <div class="alert alert-warning" style="border-radius: 12px;">
+                                <i class="bi bi-clock-history me-2"></i>
+                                <strong>Status:</strong> Pending Verification
+                            </div>
+                        {% elif pending_membership.verification_status == 'REJECTED' %}
+                            <p class="text-muted mb-4">Your previous membership application was not approved. Please contact support for more information.</p>
+                            <div class="alert alert-danger" style="border-radius: 12px;">
+                                <i class="bi bi-x-circle me-2"></i>
+                                <strong>Status:</strong> Not Approved
+                            </div>
+                        {% endif %}
+                        <a href="{% url 'membership:home' %}" class="btn btn-primary btn-lg mt-3" style="border-radius: 12px; padding: 1rem 2rem;">
+                            <i class="bi bi-arrow-left me-2"></i>Back to Membership
+                        </a>
+                    {% else %}
+                        <p class="text-muted mb-4">You don't have an active membership yet. Join Nishad Party today to access your digital membership card and exclusive benefits.</p>
+                        <div class="d-flex gap-3 justify-content-center flex-wrap mt-4">
+                            <a href="{% url 'membership:home' %}" class="btn btn-primary btn-lg" style="border-radius: 12px; padding: 1rem 2rem;">
+                                <i class="bi bi-person-plus me-2"></i>Join Now
+                            </a>
+                            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-lg" style="border-radius: 12px; padding: 1rem 2rem;">
+                                <i class="bi bi-arrow-left me-2"></i>Go to Dashboard
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

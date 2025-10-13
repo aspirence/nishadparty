@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Event - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-trash me-2"></i>Delete Event
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <h6><i class="bi bi-exclamation-triangle me-2"></i>Warning</h6>
+                        <p class="mb-0">You are about to permanently delete the following event. This action cannot be undone.</p>
+                    </div>
+                    
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                {% if event.image %}
+                                    <img src="{{ event.image.url }}" alt="{{ event.title }}" 
+                                         class="rounded me-3" style="width: 80px; height: 80px; object-fit: cover;">
+                                {% else %}
+                                    <div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" 
+                                         style="width: 80px; height: 80px;">
+                                        <i class="bi bi-calendar-event text-muted fs-2"></i>
+                                    </div>
+                                {% endif %}
+                                <div>
+                                    <h6 class="mb-1">{{ event.title }}</h6>
+                                    <p class="mb-1"><strong>Type:</strong> {{ event.get_event_type_display }}</p>
+                                    <p class="mb-1"><strong>Date:</strong> {{ event.date_time|date:"d M Y, H:i" }}</p>
+                                    <p class="mb-0"><strong>Venue:</strong> {{ event.venue }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h6>Event Details:</h6>
+                        <div class="row small">
+                            <div class="col-sm-6">
+                                <strong>Status:</strong> 
+                                {% if event.status == 'SCHEDULED' %}
+                                    <span class="badge bg-primary">Scheduled</span>
+                                {% elif event.status == 'ONGOING' %}
+                                    <span class="badge bg-warning">Ongoing</span>
+                                {% elif event.status == 'COMPLETED' %}
+                                    <span class="badge bg-success">Completed</span>
+                                {% elif event.status == 'CANCELLED' %}
+                                    <span class="badge bg-danger">Cancelled</span>
+                                {% elif event.status == 'POSTPONED' %}
+                                    <span class="badge bg-secondary">Postponed</span>
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-6">
+                                <strong>Registration:</strong> 
+                                {% if event.registration_required %}
+                                    Required
+                                {% else %}
+                                    Not Required
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-6 mt-2">
+                                <strong>Public:</strong> 
+                                {% if event.is_public %}
+                                    Yes
+                                {% else %}
+                                    No
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-6 mt-2">
+                                <strong>Registered People:</strong> {{ event.attendees.count }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if event.attendees.count > 0 %}
+                    <div class="alert alert-danger">
+                        <h6><i class="bi bi-people me-2"></i>Important</h6>
+                        <p class="mb-0">
+                            <strong>{{ event.attendees.count }} people are registered</strong> for this event. 
+                            Deleting the event will also remove their registrations.
+                        </p>
+                    </div>
+                    {% endif %}
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="alert alert-danger">
+                            <h6><i class="bi bi-exclamation-triangle me-2"></i>Confirm</h6>
+                            <p class="mb-0">
+                                Do you really want to permanently delete the event "<strong>{{ event.title }}</strong>"?
+                            </p>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'campaigns:admin_events_dashboard' %}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash me-1"></i>Delete Event
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

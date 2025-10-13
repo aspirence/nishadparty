@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}Assign Asset - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-box-arrow-right me-2"></i>Assign Asset
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="asset_id" class="form-label">Select Asset <span class="text-danger">*</span></label>
+                                <select class="form-select" name="asset_id" id="asset_id" required>
+                                    <option value="">Select Asset...</option>
+                                    {% for asset in available_assets %}
+                                    <option value="{{ asset.id }}" data-condition="{{ asset.condition }}" data-location="{{ asset.current_location }}"
+                                            {% if selected_asset and selected_asset.id == asset.id %}selected{% endif %}>
+                                        {{ asset.name }} ({{ asset.asset_code }}) - {{ asset.get_condition_display }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                <div class="form-text">Only available assets are shown.</div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="user_id" class="form-label">Select User <span class="text-danger">*</span></label>
+                                <select class="form-select" name="user_id" id="user_id" required>
+                                    <option value="">Select User...</option>
+                                    {% for user in active_users %}
+                                    <option value="{{ user.id }}">
+                                        {{ user.get_full_name|default:user.phone_number }} 
+                                        ({{ user.get_user_type_display }})
+                                        {% if user.constituency %} - {{ user.constituency }}{% endif %}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="purpose" class="form-label">Assignment Purpose <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="purpose" id="purpose" required 
+                                       placeholder="e.g: Election campaign, Event coverage, etc">
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="expected_return_date" class="form-label">Expected Return Date <span class="text-danger">*</span></label>
+                                <input type="datetime-local" class="form-control" name="expected_return_date" id="expected_return_date" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="admin_notes" class="form-label">Administrative Notes</label>
+                            <textarea class="form-control" name="admin_notes" id="admin_notes" rows="3" 
+                                      placeholder="Any special instructions or notes..."></textarea>
+                        </div>
+                        
+                        <!-- Asset Details (will be populated via JavaScript) -->
+                        <div id="asset_details" class="mb-3" style="display: none;">
+                            <div class="alert alert-info">
+                                <h6><i class="bi bi-info-circle me-2"></i>Asset Information</h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <strong>Current Condition:</strong> <span id="asset_condition"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Current Location:</strong> <span id="asset_location"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'assets:dashboard' %}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Go Back
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check me-1"></i>Assign Asset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const assetSelect = document.getElementById('asset_id');
+    const assetDetails = document.getElementById('asset_details');
+    const assetCondition = document.getElementById('asset_condition');
+    const assetLocation = document.getElementById('asset_location');
+    const expectedReturnInput = document.getElementById('expected_return_date');
+    
+    // Set minimum date to tomorrow
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    expectedReturnInput.min = tomorrow.toISOString().slice(0, 16);
+    
+    // Set default return date to 7 days from now
+    const weekFromNow = new Date();
+    weekFromNow.setDate(weekFromNow.getDate() + 7);
+    expectedReturnInput.value = weekFromNow.toISOString().slice(0, 16);
+    
+    assetSelect.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        if (selectedOption.value) {
+            const condition = selectedOption.dataset.condition;
+            const location = selectedOption.dataset.location;
+            
+            assetCondition.textContent = condition || 'Unknown';
+            assetLocation.textContent = location || 'Unknown';
+            
+            assetDetails.style.display = 'block';
+        } else {
+            assetDetails.style.display = 'none';
+        }
+    });
+});
+</script>
+{% endblock %}

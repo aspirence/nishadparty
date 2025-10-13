@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+
+{% block title %}My Donations - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="bi bi-heart me-2"></i>My Donations</h2>
+                <a href="{% url 'donations:donate' %}" class="btn btn-success">
+                    <i class="bi bi-plus me-1"></i>Make New Donation
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="row mb-4">
+        <div class="col-md-6 col-lg-3">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <h3>₹{{ total_donated|floatformat:0 }}</h3>
+                    <p class="mb-0">Total Donations</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <h3>{{ donations.count }}</h3>
+                    <p class="mb-0">Total Donations Made</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card bg-info text-white">
+                <div class="card-body text-center">
+                    <h3>{{ donations|length }}</h3>
+                    <p class="mb-0">Successful Donations</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body text-center">
+                    <h3>{% now "Y" %}</h3>
+                    <p class="mb-0">This Year</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donations List -->
+    {% if donations %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h6><i class="bi bi-list me-2"></i>Donation Details</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Receipt Number</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Payment Method</th>
+                                    <th>Purpose</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for donation in donations %}
+                                <tr>
+                                    <td>
+                                        <strong>{{ donation.receipt_number }}</strong>
+                                        {% if donation.anonymous %}
+                                            <br><small class="badge bg-secondary">Anonymous</small>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ donation.created_at|date:"d M Y" }}<br>
+                                        <small class="text-muted">{{ donation.created_at|date:"h:i A" }}</small>
+                                    </td>
+                                    <td>
+                                        <strong class="text-success">₹{{ donation.amount|floatformat:2 }}</strong>
+                                        {% if donation.requires_pan_verification %}
+                                            <br><small class="text-info">
+                                                <i class="bi bi-info-circle"></i> PAN Required
+                                            </small>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if donation.payment_method == 'ONLINE' %}
+                                            <i class="bi bi-credit-card text-primary"></i> Online
+                                        {% elif donation.payment_method == 'CASH' %}
+                                            <i class="bi bi-cash text-success"></i> Cash
+                                        {% elif donation.payment_method == 'CHEQUE' %}
+                                            <i class="bi bi-bank text-info"></i> Cheque
+                                        {% elif donation.payment_method == 'UPI' %}
+                                            <i class="bi bi-phone text-warning"></i> UPI
+                                        {% elif donation.payment_method == 'BANK_TRANSFER' %}
+                                            <i class="bi bi-bank2 text-secondary"></i> Bank Transfer
+                                        {% else %}
+                                            {{ donation.get_payment_method_display }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ donation.purpose|default:"General Donation"|truncatechars:30 }}
+                                        {% if donation.constituency %}
+                                            <br><small class="text-muted">{{ donation.constituency }}</small>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if donation.status == 'SUCCESS' %}
+                                            <span class="badge bg-success">Successful</span>
+                                        {% elif donation.status == 'PENDING' %}
+                                            <span class="badge bg-warning">Pending</span>
+                                        {% elif donation.status == 'FAILED' %}
+                                            <span class="badge bg-danger">Failed</span>
+                                        {% elif donation.status == 'CANCELLED' %}
+                                            <span class="badge bg-secondary">Cancelled</span>
+                                        {% elif donation.status == 'REFUNDED' %}
+                                            <span class="badge bg-info">Refunded</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical btn-group-sm">
+                                            {% if donation.status == 'SUCCESS' %}
+                                                <a href="{% url 'donations:receipt' donation.id %}" 
+                                                   class="btn btn-outline-primary btn-sm" target="_blank">
+                                                    <i class="bi bi-receipt"></i> Receipt
+                                                </a>
+                                            {% elif donation.status == 'PENDING' and donation.payment_method != 'ONLINE' %}
+                                                <a href="{% url 'donations:payment_instructions' donation.id %}" 
+                                                   class="btn btn-outline-warning btn-sm">
+                                                    <i class="bi bi-info-circle"></i> Instructions
+                                                </a>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tax Information -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="alert alert-info">
+                <h6><i class="bi bi-calculator me-2"></i>Tax Exemption Information</h6>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Total Donations This Year:</strong> ₹{{ total_donated|floatformat:0 }}</p>
+                        <p><strong>Tax Exemption Eligible:</strong> ₹{{ total_donated|floatformat:0 }} (Under Section 13A)</p>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="mb-0">
+                            <li>Donations to political parties are eligible for income tax exemption</li>
+                            <li>Attach donation receipts to IT return</li>
+                            <li>Contact tax advisor for more information</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    <!-- No Donations Message -->
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center py-5">
+                <i class="bi bi-heart fs-1 text-muted d-block mb-3"></i>
+                <h5>No donations made yet</h5>
+                <p class="text-muted mb-4">Make a donation to contribute to the development of Nishad Party.</p>
+                <a href="{% url 'donations:donate' %}" class="btn btn-success">
+                    <i class="bi bi-heart-fill me-1"></i>Make First Donation
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Quick Actions -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h6><i class="bi bi-lightning me-2"></i>Quick Actions</h6>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <a href="{% url 'donations:donate' %}" class="btn btn-sm btn-success">
+                            <i class="bi bi-plus me-1"></i>Make New Donation
+                        </a>
+                        <a href="{% url 'donations:home' %}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-house me-1"></i>Donations Home Page
+                        </a>
+                        <button onclick="window.print()" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-printer me-1"></i>Print
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+@media print {
+    .btn, .breadcrumb, nav, footer, .no-print { 
+        display: none !important; 
+    }
+    .card { 
+        border: 1px solid #000 !important; 
+    }
+}
+</style>
+{% endblock %}

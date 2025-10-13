@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+
+{% block title %}Asset Management - Nishad Party{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="bi bi-box-seam me-2"></i>Asset Management</h2>
+                <div class="btn-group" role="group">
+                    <a href="{% url 'assets:add' %}" class="btn btn-success">
+                        <i class="bi bi-plus me-1"></i>Add New Asset
+                    </a>
+                    <a href="{% url 'assets:assign' %}" class="btn btn-primary">
+                        <i class="bi bi-arrow-right-circle me-1"></i>Assign Asset
+                    </a>
+                    <a href="{% url 'assets:list' %}" class="btn btn-outline-primary">
+                        <i class="bi bi-list me-1"></i>View All Assets
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <i class="bi bi-box fs-1 mb-2"></i>
+                    <h3>{{ total_assets }}</h3>
+                    <p class="mb-0">Total Assets</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <i class="bi bi-check-circle fs-1 mb-2"></i>
+                    <h3>{{ available_assets }}</h3>
+                    <p class="mb-0">Available</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body text-center">
+                    <i class="bi bi-arrow-right-circle fs-1 mb-2"></i>
+                    <h3>{{ in_use_assets }}</h3>
+                    <p class="mb-0">In Use</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body text-center">
+                    <i class="bi bi-gear fs-1 mb-2"></i>
+                    <h3>{{ maintenance_assets }}</h3>
+                    <p class="mb-0">Under Maintenance</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Assignments Alert -->
+    {% if pending_assignments %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-warning">
+                <h5><i class="bi bi-exclamation-triangle me-2"></i>Pending Approvals</h5>
+                <p class="mb-3">The following asset assignments are still pending user approval:</p>
+                
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Assets</th>
+                                <th>Assigned User</th>
+                                <th>Assignment Date</th>
+                                <th>Expected Return</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for assignment in pending_assignments %}
+                            <tr>
+                                <td>{{ assignment.asset.name }} ({{ assignment.asset.asset_code }})</td>
+                                <td>{{ assignment.checked_out_by.get_full_name|default:assignment.checked_out_by.phone_number }}</td>
+                                <td>{{ assignment.assignment_date|date:"d M Y" }}</td>
+                                <td>{{ assignment.expected_return_date|date:"d M Y" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Overdue Assignments Alert -->
+    {% if overdue_assignments %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-danger">
+                <h5><i class="bi bi-exclamation-circle me-2"></i>Overdue Returns</h5>
+                <p class="mb-3">The following assets have passed their return date:</p>
+                
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Assets</th>
+                                <th>User</th>
+                                <th>Expected Return</th>
+                                <th>Days Overdue</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for assignment in overdue_assignments %}
+                            <tr>
+                                <td>{{ assignment.asset.name }} ({{ assignment.asset.asset_code }})</td>
+                                <td>{{ assignment.checked_out_by.get_full_name|default:assignment.checked_out_by.phone_number }}</td>
+                                <td>{{ assignment.expected_return_date|date:"d M Y" }}</td>
+                                <td class="text-danger"><strong>{{ assignment.days_assigned }} days</strong></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Recent Assignments -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Recent Assignments</h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_assignments %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Assets</th>
+                                    <th>User</th>
+                                    <th>Status</th>
+                                    <th>Assignment Date</th>
+                                    <th>Expected Return</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for assignment in recent_assignments %}
+                                <tr>
+                                    <td>
+                                        <strong>{{ assignment.asset.name }}</strong><br>
+                                        <small class="text-muted">{{ assignment.asset.asset_code }}</small>
+                                    </td>
+                                    <td>{{ assignment.checked_out_by.get_full_name|default:assignment.checked_out_by.phone_number }}</td>
+                                    <td>
+                                        {% if assignment.status == 'PENDING' %}
+                                            <span class="badge bg-warning">Pending</span>
+                                        {% elif assignment.status == 'ACCEPTED' %}
+                                            <span class="badge bg-primary">Accepted</span>
+                                        {% elif assignment.status == 'IN_USE' %}
+                                            <span class="badge bg-success">In Use</span>
+                                        {% elif assignment.status == 'RETURNED' %}
+                                            <span class="badge bg-secondary">Returned</span>
+                                        {% elif assignment.status == 'REJECTED' %}
+                                            <span class="badge bg-danger">Rejected</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ assignment.assignment_date|date:"d M Y" }}</td>
+                                    <td class="{% if assignment.is_overdue %}text-danger{% endif %}">
+                                        {{ assignment.expected_return_date|date:"d M Y" }}
+                                        {% if assignment.is_overdue %}<i class="bi bi-exclamation-triangle"></i>{% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'assets:history' assignment.asset.id %}" class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-eye me-1"></i>History
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center text-muted py-4">
+                        <i class="bi bi-inbox fs-1 mb-2 d-block"></i>
+                        <p>No asset assignments have been made yet.</p>
+                        <a href="{% url 'assets:assign' %}" class="btn btn-primary">
+                            <i class="bi bi-plus-circle me-1"></i>Assign First Asset
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

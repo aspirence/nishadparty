@@ -1,0 +1,289 @@
+{% load i18n %}
+
+<div class="membership-dashboard-content">
+    <!-- Membership Status Card -->
+    {% if user_membership %}
+    <div class="membership-status-card mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h3 class="mb-2">
+                    <i class="bi bi-award-fill text-warning"></i>
+                    {% trans "Active Membership" %}
+                </h3>
+                {% if user_membership.tier %}
+                <h4 class="text-primary mb-2">{{ user_membership.tier.name }}</h4>
+                {% endif %}
+                <div class="membership-details">
+                    <p class="mb-1">
+                        <strong>{% trans "Member ID:" %}</strong> {{ user_membership.membership_id }}
+                    </p>
+                    <p class="mb-1">
+                        <strong>{% trans "Status:" %}</strong>
+                        {% if user_membership.verification_status == 'APPROVED' %}
+                            <span class="badge bg-success">{% trans "Approved" %}</span>
+                        {% elif user_membership.verification_status == 'PENDING' %}
+                            <span class="badge bg-warning">{% trans "Pending" %}</span>
+                        {% else %}
+                            <span class="badge bg-danger">{% trans "Rejected" %}</span>
+                        {% endif %}
+                    </p>
+                    <p class="mb-1">
+                        <strong>{% trans "Valid Until:" %}</strong> {{ user_membership.end_date|date:"d M Y" }}
+                        {% if user_membership.is_expired %}
+                            <span class="badge bg-danger ms-2">{% trans "Expired" %}</span>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4 text-end">
+                <a href="{% url 'membership:card' %}" class="btn btn-primary">
+                    <i class="bi bi-credit-card"></i> {% trans "View Card" %}
+                </a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info mb-4">
+        <i class="bi bi-info-circle"></i>
+        {% trans "You don't have an active membership yet. Apply for membership to enjoy exclusive benefits!" %}
+    </div>
+    {% endif %}
+
+    <!-- Quick Actions -->
+    <div class="section-header mb-3">
+        <h3 class="section-title">
+            <i class="bi bi-lightning-charge"></i>
+            {% trans "Quick Actions" %}
+        </h3>
+    </div>
+    <div class="quick-actions-grid mb-4">
+        <a href="{% url 'membership:home' %}" class="quick-action-btn">
+            <i class="bi bi-house-door"></i>
+            <span>{% trans "Membership Home" %}</span>
+        </a>
+        <a href="{% url 'membership:apply_with_payment' %}" class="quick-action-btn">
+            <i class="bi bi-person-plus"></i>
+            <span>{% trans "Apply Now" %}</span>
+        </a>
+        <a href="{% url 'membership:card' %}" class="quick-action-btn">
+            <i class="bi bi-credit-card"></i>
+            <span>{% trans "My Card" %}</span>
+        </a>
+    </div>
+
+
+
+    <!-- Recent Applications -->
+    {% if all_memberships %}
+    <div class="section-header mb-3">
+        <h3 class="section-title">
+            <i class="bi bi-clock-history"></i>
+            {% trans "Recent Applications" %}
+        </h3>
+    </div>
+    <div class="applications-table-wrapper">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{% trans "Member ID" %}</th>
+                    <th>{% trans "Tier" %}</th>
+                    <th>{% trans "Start Date" %}</th>
+                    <th>{% trans "End Date" %}</th>
+                    <th>{% trans "Status" %}</th>
+                    <th>{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for membership in all_memberships %}
+                <tr>
+                    <td><strong>{{ membership.membership_id }}</strong></td>
+                    <td>{{ membership.tier.name|default:"Custom" }}</td>
+                    <td>{{ membership.start_date|date:"d M Y" }}</td>
+                    <td>{{ membership.end_date|date:"d M Y" }}</td>
+                    <td>
+                        {% if membership.verification_status == 'APPROVED' %}
+                            <span class="badge bg-success">{% trans "Approved" %}</span>
+                        {% elif membership.verification_status == 'PENDING' %}
+                            <span class="badge bg-warning">{% trans "Pending" %}</span>
+                        {% elif membership.verification_status == 'REJECTED' %}
+                            <span class="badge bg-danger">{% trans "Rejected" %}</span>
+                        {% endif %}
+                        {% if membership.is_expired %}
+                            <span class="badge bg-secondary ms-1">{% trans "Expired" %}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if membership.verification_status == 'APPROVED' %}
+                        <a href="{% url 'membership:card' %}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-credit-card"></i> {% trans "View Card" %}
+                        </a>
+                        {% elif membership.verification_status == 'PENDING' %}
+                        <a href="{% url 'membership:application_status' membership.id %}" class="btn btn-sm btn-outline-warning">
+                            <i class="bi bi-eye"></i> {% trans "View Status" %}
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.membership-dashboard-content {
+    padding: 1rem;
+}
+
+.membership-status-card {
+    background: linear-gradient(135deg, var(--primary-red), var(--primary-red-dark));
+    color: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.membership-status-card h3,
+.membership-status-card h4,
+.membership-status-card p {
+    color: white;
+}
+
+.membership-details strong {
+    opacity: 0.9;
+}
+
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.quick-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.25rem;
+    background: var(--secondary-white);
+    border: 2px solid var(--light-gray);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--dark-gray);
+    transition: all var(--transition-fast);
+    text-align: center;
+}
+
+.quick-action-btn:hover {
+    border-color: var(--primary-red);
+    background: linear-gradient(135deg, rgba(213, 0, 0, 0.05), rgba(213, 0, 0, 0.1));
+    transform: translateY(-2px);
+    color: var(--primary-red);
+    text-decoration: none;
+}
+
+.quick-action-btn i {
+    font-size: 1.5rem;
+}
+
+.tier-card {
+    background: var(--secondary-white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-normal);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.tier-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.tier-header {
+    background: linear-gradient(135deg, var(--primary-red), var(--primary-red-dark));
+    color: white;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.tier-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+}
+
+.tier-price {
+    font-size: 1.25rem;
+    font-weight: 600;
+    opacity: 0.95;
+}
+
+.tier-body {
+    padding: 1.5rem;
+    flex: 1;
+}
+
+.tier-description {
+    color: var(--medium-gray);
+    margin-bottom: 1rem;
+}
+
+.tier-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tier-benefits li {
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tier-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--light-gray);
+}
+
+.applications-table-wrapper {
+    background: var(--secondary-white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.table {
+    margin: 0;
+}
+
+.table thead {
+    background: linear-gradient(135deg, var(--primary-red), var(--primary-red-dark));
+    color: white;
+}
+
+.table thead th {
+    border: none;
+    padding: 1rem;
+    font-weight: 600;
+}
+
+.table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark-gray);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+</style>

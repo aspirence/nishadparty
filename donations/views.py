@@ -136,13 +136,46 @@ def my_donations(request):
     donations = Donation.objects.filter(
         donor=request.user
     ).order_by('-created_at')
-    
+
     total_donated = donations.filter(status='SUCCESS').aggregate(
         total=models.Sum('amount')
     )['total'] or Decimal('0.00')
-    
+
     context = {
         'donations': donations,
         'total_donated': total_donated,
     }
     return render(request, 'donations/my_donations.html', context)
+
+@login_required
+def dashboard_donations_content(request):
+    """Return donations dashboard content for AJAX loading"""
+    # Get user's donations
+    user_donations = Donation.objects.filter(
+        donor=request.user
+    ).order_by('-created_at')[:5]
+
+    # Calculate statistics
+    total_donated = Donation.objects.filter(
+        donor=request.user,
+        status='SUCCESS'
+    ).aggregate(total=models.Sum('amount'))['total'] or Decimal('0.00')
+
+    donation_count = Donation.objects.filter(
+        donor=request.user,
+        status='SUCCESS'
+    ).count()
+
+    # Get active campaigns
+    active_campaigns = DonationCampaign.objects.filter(
+        is_active=True,
+        end_date__gte=timezone.now().date()
+    )[:3]
+
+    context = {
+        'user_donations': user_donations,
+        'total_donated': total_donated,
+        'donation_count': donation_count,
+        'active_campaigns': active_campaigns,
+    }
+    return render(request, 'donations/dashboard_content.html', context)

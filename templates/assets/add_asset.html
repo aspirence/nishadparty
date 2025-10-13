@@ -1,22 +1,106 @@
-{% extends 'base.html' %}
+{% extends 'dashboard_base.html' %}
 
 {% block title %}Add New Asset - Nishad Party{% endblock %}
 
+{% block extra_css %}
+<style>
+    .asset-form-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .form-section {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .form-section-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--dark-gray);
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #f0f0f0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .form-section-title i {
+        color: var(--primary-red);
+        font-size: 1.125rem;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: var(--dark-gray);
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control,
+    .form-select {
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 0.75rem;
+        font-size: 0.875rem;
+        transition: all 0.2s;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: var(--primary-red);
+        box-shadow: 0 0 0 3px rgba(213, 0, 0, 0.1);
+    }
+
+    .alert {
+        border: none;
+        border-radius: 8px;
+        padding: 1rem;
+    }
+
+    .btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+
+    @media (max-width: 768px) {
+        .form-section {
+            padding: 1.25rem;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-8 mx-auto">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">
-                        <i class="bi bi-plus-circle me-2"></i>Add New Asset
-                    </h5>
+<div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-header-title">
+            <i class="bi bi-plus-circle"></i>
+            <h1>Add New Asset</h1>
+        </div>
+        <a href="{% url 'assets:dashboard' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <div class="asset-form-container">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Basic Information -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="bi bi-info-circle"></i>
+                    Basic Information
                 </div>
-                <div class="card-body">
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        
-                        <div class="row">
+                <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">Asset Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="name" id="name" required 
@@ -40,13 +124,20 @@
                             </div>
                         </div>
                         
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" name="description" id="description" rows="3"
-                                      placeholder="Detailed information about the asset..."></textarea>
-                        </div>
-                        
-                        <div class="row">
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" name="description" id="description" rows="3"
+                              placeholder="Detailed information about the asset..."></textarea>
+                </div>
+            </div>
+
+            <!-- Product Details -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="bi bi-box-seam"></i>
+                    Product Details
+                </div>
+                <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label for="manufacturer" class="form-label">Manufacturer</label>
                                 <input type="text" class="form-control" name="manufacturer" id="manufacturer" 
@@ -59,81 +150,95 @@
                                        placeholder="Model Number">
                             </div>
                             
-                            <div class="col-md-4 mb-3">
-                                <label for="serial_number" class="form-label">Serial Number</label>
-                                <input type="text" class="form-control" name="serial_number" id="serial_number" 
-                                       placeholder="Serial Number">
-                            </div>
-                        </div>
-                        
-                        <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="serial_number" class="form-label">Serial Number</label>
+                        <input type="text" class="form-control" name="serial_number" id="serial_number"
+                               placeholder="Serial Number">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Purchase Information -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="bi bi-receipt"></i>
+                    Purchase Information
+                </div>
+                <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="purchase_date" class="form-label">Purchase Date</label>
                                 <input type="date" class="form-control" name="purchase_date" id="purchase_date">
                             </div>
                             
-                            <div class="col-md-6 mb-3">
-                                <label for="purchase_cost" class="form-label">Purchase Cost (₹)</label>
-                                <input type="number" class="form-control" name="purchase_cost" id="purchase_cost" 
-                                       min="0" step="0.01" placeholder="0.00">
-                            </div>
-                        </div>
-                        
-                        <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="purchase_cost" class="form-label">Purchase Cost (₹)</label>
+                        <input type="number" class="form-control" name="purchase_cost" id="purchase_cost"
+                               min="0" step="0.01" placeholder="0.00">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location & Condition -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="bi bi-geo-alt"></i>
+                    Location & Condition
+                </div>
+                <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="current_location" class="form-label">Current Location</label>
                                 <input type="text" class="form-control" name="current_location" id="current_location" 
                                        placeholder="e.g: Party Office, Warehouse, etc">
                             </div>
                             
-                            <div class="col-md-6 mb-3">
-                                <label for="constituency" class="form-label">Constituency</label>
-                                <input type="text" class="form-control" name="constituency" id="constituency" 
-                                       placeholder="Constituency Name">
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="condition" class="form-label">Current Condition</label>
-                                <select class="form-select" name="condition" id="condition">
-                                    <option value="EXCELLENT">Excellent</option>
-                                    <option value="GOOD" selected>Good</option>
-                                    <option value="FAIR">Fair</option>
-                                    <option value="POOR">Poor</option>
-                                    <option value="DAMAGED">Damaged</option>
-                                </select>
-                            </div>
-                            
-                            <div class="col-md-6 mb-3">
-                                <label for="image" class="form-label">Asset Image</label>
-                                <input type="file" class="form-control" name="image" id="image" 
-                                       accept="image/*">
-                                <div class="form-text">Only JPG, PNG, GIF files are accepted.</div>
-                            </div>
-                        </div>
-                        
-                        <div class="alert alert-info">
-                            <h6><i class="bi bi-info-circle me-2"></i>Note</h6>
-                            <ul class="mb-0 small">
-                                <li>Asset code will be generated automatically.</li>
-                                <li>QR code will also be created automatically.</li>
-                                <li>Asset will be automatically set to "Available" status.</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between">
-                            <a href="{% url 'assets:dashboard' %}" class="btn btn-secondary">
-                                <i class="bi bi-arrow-left me-1"></i>Cancel
-                            </a>
-                            <button type="submit" class="btn btn-success">
-                                <i class="bi bi-plus me-1"></i>Add Asset
-                            </button>
-                        </div>
-                    </form>
+                    <div class="col-md-6 mb-3">
+                        <label for="constituency" class="form-label">Constituency</label>
+                        <input type="text" class="form-control" name="constituency" id="constituency"
+                               placeholder="Constituency Name">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="condition" class="form-label">Current Condition</label>
+                        <select class="form-select" name="condition" id="condition">
+                            <option value="EXCELLENT">Excellent</option>
+                            <option value="GOOD" selected>Good</option>
+                            <option value="FAIR">Fair</option>
+                            <option value="POOR">Poor</option>
+                            <option value="DAMAGED">Damaged</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="image" class="form-label">Asset Image</label>
+                        <input type="file" class="form-control" name="image" id="image"
+                               accept="image/*">
+                        <div class="form-text">Only JPG, PNG, GIF files are accepted.</div>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <!-- Information Alert -->
+            <div class="alert alert-info">
+                <h6 style="font-weight: 600; margin-bottom: 0.75rem;"><i class="bi bi-info-circle me-2"></i>Note</h6>
+                <ul class="mb-0" style="font-size: 0.875rem;">
+                    <li>Asset code will be generated automatically.</li>
+                    <li>QR code will also be created automatically.</li>
+                    <li>Asset will be automatically set to "Available" status.</li>
+                </ul>
+            </div>
+
+            <!-- Submit Buttons -->
+            <div class="d-flex gap-2 justify-content-end">
+                <a href="{% url 'assets:dashboard' %}" class="btn btn-secondary">
+                    <i class="bi bi-x-circle me-1"></i>Cancel
+                </a>
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-plus-circle me-1"></i>Add Asset
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}

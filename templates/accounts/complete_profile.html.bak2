@@ -1,0 +1,498 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %}Complete Profile - Nishad Party{% endblock %}
+
+{% block extra_css %}
+<style>
+.profile-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.form-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.form-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-section-title i {
+    color: var(--primary-red);
+    font-size: 1.125rem;
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--dark-gray);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-control,
+.form-select {
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px rgba(213, 0, 0, 0.1);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.alert {
+    border: none;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+@media (max-width: 768px) {
+    .form-section {
+        padding: 1.25rem;
+    }
+
+    .row > div {
+        margin-bottom: 1rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-header-title">
+            <i class="bi bi-person-plus"></i>
+            <h1>Complete Your Profile</h1>
+        </div>
+        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Dashboard
+        </a>
+    </div>
+
+    <div class="profile-container">
+        <div class="alert alert-info" style="margin-bottom: 1.5rem;">
+            <i class="bi bi-info-circle me-2"></i>
+            Please fill in your information so we can provide you with better service and connect you with the right opportunities.
+        </div>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Personal Information -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="bi bi-person"></i>
+                    Personal Information
+                </div>
+
+                <div class="row">
+                                <div class="modern-form-group">
+                                    <label for="first_name" class="modern-form-label">
+                                        First Name <span class="required-asterisk">*</span>
+                                    </label>
+                                    <input type="text" class="modern-form-input" id="first_name" name="first_name" 
+                                           value="{{ user.first_name }}" placeholder="Enter your first name" required>
+                                </div>
+                                <div class="modern-form-group">
+                                    <label for="last_name" class="modern-form-label">
+                                        Last Name <span class="required-asterisk">*</span>
+                                    </label>
+                                    <input type="text" class="modern-form-input" id="last_name" name="last_name" 
+                                           value="{{ user.last_name }}" placeholder="Enter your last name" required>
+                                </div>
+                            </div>
+                            
+                            <div class="modern-form-group">
+                                <label for="email" class="modern-form-label">
+                                    <i class="bi bi-envelope"></i>
+                                    Email Address
+                                </label>
+                                <input type="email" class="modern-form-input" id="email" name="email" 
+                                       value="{{ user.email }}" placeholder="Enter your email address">
+                            </div>
+                            
+                            <div class="modern-form-group">
+                                <label for="date_of_birth" class="modern-form-label">
+                                    <i class="bi bi-calendar3"></i>
+                                    Date of Birth
+                                </label>
+                                <input type="date" class="modern-form-input" id="date_of_birth" name="date_of_birth" 
+                                       value="{{ profile.date_of_birth|date:'Y-m-d' }}">
+                            </div>
+                            
+                            <div class="modern-form-group">
+                                <label for="preferred_language" class="modern-form-label">
+                                    <i class="bi bi-translate"></i>
+                                    Preferred Language
+                                </label>
+                                <select class="modern-form-select" id="preferred_language" name="preferred_language">
+                                    <option value="hi" {% if user.preferred_language == 'hi' %}selected{% endif %}>Hindi</option>
+                                    <option value="en" {% if user.preferred_language == 'en' %}selected{% endif %}>English</option>
+                                    <option value="bho" {% if user.preferred_language == 'bho' %}selected{% endif %}>Bhojpuri</option>
+                                    <option value="awa" {% if user.preferred_language == 'awa' %}selected{% endif %}>Awadhi</option>
+                                    <option value="mag" {% if user.preferred_language == 'mag' %}selected{% endif %}>Magahi</option>
+                                    <option value="mai" {% if user.preferred_language == 'mai' %}selected{% endif %}>Maithili</option>
+                                    <option value="bn" {% if user.preferred_language == 'bn' %}selected{% endif %}>Bengali</option>
+                                    <option value="as" {% if user.preferred_language == 'as' %}selected{% endif %}>Assamese</option>
+                                    <option value="or" {% if user.preferred_language == 'or' %}selected{% endif %}>Odia</option>
+                                    <option value="gu" {% if user.preferred_language == 'gu' %}selected{% endif %}>Gujarati</option>
+                                </select>
+                            </div>
+                            
+                            <div class="modern-form-group">
+                                <label for="avatar" class="modern-form-label">
+                                    <i class="bi bi-camera"></i>
+                                    Profile Photo
+                                </label>
+                                {% if profile.avatar %}
+                                <div style="margin-bottom: 1rem;">
+                                    <img src="{{ profile.avatar.url }}" alt="Current profile photo"
+                                         style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid var(--accent-gold); box-shadow: var(--shadow-md);">
+                                    <p class="form-help-text mt-2"><i class="bi bi-check-circle text-success me-1"></i>Current profile photo</p>
+                                </div>
+                                {% endif %}
+                                <div class="file-input-container">
+                                    <input type="file" class="modern-file-input" id="avatar" name="avatar" accept="image/*">
+                                    <label for="avatar" class="file-input-label">
+                                        <i class="bi bi-cloud-upload file-input-icon"></i>
+                                        <span>{% if profile.avatar %}Change profile photo{% else %}Choose profile photo or drag & drop{% endif %}</span>
+                                    </label>
+                                </div>
+                                <div class="form-help-text">JPG, PNG or GIF file (maximum 2MB)</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Location Information -->
+                        <div class="profile-section">
+                            <div class="section-header">
+                                <div class="section-icon">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                </div>
+                                <h3>Location Information</h3>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="modern-form-group">
+                                    <label for="state" class="modern-form-label">
+                                        <i class="bi bi-map"></i>
+                                        State
+                                    </label>
+                                    <input type="text" class="modern-form-input" id="state" name="state" 
+                                           value="{{ user.state }}" placeholder="e.g: Uttar Pradesh">
+                                </div>
+                                <div class="modern-form-group">
+                                    <label for="district" class="modern-form-label">
+                                        <i class="bi bi-building"></i>
+                                        District
+                                    </label>
+                                    <input type="text" class="modern-form-input" id="district" name="district" 
+                                           value="{{ user.district }}" placeholder="e.g: Allahabad">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="modern-form-group">
+                                    <label for="constituency" class="modern-form-label">
+                                        <i class="bi bi-bank"></i>
+                                        Assembly Constituency
+                                    </label>
+                                    <input type="text" class="modern-form-input" id="constituency" name="constituency" 
+                                           value="{{ user.constituency }}" placeholder="e.g: Koraon">
+                                </div>
+                                <div class="modern-form-group">
+                                    <label for="pincode" class="modern-form-label">
+                                        <i class="bi bi-mailbox"></i>
+                                        Pin Code
+                                    </label>
+                                    <input type="text" class="modern-form-input" id="pincode" name="pincode" 
+                                           value="{{ profile.pincode }}" maxlength="6" pattern="[0-9]{6}" placeholder="6-digit PIN">
+                                </div>
+                            </div>
+                            
+                            <div class="modern-form-group">
+                                <label for="address" class="modern-form-label">
+                                    <i class="bi bi-house"></i>
+                                    Complete Address
+                                </label>
+                                <textarea class="modern-form-textarea" id="address" name="address" rows="3" 
+                                          placeholder="Village/City, Post Office, Police Station">{{ profile.address }}</textarea>
+                            </div>
+                        </div>
+                        
+                        <!-- Community Information -->
+                        <div class="profile-section">
+                            <div class="section-header">
+                                <div class="section-icon">
+                                    <i class="bi bi-people-fill"></i>
+                                </div>
+                                <h3>Community Information</h3>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="modern-form-group">
+                                    <label for="community_type" class="modern-form-label">
+                                        <i class="bi bi-water"></i>
+                                        Community Type
+                                    </label>
+                                    <select class="modern-form-select" id="community_type" name="community_type">
+                                        <option value="">Choose your community</option>
+                                        <option value="FISHING" {% if profile.community_type == 'FISHING' %}selected{% endif %}>Fishing Community</option>
+                                        <option value="BOATING" {% if profile.community_type == 'BOATING' %}selected{% endif %}>Boating Community</option>
+                                        <option value="ALLIED" {% if profile.community_type == 'ALLIED' %}selected{% endif %}>Allied Fishing Services</option>
+                                        <option value="OTHER" {% if profile.community_type == 'OTHER' %}selected{% endif %}>Other</option>
+                                    </select>
+                                </div>
+                                <div class="modern-form-group">
+                                    <label for="occupation" class="modern-form-label">
+                                        <i class="bi bi-briefcase"></i>
+                                        Occupation
+                                    </label>
+                                    <input type="text" class="modern-form-input" id="occupation" name="occupation" 
+                                           value="{{ profile.occupation }}" placeholder="e.g: Fishing, Boat Repair">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="modern-form-group">
+                                    <label for="experience_years" class="modern-form-label">
+                                        <i class="bi bi-award"></i>
+                                        Experience (in years)
+                                    </label>
+                                    <input type="number" class="modern-form-input" id="experience_years" name="experience_years" 
+                                           value="{{ profile.experience_years }}" min="0" max="80" placeholder="Years of experience">
+                                </div>
+                                <div class="modern-form-group">
+                                    <label for="fishing_license_number" class="modern-form-label">
+                                        <i class="bi bi-card-text"></i>
+                                        Fishing License Number
+                                    </label>
+                                    <input type="text" class="modern-form-input" id="fishing_license_number" name="fishing_license_number" 
+                                           value="{{ user.fishing_license_number }}" placeholder="License number (if any)">
+                                </div>
+                            </div>
+                            
+                            <div class="modern-form-group">
+                                <label for="boat_registration" class="modern-form-label">
+                                    <i class="bi bi-life-preserver"></i>
+                                    Boat Registration Number
+                                </label>
+                                <input type="text" class="modern-form-input" id="boat_registration" name="boat_registration" 
+                                       value="{{ user.boat_registration }}" placeholder="Boat registration number (if any)">
+                            </div>
+                            
+                            <div class="modern-form-group">
+                                <label for="bio" class="modern-form-label">
+                                    <i class="bi bi-chat-square-text"></i>
+                                    About Yourself
+                                </label>
+                                <textarea class="modern-form-textarea" id="bio" name="bio" rows="4" 
+                                          placeholder="Tell us about yourself, your goals, and how you'd like to contribute to the community...">{{ profile.bio }}</textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-actions">
+                            <a href="{% url 'dashboard' %}" class="secondary-button">
+                                <i class="bi bi-arrow-left"></i>
+                                Complete Later
+                            </a>
+                            <button type="submit" class="primary-button">
+                                <i class="bi bi-check-circle-fill"></i>
+                                Save Profile
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // File upload preview and validation
+    const avatarInput = document.getElementById('avatar');
+    const fileLabel = document.querySelector('label[for="avatar"]');
+    const originalLabelText = fileLabel.innerHTML;
+    
+    if (avatarInput) {
+        avatarInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Validate file size (2MB max)
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('File size should be less than 2MB.');
+                    this.value = '';
+                    fileLabel.innerHTML = originalLabelText;
+                    return;
+                }
+                
+                // Validate file type
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                if (!validTypes.includes(file.type)) {
+                    alert('Please choose JPG, PNG or GIF file.');
+                    this.value = '';
+                    fileLabel.innerHTML = originalLabelText;
+                    return;
+                }
+                
+                // Update label with filename
+                fileLabel.innerHTML = `
+                    <i class="bi bi-check-circle file-input-icon"></i>
+                    <span>${file.name}</span>
+                `;
+                fileLabel.style.borderColor = '#28a745';
+                fileLabel.style.background = 'rgba(40, 167, 69, 0.1)';
+                fileLabel.style.color = '#28a745';
+            } else {
+                fileLabel.innerHTML = originalLabelText;
+                fileLabel.style.borderColor = '';
+                fileLabel.style.background = '';
+                fileLabel.style.color = '';
+            }
+        });
+    }
+    
+    // Auto-capitalize names
+    const nameInputs = document.querySelectorAll('#first_name, #last_name');
+    nameInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            // Capitalize first letter of each word
+            this.value = this.value.replace(/\b\w/g, l => l.toUpperCase());
+        });
+    });
+    
+    // Format pincode - only digits
+    const pincodeInput = document.getElementById('pincode');
+    if (pincodeInput) {
+        pincodeInput.addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '').slice(0, 6);
+        });
+    }
+    
+    // Format experience years - only numbers
+    const experienceInput = document.getElementById('experience_years');
+    if (experienceInput) {
+        experienceInput.addEventListener('input', function() {
+            const value = parseInt(this.value);
+            if (value < 0) this.value = 0;
+            if (value > 80) this.value = 80;
+        });
+    }
+    
+    // Form validation with visual feedback
+    const form = document.querySelector('form');
+    const submitButton = document.querySelector('.primary-button[type=\"submit\"]');
+    const originalSubmitText = submitButton.innerHTML;
+    
+    form.addEventListener('submit', function(e) {
+        const firstName = document.getElementById('first_name').value.trim();
+        const lastName = document.getElementById('last_name').value.trim();
+        
+        if (!firstName || !lastName) {
+            e.preventDefault();
+            
+            // Highlight empty required fields
+            if (!firstName) {
+                document.getElementById('first_name').style.borderColor = '#dc3545';
+                document.getElementById('first_name').focus();
+            }
+            if (!lastName) {
+                document.getElementById('last_name').style.borderColor = '#dc3545';
+            }
+            
+            alert('Please fill in your complete name.');
+            return false;
+        }
+        
+        // Show loading state
+        submitButton.disabled = true;
+        submitButton.innerHTML = `
+            <div style=\"width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-top: 2px solid white; border-radius: 50%; animation: spin 1s linear infinite; margin-right: 0.5rem;\"></div>
+            Saving Profile...
+        `;
+    });
+    
+    // Clear error styling when user starts typing
+    const requiredInputs = document.querySelectorAll('#first_name, #last_name');
+    requiredInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            this.style.borderColor = '';
+        });
+    });
+    
+    // Auto-save indicator (optional enhancement)
+    let saveTimeout;
+    const autoSaveInputs = document.querySelectorAll('.modern-form-input, .modern-form-select, .modern-form-textarea');
+    autoSaveInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            clearTimeout(saveTimeout);
+            
+            // Show "changes detected" indicator
+            const indicator = document.createElement('div');
+            indicator.className = 'text-muted small';
+            indicator.style.cssText = 'position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); color: white; padding: 10px 15px; border-radius: 8px; z-index: 1000;';
+            indicator.innerHTML = '<i class=\"bi bi-pencil me-2\"></i>Changes detected';
+            
+            // Remove existing indicators
+            document.querySelectorAll('[data-save-indicator]').forEach(el => el.remove());
+            indicator.setAttribute('data-save-indicator', 'true');
+            document.body.appendChild(indicator);
+            
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                if (indicator.parentNode) {
+                    indicator.remove();
+                }
+            }, 3000);
+        });
+    });
+});
+
+// Add CSS animation for spinner
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}

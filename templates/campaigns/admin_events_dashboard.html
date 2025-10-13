@@ -1,64 +1,278 @@
-{% extends 'base.html' %}
+{% extends 'dashboard_base.html' %}
 
 {% block title %}Events Management - Nishad Party{% endblock %}
 
+{% block extra_css %}
+<style>
+    .event-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: all 0.2s;
+        border-left: 4px solid transparent;
+    }
+
+    .event-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        transform: translateY(-2px);
+    }
+
+    .event-card.scheduled {
+        border-left-color: #0d6efd;
+    }
+
+    .event-card.ongoing {
+        border-left-color: #ffc107;
+    }
+
+    .event-card.completed {
+        border-left-color: #198754;
+    }
+
+    .event-card.cancelled {
+        border-left-color: #dc3545;
+    }
+
+    .event-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+        object-fit: cover;
+        margin-right: 1rem;
+        flex-shrink: 0;
+    }
+
+    .event-image-placeholder {
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        flex-shrink: 0;
+    }
+
+    .event-title {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: var(--dark-gray);
+        margin-bottom: 0.25rem;
+    }
+
+    .event-description {
+        font-size: 0.875rem;
+        color: var(--medium-gray);
+        margin-bottom: 0.75rem;
+    }
+
+    .event-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        font-size: 0.813rem;
+        color: var(--medium-gray);
+        margin-bottom: 0.75rem;
+    }
+
+    .event-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+    }
+
+    .event-meta-item i {
+        color: var(--primary-red);
+    }
+
+    .event-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+    }
+
+    .action-btn {
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-size: 0.813rem;
+        font-weight: 600;
+        border: 2px solid #e0e0e0;
+        background: white;
+        color: var(--dark-gray);
+        transition: all 0.2s;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+    }
+
+    .action-btn:hover {
+        border-color: var(--primary-red);
+        color: var(--primary-red);
+        background: rgba(213, 0, 0, 0.05);
+    }
+
+    .action-btn.view {
+        border-color: #0d6efd;
+        color: #0d6efd;
+    }
+
+    .action-btn.view:hover {
+        background: rgba(13, 110, 253, 0.1);
+        border-color: #0d6efd;
+    }
+
+    .action-btn.edit {
+        border-color: #ffc107;
+        color: #ffc107;
+    }
+
+    .action-btn.edit:hover {
+        background: rgba(255, 193, 7, 0.1);
+        border-color: #ffc107;
+    }
+
+    .action-btn.delete {
+        border-color: #dc3545;
+        color: #dc3545;
+    }
+
+    .action-btn.delete:hover {
+        background: rgba(220, 53, 69, 0.1);
+        border-color: #dc3545;
+    }
+
+    .stats-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: all 0.2s;
+    }
+
+    .stats-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    .stats-card i {
+        font-size: 2.5rem;
+        margin-bottom: 0.75rem;
+        display: block;
+    }
+
+    .stats-card h3 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+    }
+
+    .stats-card p {
+        font-size: 0.875rem;
+        color: var(--medium-gray);
+        margin: 0;
+    }
+
+    .stats-card.primary {
+        background: linear-gradient(135deg, #0d6efd, #0a58ca);
+        color: white;
+    }
+
+    .stats-card.info {
+        background: linear-gradient(135deg, #0dcaf0, #0aa2c0);
+        color: white;
+    }
+
+    .stats-card.warning {
+        background: linear-gradient(135deg, #ffc107, #cc9a06);
+        color: white;
+    }
+
+    .stats-card.success {
+        background: linear-gradient(135deg, #198754, #146c43);
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .event-card {
+            padding: 1rem;
+        }
+
+        .event-image,
+        .event-image-placeholder {
+            width: 60px;
+            height: 60px;
+        }
+
+        .event-title {
+            font-size: 1rem;
+        }
+
+        .event-meta {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .event-actions {
+            flex-wrap: wrap;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2><i class="bi bi-calendar-event me-2"></i>Events Management</h2>
-                <div class="btn-group" role="group">
-                    <a href="{% url 'campaigns:admin_add_event' %}" class="btn btn-success">
-                        <i class="bi bi-plus me-1"></i>Add New Event
-                    </a>
-                    <a href="{% url 'campaigns:events_list' %}" class="btn btn-outline-primary">
-                        <i class="bi bi-list me-1"></i>View All Events
-                    </a>
-                    <a href="{% url 'campaigns:calendar' %}" class="btn btn-outline-secondary">
-                        <i class="bi bi-calendar me-1"></i>View Calendar
-                    </a>
-                </div>
-            </div>
+<div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-header-title">
+            <i class="bi bi-calendar-event"></i>
+            <h1>Events Management</h1>
+        </div>
+        <div class="btn-group" role="group">
+            <a href="{% url 'campaigns:admin_add_event' %}" class="btn btn-success">
+                <i class="bi bi-plus me-1"></i>Add New Event
+            </a>
+            <a href="{% url 'campaigns:events_list' %}" class="btn btn-outline-primary">
+                <i class="bi bi-list me-1"></i>View All Events
+            </a>
+            <a href="{% url 'campaigns:calendar' %}" class="btn btn-outline-secondary">
+                <i class="bi bi-calendar me-1"></i>View Calendar
+            </a>
         </div>
     </div>
 
     <!-- Stats Cards -->
     <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card bg-primary text-white">
-                <div class="card-body text-center">
-                    <i class="bi bi-calendar-event fs-1 mb-2"></i>
-                    <h3>{{ total_events }}</h3>
-                    <p class="mb-0">Total Events</p>
-                </div>
+        <div class="col-md-3 mb-3">
+            <div class="stats-card primary">
+                <i class="bi bi-calendar-event"></i>
+                <h3>{{ total_events }}</h3>
+                <p>Total Events</p>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-info text-white">
-                <div class="card-body text-center">
-                    <i class="bi bi-calendar-plus fs-1 mb-2"></i>
-                    <h3>{{ upcoming_events }}</h3>
-                    <p class="mb-0">Upcoming Events</p>
-                </div>
+        <div class="col-md-3 mb-3">
+            <div class="stats-card info">
+                <i class="bi bi-calendar-plus"></i>
+                <h3>{{ upcoming_events }}</h3>
+                <p>Upcoming Events</p>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-warning text-white">
-                <div class="card-body text-center">
-                    <i class="bi bi-play-circle fs-1 mb-2"></i>
-                    <h3>{{ ongoing_events }}</h3>
-                    <p class="mb-0">Ongoing Events</p>
-                </div>
+        <div class="col-md-3 mb-3">
+            <div class="stats-card warning">
+                <i class="bi bi-play-circle"></i>
+                <h3>{{ ongoing_events }}</h3>
+                <p>Ongoing Events</p>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-success text-white">
-                <div class="card-body text-center">
-                    <i class="bi bi-check-circle fs-1 mb-2"></i>
-                    <h3>{{ completed_events }}</h3>
-                    <p class="mb-0">Completed Events</p>
-                </div>
+        <div class="col-md-3 mb-3">
+            <div class="stats-card success">
+                <i class="bi bi-check-circle"></i>
+                <h3>{{ completed_events }}</h3>
+                <p>Completed Events</p>
             </div>
         </div>
     </div>
@@ -109,93 +323,90 @@
     <!-- Recent Events -->
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Recent Events</h5>
-                </div>
-                <div class="card-body">
-                    {% if recent_events %}
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Events</th>
-                                    <th>Type</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                    <th>Location</th>
-                                    <th>Created Date</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for event in recent_events %}
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            {% if event.image %}
-                                                <img src="{{ event.image.url }}" alt="{{ event.title }}" 
-                                                     class="rounded me-2" style="width: 40px; height: 40px; object-fit: cover;">
-                                            {% else %}
-                                                <div class="bg-light rounded me-2 d-flex align-items-center justify-content-center" 
-                                                     style="width: 40px; height: 40px;">
-                                                    <i class="bi bi-calendar-event text-muted"></i>
-                                                </div>
-                                            {% endif %}
-                                            <div>
-                                                <strong>{{ event.title }}</strong><br>
-                                                <small class="text-muted">{{ event.description|truncatewords:5 }}</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-secondary">{{ event.get_event_type_display }}</span>
-                                    </td>
-                                    <td>
-                                        {% if event.status == 'SCHEDULED' %}
-                                            <span class="badge bg-primary">Scheduled</span>
-                                        {% elif event.status == 'ONGOING' %}
-                                            <span class="badge bg-warning">Ongoing</span>
-                                        {% elif event.status == 'COMPLETED' %}
-                                            <span class="badge bg-success">Completed</span>
-                                        {% elif event.status == 'CANCELLED' %}
-                                            <span class="badge bg-danger">Cancelled</span>
-                                        {% elif event.status == 'POSTPONED' %}
-                                            <span class="badge bg-secondary">Postponed</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ event.date_time|date:"d M Y, H:i" }}</td>
-                                    <td>{{ event.venue }}</td>
-                                    <td>{{ event.created_at|date:"d M Y" }}</td>
-                                    <td>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <a href="{% url 'campaigns:event_detail' event.slug %}" class="btn btn-outline-info" title="Details">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-                                            <a href="{% url 'campaigns:admin_edit_event' event.id %}" class="btn btn-outline-warning" title="Edit">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-                                            <a href="{% url 'campaigns:admin_delete_event' event.id %}" class="btn btn-outline-danger" title="Delete">
-                                                <i class="bi bi-trash"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+            <h5 style="font-weight: 700; color: var(--dark-gray); margin-bottom: 1.5rem;">
+                <i class="bi bi-clock-history me-2" style="color: var(--primary-red);"></i>Recent Events
+            </h5>
+
+            {% if recent_events %}
+                {% for event in recent_events %}
+                <div class="event-card {{ event.status|lower }}">
+                    <div class="d-flex">
+                        <!-- Event Image -->
+                        {% if event.image %}
+                            <img src="{{ event.image.url }}" alt="{{ event.title }}" class="event-image">
+                        {% else %}
+                            <div class="event-image-placeholder">
+                                <i class="bi bi-calendar-event text-muted" style="font-size: 2rem;"></i>
+                            </div>
+                        {% endif %}
+
+                        <!-- Event Details -->
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <div class="event-title">{{ event.title }}</div>
+                                    <span class="badge bg-secondary" style="font-size: 0.75rem;">{{ event.get_event_type_display }}</span>
+                                    {% if event.status == 'SCHEDULED' %}
+                                        <span class="badge bg-primary" style="font-size: 0.75rem;">Scheduled</span>
+                                    {% elif event.status == 'ONGOING' %}
+                                        <span class="badge bg-warning" style="font-size: 0.75rem;">Ongoing</span>
+                                    {% elif event.status == 'COMPLETED' %}
+                                        <span class="badge bg-success" style="font-size: 0.75rem;">Completed</span>
+                                    {% elif event.status == 'CANCELLED' %}
+                                        <span class="badge bg-danger" style="font-size: 0.75rem;">Cancelled</span>
+                                    {% elif event.status == 'POSTPONED' %}
+                                        <span class="badge bg-secondary" style="font-size: 0.75rem;">Postponed</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="event-description">{{ event.description|truncatewords:15 }}</div>
+
+                            <div class="event-meta">
+                                <div class="event-meta-item">
+                                    <i class="bi bi-calendar3"></i>
+                                    <span>{{ event.date_time|date:"d M Y, H:i" }}</span>
+                                </div>
+                                <div class="event-meta-item">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <span>{{ event.venue }}</span>
+                                </div>
+                                <div class="event-meta-item">
+                                    <i class="bi bi-clock"></i>
+                                    <span>Created {{ event.created_at|date:"d M Y" }}</span>
+                                </div>
+                                {% if event.registration_required %}
+                                <div class="event-meta-item">
+                                    <i class="bi bi-clipboard-check"></i>
+                                    <span>Registration Required</span>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="event-actions">
+                                <a href="{% url 'campaigns:event_detail' event.slug %}" class="action-btn view">
+                                    <i class="bi bi-eye"></i> View Details
+                                </a>
+                                <a href="{% url 'campaigns:admin_edit_event' event.id %}" class="action-btn edit">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </a>
+                                <a href="{% url 'campaigns:admin_delete_event' event.id %}" class="action-btn delete">
+                                    <i class="bi bi-trash"></i> Delete
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    {% else %}
-                    <div class="text-center text-muted py-4">
-                        <i class="bi bi-calendar-x fs-1 mb-2 d-block"></i>
-                        <p>No events have been created yet.</p>
-                        <a href="{% url 'campaigns:admin_add_event' %}" class="btn btn-success">
-                            <i class="bi bi-plus me-1"></i>Add First Event
-                        </a>
-                    </div>
-                    {% endif %}
                 </div>
-            </div>
+                {% endfor %}
+            {% else %}
+                <div style="background: white; border-radius: 12px; padding: 3rem; text-align: center; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);">
+                    <i class="bi bi-calendar-x" style="font-size: 4rem; color: #e0e0e0; display: block; margin-bottom: 1rem;"></i>
+                    <p style="color: var(--medium-gray); margin-bottom: 1.5rem;">No events have been created yet.</p>
+                    <a href="{% url 'campaigns:admin_add_event' %}" class="btn btn-success">
+                        <i class="bi bi-plus-circle me-1"></i>Add First Event
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
