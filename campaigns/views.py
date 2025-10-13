@@ -125,15 +125,22 @@ def event_detail(request, event_slug):
     
     # Get attendee count
     registered_count = event.attendees.count()
-    
+
+    # Calculate available seats
+    if event.max_attendees > 0:
+        available_seats = event.max_attendees - registered_count
+    else:
+        available_seats = None  # Unlimited
+
     context = {
         'event': event,
         'user_registered': user_registered,
         'user_attendance': user_attendance,
         'registered_count': registered_count,
+        'available_seats': available_seats,
         'can_register': (
-            request.user.is_authenticated and 
-            not user_registered and 
+            request.user.is_authenticated and
+            not user_registered and
             event.is_registration_open and
             (event.max_attendees == 0 or registered_count < event.max_attendees)
         ),

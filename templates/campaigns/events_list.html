@@ -3,179 +3,416 @@
 {% block title %}Events - Nishad Party{% endblock %}
 
 {% block content %}
-<div class="container">
+<style>
+    .filter-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: var(--dark-gray);
+        margin-bottom: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .form-control, .form-select {
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 0.625rem 0.875rem;
+        font-size: 0.938rem;
+        transition: all 0.2s;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--primary-red);
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.1);
+    }
+
+    .event-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .event-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .event-image {
+        height: 200px;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    .event-image-placeholder {
+        height: 200px;
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .event-card-body {
+        padding: 1.25rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .event-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 1rem;
+        gap: 0.5rem;
+    }
+
+    .event-badge {
+        background: var(--primary-red);
+        color: white;
+        padding: 0.375rem 0.75rem;
+        border-radius: 6px;
+        font-size: 0.813rem;
+        font-weight: 600;
+    }
+
+    .event-date {
+        font-size: 0.813rem;
+        color: #6c757d;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .event-title {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: var(--dark-gray);
+        margin-bottom: 0.75rem;
+        line-height: 1.4;
+    }
+
+    .event-description {
+        font-size: 0.875rem;
+        color: #6c757d;
+        line-height: 1.6;
+        flex: 1;
+        margin-bottom: 1rem;
+    }
+
+    .event-meta {
+        font-size: 0.813rem;
+        color: #6c757d;
+        line-height: 1.8;
+        margin-bottom: 1rem;
+    }
+
+    .event-meta i {
+        width: 16px;
+        color: var(--primary-red);
+    }
+
+    .event-footer {
+        padding: 1rem 1.25rem;
+        background: #f8f9fa;
+        border-top: 1px solid #e9ecef;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .event-footer-meta {
+        font-size: 0.813rem;
+        color: #6c757d;
+        font-weight: 600;
+    }
+
+    .btn {
+        padding: 0.625rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.938rem;
+        transition: all 0.2s;
+    }
+
+    .btn-primary {
+        background: var(--primary-red);
+        border: 2px solid var(--primary-red);
+    }
+
+    .btn-primary:hover {
+        background: var(--primary-red-dark);
+        border-color: var(--primary-red-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
+
+    .btn-outline-primary {
+        border: 2px solid var(--primary-red);
+        color: var(--primary-red);
+        background: white;
+    }
+
+    .btn-outline-primary:hover {
+        background: var(--primary-red);
+        border-color: var(--primary-red);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .btn-outline-secondary {
+        background: white;
+        border: 2px solid #e0e0e0;
+        color: var(--dark-gray);
+    }
+
+    .btn-outline-secondary:hover {
+        background: #f8f9fa;
+        border-color: #cbd5e0;
+    }
+
+    .quick-actions-card {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        border-radius: 12px;
+        padding: 1.25rem;
+        border-left: 4px solid var(--primary-red);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .quick-actions-title {
+        font-size: 0.938rem;
+        font-weight: 600;
+        color: var(--dark-gray);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 4rem 1rem;
+        color: #6c757d;
+    }
+
+    .empty-state i {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        opacity: 0.4;
+    }
+
+    .empty-state h5 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .view-toggle {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 1rem;
+        }
+
+        .view-toggle {
+            width: 100%;
+        }
+
+        .view-toggle .btn {
+            flex: 1;
+        }
+
+        .filter-card {
+            padding: 1.25rem;
+        }
+
+        .filter-card .d-flex {
+            flex-direction: column !important;
+            gap: 0.5rem;
+        }
+
+        .filter-card .btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container" style="padding-top: 2rem;">
     <!-- Page Header -->
     <div class="page-header">
-        <div class="page-header-title">
-            <i class="bi bi-calendar-event"></i>
-            <h1>Events</h1>
+        <div>
+            <h1 class="page-title">
+                <i class="bi bi-calendar-event me-2"></i>Events
+            </h1>
+            <p class="page-subtitle">Browse and register for upcoming events</p>
         </div>
-        <div class="btn-group">
+        <div class="view-toggle">
             <a href="{% url 'campaigns:events_list' %}" class="btn btn-primary">
-                <i class="bi bi-list me-1"></i>View List
+                <i class="bi bi-grid-3x3-gap me-1"></i>Grid View
             </a>
             <a href="{% url 'campaigns:calendar' %}" class="btn btn-outline-primary">
-                <i class="bi bi-calendar me-1"></i>View Calendar
+                <i class="bi bi-calendar3 me-1"></i>Calendar View
             </a>
         </div>
     </div>
 
     <!-- Filters -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <form method="get" class="row g-3">
-                        <div class="col-md-3">
-                            <label class="form-label">Search</label>
-                            <input type="text" name="search" class="form-control" 
-                                   value="{{ search_query|default:'' }}" placeholder="Event name...">
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Type</label>
-                            <select name="type" class="form-select">
-                                <option value="">All Types</option>
-                                {% for value, label in event_types %}
-                                    <option value="{{ value }}" {% if selected_type == value %}selected{% endif %}>
-                                        {% if value == 'RALLY' %}Rally
-                                        {% elif value == 'MEETING' %}Public Meeting
-                                        {% elif value == 'SEMINAR' %}Seminar
-                                        {% elif value == 'WORKSHOP' %}Workshop
-                                        {% elif value == 'CONFERENCE' %}Conference
-                                        {% elif value == 'DOOR_TO_DOOR' %}Door-to-Door Campaign
-                                        {% elif value == 'BOAT_CAMPAIGN' %}Boat Campaign
-                                        {% elif value == 'FISHING_DEMO' %}Fishing Demo
-                                        {% elif value == 'COMMUNITY_FEAST' %}Community Feast
-                                        {% else %}{{ label }}
-                                        {% endif %}
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Constituency</label>
-                            <select name="constituency" class="form-select">
-                                <option value="">All Areas</option>
-                                {% for constituency in constituencies %}
-                                    <option value="{{ constituency }}" {% if selected_constituency == constituency %}selected{% endif %}>
-                                        {{ constituency }}
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="col-md-3 d-flex align-items-end">
-                            <button type="submit" class="btn btn-primary me-2">
-                                <i class="bi bi-search me-1"></i>Search
-                            </button>
-                            <a href="{% url 'campaigns:events_list' %}" class="btn btn-outline-secondary">
-                                <i class="bi bi-x me-1"></i>Clear
-                            </a>
-                        </div>
-                    </form>
-                </div>
+    <div class="filter-card">
+        <form method="get" class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">
+                    <i class="bi bi-search me-1"></i>Search
+                </label>
+                <input type="text" name="search" class="form-control"
+                       value="{{ search_query|default:'' }}" placeholder="Event name...">
             </div>
-        </div>
+            <div class="col-md-3">
+                <label class="form-label">
+                    <i class="bi bi-tag me-1"></i>Type
+                </label>
+                <select name="type" class="form-select">
+                    <option value="">All Types</option>
+                    {% for value, label in event_types %}
+                        <option value="{{ value }}" {% if selected_type == value %}selected{% endif %}>
+                            {% if value == 'RALLY' %}Rally
+                            {% elif value == 'MEETING' %}Public Meeting
+                            {% elif value == 'SEMINAR' %}Seminar
+                            {% elif value == 'WORKSHOP' %}Workshop
+                            {% elif value == 'CONFERENCE' %}Conference
+                            {% elif value == 'DOOR_TO_DOOR' %}Door-to-Door Campaign
+                            {% elif value == 'BOAT_CAMPAIGN' %}Boat Campaign
+                            {% elif value == 'FISHING_DEMO' %}Fishing Demo
+                            {% elif value == 'COMMUNITY_FEAST' %}Community Feast
+                            {% else %}{{ label }}
+                            {% endif %}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">
+                    <i class="bi bi-geo-alt me-1"></i>Constituency
+                </label>
+                <select name="constituency" class="form-select">
+                    <option value="">All Areas</option>
+                    {% for constituency in constituencies %}
+                        <option value="{{ constituency }}" {% if selected_constituency == constituency %}selected{% endif %}>
+                            {{ constituency }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary me-2">
+                    <i class="bi bi-funnel me-1"></i>Filter
+                </button>
+                <a href="{% url 'campaigns:events_list' %}" class="btn btn-outline-secondary">
+                    <i class="bi bi-x-circle me-1"></i>Clear
+                </a>
+            </div>
+        </form>
     </div>
 
     <!-- Events List -->
-    <div class="row">
-        <div class="col-12">
-            {% if events %}
-                <div class="row g-4">
-                    {% for event in events %}
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card h-100">
-                            {% if event.image %}
-                                <img src="{{ event.image.url }}" class="card-img-top" style="height: 200px; object-fit: cover;">
-                            {% else %}
-                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                                    <i class="bi bi-calendar-event text-muted fs-1"></i>
-                                </div>
-                            {% endif %}
-                            
-                            <div class="card-body d-flex flex-column">
-                                <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <span class="badge bg-primary">
-                                        {% if event.event_type == 'RALLY' %}Rally
-                                        {% elif event.event_type == 'MEETING' %}Public Meeting
-                                        {% elif event.event_type == 'SEMINAR' %}Seminar
-                                        {% elif event.event_type == 'WORKSHOP' %}Workshop
-                                        {% elif event.event_type == 'CONFERENCE' %}Conference
-                                        {% elif event.event_type == 'DOOR_TO_DOOR' %}Door-to-Door Campaign
-                                        {% elif event.event_type == 'BOAT_CAMPAIGN' %}Boat Campaign
-                                        {% elif event.event_type == 'FISHING_DEMO' %}Fishing Demo
-                                        {% elif event.event_type == 'COMMUNITY_FEAST' %}Community Feast
-                                        {% else %}{{ event.get_event_type_display }}
-                                        {% endif %}
-                                    </span>
-                                    <small class="text-muted">{{ event.date_time|date:"d M" }}</small>
-                                </div>
-                                
-                                <h6 class="card-title">{{ event.title }}</h6>
-                                <p class="card-text flex-grow-1">{{ event.description|truncatewords:15 }}</p>
-                                
-                                <div class="mb-2">
-                                    <small class="text-muted">
-                                        <i class="bi bi-clock me-1"></i>{{ event.date_time|date:"d M Y, h:i A" }}<br>
-                                        <i class="bi bi-geo-alt me-1"></i>{{ event.venue }}
-                                        {% if event.campaign %}
-                                            <br><i class="bi bi-flag me-1"></i>{{ event.campaign.constituency }}
-                                        {% endif %}
-                                    </small>
-                                </div>
-                                
-                                <div class="d-grid">
-                                    <a href="{% url 'campaigns:event_detail' event.slug %}" class="btn btn-outline-primary">
-                                        <i class="bi bi-eye me-1"></i>View Details
-                                    </a>
-                                </div>
-                            </div>
-                            
-                            {% if event.registration_required %}
-                            <div class="card-footer">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <small class="text-muted">
-                                        <i class="bi bi-people me-1"></i>
-                                        {{ event.attendee_count }} registered
-                                        {% if event.max_attendees > 0 %} / {{ event.max_attendees }}{% endif %}
-                                    </small>
-                                    {% if event.is_registration_open %}
-                                        <span class="badge bg-success">Registration Open</span>
-                                    {% else %}
-                                        <span class="badge bg-secondary">Registration Closed</span>
-                                    {% endif %}
-                                </div>
-                            </div>
+    {% if events %}
+        <div class="row g-4 mb-4">
+            {% for event in events %}
+            <div class="col-md-6 col-lg-4">
+                <div class="event-card">
+                    {% if event.image %}
+                        <img src="{{ event.image.url }}" class="event-image" alt="{{ event.title }}">
+                    {% else %}
+                        <div class="event-image-placeholder">
+                            <i class="bi bi-calendar-event text-muted" style="font-size: 3rem; opacity: 0.3;"></i>
+                        </div>
+                    {% endif %}
+
+                    <div class="event-card-body">
+                        <div class="event-header">
+                            <span class="event-badge">
+                                {% if event.event_type == 'RALLY' %}Rally
+                                {% elif event.event_type == 'MEETING' %}Public Meeting
+                                {% elif event.event_type == 'SEMINAR' %}Seminar
+                                {% elif event.event_type == 'WORKSHOP' %}Workshop
+                                {% elif event.event_type == 'CONFERENCE' %}Conference
+                                {% elif event.event_type == 'DOOR_TO_DOOR' %}Door-to-Door
+                                {% elif event.event_type == 'BOAT_CAMPAIGN' %}Boat Campaign
+                                {% elif event.event_type == 'FISHING_DEMO' %}Fishing Demo
+                                {% elif event.event_type == 'COMMUNITY_FEAST' %}Community Feast
+                                {% else %}{{ event.get_event_type_display }}
+                                {% endif %}
+                            </span>
+                            <span class="event-date">{{ event.date_time|date:"d M Y" }}</span>
+                        </div>
+
+                        <h6 class="event-title">{{ event.title }}</h6>
+                        <p class="event-description">{{ event.description|truncatewords:15 }}</p>
+
+                        <div class="event-meta">
+                            <div><i class="bi bi-clock me-1"></i>{{ event.date_time|date:"h:i A" }}</div>
+                            <div><i class="bi bi-geo-alt me-1"></i>{{ event.venue|truncatewords:6 }}</div>
+                            {% if event.campaign %}
+                                <div><i class="bi bi-flag me-1"></i>{{ event.campaign.constituency }}</div>
                             {% endif %}
                         </div>
+
+                        <a href="{% url 'campaigns:event_detail' event.slug %}" class="btn btn-outline-primary w-100">
+                            <i class="bi bi-arrow-right-circle me-1"></i>View Details
+                        </a>
                     </div>
-                    {% endfor %}
+
+                    {% if event.registration_required %}
+                    <div class="event-footer">
+                        <span class="event-footer-meta">
+                            <i class="bi bi-people me-1"></i>
+                            {{ event.attendee_count }} registered
+                            {% if event.max_attendees > 0 %} / {{ event.max_attendees }}{% endif %}
+                        </span>
+                        {% if event.is_registration_open %}
+                            <span class="badge bg-success">Open</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Closed</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
                 </div>
-            {% else %}
-                <div class="text-center py-5">
-                    <i class="bi bi-calendar-x fs-1 text-muted d-block mb-3"></i>
-                    <h5>No Events Found</h5>
-                    <p class="text-muted">Currently no upcoming events are available.</p>
-                </div>
-            {% endif %}
+            </div>
+            {% endfor %}
         </div>
-    </div>
+    {% else %}
+        <div class="empty-state">
+            <i class="bi bi-calendar-x d-block"></i>
+            <h5>No Events Found</h5>
+            <p>Currently no upcoming events are available.</p>
+        </div>
+    {% endif %}
 
     <!-- Quick Actions -->
     {% if user.is_authenticated %}
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="card bg-light">
-                <div class="card-body">
-                    <h6><i class="bi bi-lightning me-2"></i>Quick Actions</h6>
-                    <div class="d-flex gap-2">
-                        <a href="{% url 'campaigns:my_events' %}" class="btn btn-sm btn-outline-primary">
-                            <i class="bi bi-person-check me-1"></i>My Registered Events
-                        </a>
-                    </div>
-                </div>
-            </div>
+    <div class="quick-actions-card">
+        <div class="quick-actions-title">
+            <i class="bi bi-lightning-fill"></i>
+            <span>Quick Actions</span>
         </div>
+        <a href="{% url 'campaigns:my_events' %}" class="btn btn-outline-primary">
+            <i class="bi bi-person-check me-1"></i>My Registered Events
+        </a>
     </div>
     {% endif %}
 </div>

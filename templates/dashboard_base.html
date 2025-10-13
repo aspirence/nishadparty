@@ -587,9 +587,9 @@
                     <div class="sidebar-section-title">{% trans "Quick Actions" %}</div>
 
                     <li class="sidebar-nav-item">
-                        <a href="{% url 'donations:donate' %}" class="sidebar-nav-link">
-                            <i class="bi bi-heart-fill"></i>
-                            <span>{% trans "Make Donation" %}</span>
+                        <a href="{% url 'donations:my_donations' %}" class="sidebar-nav-link">
+                            <i class="bi bi-receipt"></i>
+                            <span>{% trans "My Donations" %}</span>
                         </a>
                     </li>
 
@@ -607,6 +607,13 @@
                         </a>
                     </li>
 
+                    <li class="sidebar-nav-item">
+                        <a href="{% url 'gatepass:dashboard' %}" class="sidebar-nav-link">
+                            <i class="bi bi-pass"></i>
+                            <span>{% trans "Gate Pass" %}</span>
+                        </a>
+                    </li>
+
                     {% if user.user_type == 'ADMINISTRATOR' %}
                         <div class="sidebar-divider"></div>
                         <div class="sidebar-section-title">{% trans "Administration" %}</div>
@@ -615,6 +622,13 @@
                             <a href="{% url 'admin_user_list' %}" class="sidebar-nav-link">
                                 <i class="bi bi-people"></i>
                                 <span>{% trans "Manage Users" %}</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-nav-item">
+                            <a href="{% url 'donations:home' %}" class="sidebar-nav-link">
+                                <i class="bi bi-cash-coin"></i>
+                                <span>{% trans "Manage Donations" %}</span>
                             </a>
                         </li>
 

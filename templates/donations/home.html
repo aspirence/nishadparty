@@ -3,134 +3,505 @@
 {% block title %}Donations - Nishad Party{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2><i class="bi bi-heart me-2"></i>Donations</h2>
-                {% if is_admin_view %}
-                    <div class="badge bg-danger fs-6">
-                        <i class="bi bi-shield-check me-1"></i>Admin View
-                    </div>
-                {% elif user.is_authenticated %}
-                    <div class="badge bg-primary fs-6">
-                        <i class="bi bi-person me-1"></i>Personal View
-                    </div>
-                {% endif %}
-            </div>
+<style>
+    .stats-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        text-align: center;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stats-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+    }
+
+    .stats-card.success::before { background: linear-gradient(135deg, #198754, #20c997); }
+    .stats-card.primary::before { background: linear-gradient(135deg, var(--primary-red), var(--primary-red-dark)); }
+    .stats-card.info::before { background: linear-gradient(135deg, #0dcaf0, #0dcaf0); }
+
+    .stats-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .stats-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--dark-gray);
+        margin-bottom: 0.5rem;
+        line-height: 1;
+    }
+
+    .stats-label {
+        font-size: 0.938rem;
+        color: #6c757d;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .quick-donate-card {
+        background: linear-gradient(135deg, #198754, #20c997);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 4px 16px rgba(25, 135, 84, 0.2);
+        border: none;
+        color: white;
+        margin-bottom: 2rem;
+    }
+
+    .quick-donate-card h5 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .quick-donate-card p {
+        font-size: 1rem;
+        opacity: 0.95;
+        margin-bottom: 1.5rem;
+    }
+
+    .campaign-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .campaign-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .campaign-image {
+        height: 200px;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    .campaign-image-placeholder {
+        height: 200px;
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .campaign-body {
+        padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .campaign-title {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: var(--dark-gray);
+        margin-bottom: 0.75rem;
+        line-height: 1.4;
+    }
+
+    .campaign-description {
+        font-size: 0.875rem;
+        color: #6c757d;
+        line-height: 1.6;
+        flex: 1;
+        margin-bottom: 1.25rem;
+    }
+
+    .progress-section {
+        margin-bottom: 1.25rem;
+    }
+
+    .progress-labels {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        font-size: 0.813rem;
+        font-weight: 600;
+    }
+
+    .progress-labels .raised {
+        color: #198754;
+    }
+
+    .progress-labels .target {
+        color: #6c757d;
+    }
+
+    .progress {
+        height: 10px;
+        border-radius: 8px;
+        background: #e9ecef;
+        margin-bottom: 0.5rem;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        background: linear-gradient(135deg, #198754, #20c997);
+        transition: width 0.6s ease;
+    }
+
+    .progress-percentage {
+        font-size: 0.813rem;
+        color: #6c757d;
+        font-weight: 600;
+    }
+
+    .campaign-footer {
+        padding: 1rem 1.5rem;
+        background: #f8f9fa;
+        border-top: 1px solid #e9ecef;
+        font-size: 0.813rem;
+        color: #6c757d;
+        font-weight: 600;
+    }
+
+    .donations-table-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table thead th {
+        border-bottom: 2px solid #e9ecef;
+        font-weight: 600;
+        color: var(--dark-gray);
+        font-size: 0.875rem;
+        padding: 0.75rem;
+    }
+
+    .table tbody td {
+        padding: 1rem 0.75rem;
+        font-size: 0.875rem;
+        vertical-align: middle;
+    }
+
+    .info-card {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        border-radius: 12px;
+        padding: 2rem;
+        border-left: 4px solid var(--primary-red);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .info-card h5 {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: var(--dark-gray);
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .info-card ul {
+        margin-bottom: 0;
+        padding-left: 1.25rem;
+    }
+
+    .info-card li {
+        margin-bottom: 0.5rem;
+        font-size: 0.875rem;
+        color: #6c757d;
+    }
+
+    .btn {
+        padding: 0.625rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.938rem;
+        transition: all 0.2s;
+    }
+
+    .btn-success {
+        background: #198754;
+        border: 2px solid #198754;
+    }
+
+    .btn-success:hover {
+        background: #157347;
+        border-color: #157347;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(25, 135, 84, 0.3);
+    }
+
+    .btn-primary {
+        background: var(--primary-red);
+        border: 2px solid var(--primary-red);
+    }
+
+    .btn-primary:hover {
+        background: var(--primary-red-dark);
+        border-color: var(--primary-red-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
+
+    .btn-outline-primary {
+        border: 2px solid var(--primary-red);
+        color: var(--primary-red);
+        background: white;
+    }
+
+    .btn-outline-primary:hover {
+        background: var(--primary-red);
+        border-color: var(--primary-red);
+        color: white;
+    }
+
+    .section-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--dark-gray);
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .view-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.875rem;
+    }
+
+    .view-badge.admin {
+        background: var(--primary-red);
+        color: white;
+    }
+
+    .view-badge.personal {
+        background: #0d6efd;
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 1rem;
+        }
+
+        .stats-value {
+            font-size: 2rem;
+        }
+
+        .quick-donate-card {
+            padding: 1.5rem;
+        }
+
+        .quick-donate-card h5 {
+            font-size: 1.25rem;
+        }
+
+        .campaign-image, .campaign-image-placeholder {
+            height: 180px;
+        }
+
+        .donations-table-card {
+            overflow-x: auto;
+        }
+
+        .table {
+            font-size: 0.813rem;
+        }
+
+        .table thead {
+            display: none;
+        }
+
+        .table tbody tr {
+            display: block;
+            margin-bottom: 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            background: white;
+        }
+
+        .table tbody td {
+            display: block;
+            text-align: right;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .table tbody td:last-child {
+            border-bottom: none;
+        }
+
+        .table tbody td::before {
+            content: attr(data-label);
+            float: left;
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .stats-value {
+            font-size: 1.75rem;
+        }
+
+        .stats-label {
+            font-size: 0.813rem;
+        }
+
+        .quick-donate-card {
+            padding: 1.25rem;
+        }
+
+        .campaign-title {
+            font-size: 1rem;
+        }
+    }
+</style>
+
+<div class="container" style="padding-top: 2rem;">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">
+                <i class="bi bi-heart-fill me-2"></i>Donations
+            </h1>
+            <p class="page-subtitle">Support our mission and make a difference</p>
+        </div>
+        <div>
+            {% if is_admin_view %}
+                <span class="view-badge admin">
+                    <i class="bi bi-shield-check"></i>Admin View
+                </span>
+            {% elif user.is_authenticated %}
+                <span class="view-badge personal">
+                    <i class="bi bi-person-circle"></i>Personal View
+                </span>
+            {% endif %}
         </div>
     </div>
 
     <!-- Stats Row -->
-    <div class="row mb-4">
+    <div class="row g-4 mb-4">
         <div class="col-md-4">
-            <div class="card bg-success text-white">
-                <div class="card-body text-center">
-                    <h3>₹{{ total_raised|floatformat:0 }}</h3>
-                    <p class="mb-0">
-                        {% if is_admin_view %}
-                            Total Amount Raised
-                        {% elif user.is_authenticated %}
-                            Your Total Donations
-                        {% else %}
-                            Total Amount Raised
-                        {% endif %}
-                    </p>
-                </div>
+            <div class="stats-card success">
+                <div class="stats-value">₹{{ total_raised|floatformat:0 }}</div>
+                <p class="stats-label">
+                    {% if is_admin_view %}
+                        Total Amount Raised
+                    {% elif user.is_authenticated %}
+                        Your Total Donations
+                    {% else %}
+                        Total Amount Raised
+                    {% endif %}
+                </p>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card bg-primary text-white">
-                <div class="card-body text-center">
-                    <h3>{{ campaigns.count }}</h3>
-                    <p class="mb-0">Active Campaigns</p>
-                </div>
+            <div class="stats-card primary">
+                <div class="stats-value">{{ campaigns.count }}</div>
+                <p class="stats-label">Active Campaigns</p>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card bg-info text-white">
-                <div class="card-body text-center">
-                    <h3>{{ recent_donations.count }}</h3>
-                    <p class="mb-0">
-                        {% if is_admin_view %}
-                            Recent Donors
-                        {% elif user.is_authenticated %}
-                            Your Donations
-                        {% else %}
-                            Recent Donors
-                        {% endif %}
-                    </p>
-                </div>
+            <div class="stats-card info">
+                <div class="stats-value">{{ recent_donations.count }}</div>
+                <p class="stats-label">
+                    {% if is_admin_view %}
+                        Recent Donors
+                    {% elif user.is_authenticated %}
+                        Your Donations
+                    {% else %}
+                        Recent Donors
+                    {% endif %}
+                </p>
             </div>
         </div>
     </div>
 
     <!-- Quick Donate Section -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <div class="card border-success">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0"><i class="bi bi-lightning me-2"></i>Quick Donations</h5>
-                </div>
-                <div class="card-body">
-                    <p>Contribute to the development of Nishad Party. Every rupee of yours will be used for the welfare of the community.</p>
-                    <div class="d-flex gap-2 flex-wrap">
-                        <a href="{% url 'donations:donate' %}" class="btn btn-success">
-                            <i class="bi bi-heart-fill me-1"></i>Donate Now
-                        </a>
-                        {% if user.is_authenticated %}
-                            <a href="{% url 'donations:my_donations' %}" class="btn btn-outline-primary">
-                                <i class="bi bi-list me-1"></i>View My Donations
-                            </a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+    <div class="quick-donate-card">
+        <h5><i class="bi bi-lightning-fill"></i>Quick Donations</h5>
+        <p>Contribute to the development of Nishad Party. Every rupee of yours will be used for the welfare of the community.</p>
+        <div class="d-flex gap-3 flex-wrap">
+            <a href="{% url 'donations:donate' %}" class="btn btn-success">
+                <i class="bi bi-heart-fill me-1"></i>Donate Now
+            </a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'donations:my_donations' %}" class="btn btn-outline-primary" style="background: white; color: var(--primary-red);">
+                    <i class="bi bi-list-ul me-1"></i>View My Donations
+                </a>
+            {% endif %}
         </div>
     </div>
 
     <!-- Active Campaigns -->
     {% if campaigns %}
-    <div class="row mb-4">
-        <div class="col-12">
-            <h4>Active Campaigns</h4>
-        </div>
+    <div class="section-title mb-4">
+        <i class="bi bi-flag-fill"></i>
+        <span>Active Campaigns</span>
     </div>
     <div class="row g-4 mb-5">
         {% for campaign in campaigns %}
         <div class="col-md-6 col-lg-4">
-            <div class="card h-100">
+            <div class="campaign-card">
                 {% if campaign.image %}
-                    <img src="{{ campaign.image.url }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                    <img src="{{ campaign.image.url }}" class="campaign-image" alt="{{ campaign.title }}">
                 {% else %}
-                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                        <i class="bi bi-image text-muted fs-1"></i>
+                    <div class="campaign-image-placeholder">
+                        <i class="bi bi-image text-muted" style="font-size: 3rem; opacity: 0.3;"></i>
                     </div>
                 {% endif %}
-                <div class="card-body d-flex flex-column">
-                    <h6 class="card-title">{{ campaign.title }}</h6>
-                    <p class="card-text flex-grow-1">{{ campaign.description|truncatewords:20 }}</p>
-                    
+                <div class="campaign-body">
+                    <h6 class="campaign-title">{{ campaign.title }}</h6>
+                    <p class="campaign-description">{{ campaign.description|truncatewords:20 }}</p>
+
                     <!-- Progress Bar -->
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between mb-2">
-                            <small>₹{{ campaign.raised_amount|floatformat:0 }} Raised</small>
-                            <small>Target: ₹{{ campaign.target_amount|floatformat:0 }}</small>
+                    <div class="progress-section">
+                        <div class="progress-labels">
+                            <span class="raised">₹{{ campaign.raised_amount|floatformat:0 }} Raised</span>
+                            <span class="target">Target: ₹{{ campaign.target_amount|floatformat:0 }}</span>
                         </div>
-                        <div class="progress" style="height: 8px;">
-                            <div class="progress-bar bg-success" style="width: {{ campaign.progress_percentage }}%"></div>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: {{ campaign.progress_percentage }}%"></div>
                         </div>
-                        <small class="text-muted">{{ campaign.progress_percentage|floatformat:1 }}% Complete</small>
+                        <div class="progress-percentage">{{ campaign.progress_percentage|floatformat:1 }}% Complete</div>
                     </div>
-                    
-                    <div class="d-grid">
-                        <a href="{% url 'donations:donate_campaign' campaign.id %}" class="btn btn-primary">
-                            <i class="bi bi-heart me-1"></i>Donate for this Campaign
-                        </a>
-                    </div>
+
+                    <a href="{% url 'donations:donate_campaign' campaign.id %}" class="btn btn-primary w-100">
+                        <i class="bi bi-heart-fill me-1"></i>Donate to Campaign
+                    </a>
                 </div>
-                <div class="card-footer text-muted small">
-                    <i class="bi bi-calendar me-1"></i>Ends: {{ campaign.end_date|date:"d M Y" }}
+                <div class="campaign-footer">
+                    <i class="bi bi-calendar3 me-1"></i>Ends: {{ campaign.end_date|date:"d M Y" }}
                 </div>
             </div>
         </div>
@@ -140,101 +511,88 @@
 
     <!-- Recent Donations -->
     {% if recent_donations %}
-    <div class="row mb-4">
-        <div class="col-12">
-            <h4>
-                {% if is_admin_view %}
-                    Recent Donations (All Users)
-                {% elif user.is_authenticated %}
-                    Your Recent Donations
-                {% else %}
-                    Recent Donations
-                {% endif %}
-            </h4>
-        </div>
+    <div class="section-title mb-4">
+        <i class="bi bi-clock-history"></i>
+        <span>
+            {% if is_admin_view %}
+                Recent Donations (All Users)
+            {% elif user.is_authenticated %}
+                Your Recent Donations
+            {% else %}
+                Recent Donations
+            {% endif %}
+        </span>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    {% if is_admin_view %}
-                                        <th>Donor</th>
-                                    {% endif %}
-                                    <th>Amount</th>
-                                    <th>Purpose</th>
-                                    <th>Date</th>
-                                    {% if not is_admin_view and user.is_authenticated %}
-                                        <th>Status</th>
-                                    {% endif %}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for donation in recent_donations %}
-                                <tr>
-                                    {% if is_admin_view %}
-                                        <td>
-                                            {% if donation.anonymous %}
-                                                Anonymous Donor
-                                            {% else %}
-                                                {{ donation.donor_name }}
-                                            {% endif %}
-                                        </td>
-                                    {% endif %}
-                                    <td>₹{{ donation.amount|floatformat:0 }}</td>
-                                    <td>{{ donation.purpose|default:"General Donation" }}</td>
-                                    <td>{{ donation.created_at|date:"d M Y" }}</td>
-                                    {% if not is_admin_view and user.is_authenticated %}
-                                        <td>
-                                            {% if donation.status == 'SUCCESS' %}
-                                                <span class="badge bg-success">Successful</span>
-                                            {% elif donation.status == 'PENDING' %}
-                                                <span class="badge bg-warning">Pending</span>
-                                            {% elif donation.status == 'FAILED' %}
-                                                <span class="badge bg-danger">Failed</span>
-                                            {% endif %}
-                                        </td>
-                                    {% endif %}
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    <div class="donations-table-card mb-5">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        {% if is_admin_view %}
+                            <th>Donor</th>
+                        {% endif %}
+                        <th>Amount</th>
+                        <th>Purpose</th>
+                        <th>Date</th>
+                        {% if not is_admin_view and user.is_authenticated %}
+                            <th>Status</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for donation in recent_donations %}
+                    <tr>
+                        {% if is_admin_view %}
+                            <td data-label="Donor">
+                                {% if donation.anonymous %}
+                                    <i class="bi bi-incognito me-1"></i>Anonymous Donor
+                                {% else %}
+                                    {{ donation.donor_name }}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                        <td data-label="Amount"><strong>₹{{ donation.amount|floatformat:0 }}</strong></td>
+                        <td data-label="Purpose">{{ donation.purpose|default:"General Donation" }}</td>
+                        <td data-label="Date">{{ donation.created_at|date:"d M Y" }}</td>
+                        {% if not is_admin_view and user.is_authenticated %}
+                            <td data-label="Status">
+                                {% if donation.status == 'SUCCESS' %}
+                                    <span class="badge bg-success">Successful</span>
+                                {% elif donation.status == 'PENDING' %}
+                                    <span class="badge bg-warning">Pending</span>
+                                {% elif donation.status == 'FAILED' %}
+                                    <span class="badge bg-danger">Failed</span>
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
     {% endif %}
 
     <!-- Information Section -->
-    <div class="row mt-5">
-        <div class="col-12">
-            <div class="card bg-light">
-                <div class="card-body">
-                    <h5><i class="bi bi-info-circle me-2"></i>About Donations</h5>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p><strong>Legal Compliance:</strong></p>
-                            <ul class="small">
-                                <li>PAN required for donations above ₹2000</li>
-                                <li>All donations are reported to Election Commission</li>
-                                <li>Receipt provided for income tax exemption</li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong>Payment Options:</strong></p>
-                            <ul class="small">
-                                <li>Online (UPI, Card, Net Banking)</li>
-                                <li>Cheque or Demand Draft</li>
-                                <li>Cash (at office)</li>
-                                <li>Bank Transfer</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+    <div class="info-card">
+        <h5><i class="bi bi-info-circle-fill"></i>About Donations</h5>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Legal Compliance:</strong></p>
+                <ul>
+                    <li>PAN required for donations above ₹2000</li>
+                    <li>All donations are reported to Election Commission</li>
+                    <li>Receipt provided for income tax exemption</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Payment Options:</strong></p>
+                <ul>
+                    <li>Online (UPI, Card, Net Banking)</li>
+                    <li>Cheque or Demand Draft</li>
+                    <li>Cash (at office)</li>
+                    <li>Bank Transfer</li>
+                </ul>
             </div>
         </div>
     </div>

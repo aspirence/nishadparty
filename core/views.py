@@ -401,15 +401,152 @@ def main_dashboard_view(request):
     except:
         pass
 
-    # Recent activities (mock data - you can customize this)
-    context['recent_activities'] = [
-        {
-            'title': 'Welcome to your dashboard!',
-            'created_at': timezone.now(),
-            'color': 'stat-icon blue',
-            'icon': 'bi-star-fill'
-        }
-    ]
+    # Recent activities - different for admin and regular users
+    recent_activities = []
+
+    if request.user.user_type == 'ADMINISTRATOR':
+        # Admin sees all activities across the platform
+        try:
+            from donations.models import Donation
+            # Recent donations (all users)
+            recent_donations = Donation.objects.select_related('donor').order_by('-created_at')[:5]
+            for donation in recent_donations:
+                donor_name = donation.donor.get_full_name() if donation.donor else "Anonymous"
+                recent_activities.append({
+                    'title': f'{donor_name} made a donation of ₹{donation.amount}',
+                    'created_at': donation.created_at,
+                    'color': 'red',
+                    'icon': 'bi-heart-fill',
+                    'type': 'donation'
+                })
+        except:
+            pass
+
+        try:
+            from membership.models import Membership
+            # Recent memberships (all users)
+            recent_memberships = Membership.objects.select_related('user').order_by('-created_at')[:5]
+            for membership in recent_memberships:
+                user_name = membership.user.get_full_name()
+                recent_activities.append({
+                    'title': f'{user_name} joined as a member',
+                    'created_at': membership.created_at,
+                    'color': 'blue',
+                    'icon': 'bi-person-plus-fill',
+                    'type': 'membership'
+                })
+        except:
+            pass
+
+        try:
+            from campaigns.models import EventAttendance
+            # Recent event registrations (all users)
+            recent_registrations = EventAttendance.objects.select_related('attendee', 'event').order_by('-registered_at')[:5]
+            for reg in recent_registrations:
+                user_name = reg.attendee.get_full_name()
+                recent_activities.append({
+                    'title': f'{user_name} registered for {reg.event.title}',
+                    'created_at': reg.registered_at,
+                    'color': 'green',
+                    'icon': 'bi-calendar-check-fill',
+                    'type': 'event'
+                })
+        except:
+            pass
+
+        try:
+            from assets.models import AssetAssignment
+            # Recent asset assignments (all users)
+            recent_assignments = AssetAssignment.objects.select_related('asset', 'checked_out_by').order_by('-assignment_date')[:5]
+            for assignment in recent_assignments:
+                user_name = assignment.checked_out_by.get_full_name()
+                recent_activities.append({
+                    'title': f'{user_name} was assigned {assignment.asset.name}',
+                    'created_at': assignment.assignment_date,
+                    'color': 'orange',
+                    'icon': 'bi-box-seam-fill',
+                    'type': 'asset'
+                })
+        except:
+            pass
+
+    else:
+        # Regular users see only their own activities
+        try:
+            from donations.models import Donation
+            # User's recent donations
+            user_donations = Donation.objects.filter(donor=request.user).order_by('-created_at')[:3]
+            for donation in user_donations:
+                recent_activities.append({
+                    'title': f'You made a donation of ₹{donation.amount}',
+                    'created_at': donation.created_at,
+                    'color': 'red',
+                    'icon': 'bi-heart-fill',
+                    'type': 'donation'
+                })
+        except:
+            pass
+
+        try:
+            from membership.models import Membership
+            # User's membership
+            user_membership = Membership.objects.filter(user=request.user).order_by('-created_at').first()
+            if user_membership:
+                recent_activities.append({
+                    'title': f'You joined as a member',
+                    'created_at': user_membership.created_at,
+                    'color': 'blue',
+                    'icon': 'bi-person-plus-fill',
+                    'type': 'membership'
+                })
+        except:
+            pass
+
+        try:
+            from campaigns.models import EventAttendance
+            # User's recent event registrations
+            user_registrations = EventAttendance.objects.filter(attendee=request.user).select_related('event').order_by('-registered_at')[:3]
+            for reg in user_registrations:
+                recent_activities.append({
+                    'title': f'You registered for {reg.event.title}',
+                    'created_at': reg.registered_at,
+                    'color': 'green',
+                    'icon': 'bi-calendar-check-fill',
+                    'type': 'event'
+                })
+        except:
+            pass
+
+        try:
+            from assets.models import AssetAssignment
+            # User's recent asset assignments
+            user_assignments = AssetAssignment.objects.filter(checked_out_by=request.user).select_related('asset').order_by('-assignment_date')[:3]
+            for assignment in user_assignments:
+                recent_activities.append({
+                    'title': f'You were assigned {assignment.asset.name}',
+                    'created_at': assignment.assignment_date,
+                    'color': 'orange',
+                    'icon': 'bi-box-seam-fill',
+                    'type': 'asset'
+                })
+        except:
+            pass
+
+    # Sort all activities by date and limit to 10 most recent
+    if recent_activities:
+        recent_activities.sort(key=lambda x: x['created_at'], reverse=True)
+        context['recent_activities'] = recent_activities[:10]
+    else:
+        # Show welcome message if no activities yet
+        context['recent_activities'] = [
+            {
+                'title': 'Welcome to your dashboard! Start exploring the features.',
+                'created_at': timezone.now(),
+                'color': 'blue',
+                'icon': 'bi-star-fill',
+                'type': 'welcome'
+            }
+        ]
 
     context['stats'] = stats
 

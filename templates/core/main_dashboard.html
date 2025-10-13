@@ -487,65 +487,99 @@
 
     <!-- Key Statistics -->
     <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-card-header">
-                <div>
-                    <h2 class="stat-value">{{ stats.total_donations }}</h2>
-                    <p class="stat-label">{% trans "Total Donations" %}</p>
+        {% if user.user_type == 'ADMINISTRATOR' %}
+            <!-- Admin sees all stats -->
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div>
+                        <h2 class="stat-value">{{ stats.total_donations }}</h2>
+                        <p class="stat-label">{% trans "Total Donations" %}</p>
+                    </div>
+                    <div class="stat-icon red">
+                        <i class="bi bi-heart-fill"></i>
+                    </div>
                 </div>
-                <div class="stat-icon red">
-                    <i class="bi bi-heart-fill"></i>
-                </div>
+                <p class="stat-trend up">
+                    <i class="bi bi-arrow-up"></i> ₹{{ stats.donations_amount|floatformat:0 }}
+                </p>
             </div>
-            <p class="stat-trend up">
-                <i class="bi bi-arrow-up"></i> ₹{{ stats.donations_amount|floatformat:0 }}
-            </p>
-        </div>
 
-        <div class="stat-card">
-            <div class="stat-card-header">
-                <div>
-                    <h2 class="stat-value">{{ stats.total_members }}</h2>
-                    <p class="stat-label">{% trans "Active Members" %}</p>
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div>
+                        <h2 class="stat-value">{{ stats.total_members }}</h2>
+                        <p class="stat-label">{% trans "Active Members" %}</p>
+                    </div>
+                    <div class="stat-icon blue">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
                 </div>
-                <div class="stat-icon blue">
-                    <i class="bi bi-people-fill"></i>
-                </div>
+                <p class="stat-trend up">
+                    <i class="bi bi-arrow-up"></i> +{{ stats.new_members }} {% trans "this month" %}
+                </p>
             </div>
-            <p class="stat-trend up">
-                <i class="bi bi-arrow-up"></i> +{{ stats.new_members }} {% trans "this month" %}
-            </p>
-        </div>
 
-        <div class="stat-card">
-            <div class="stat-card-header">
-                <div>
-                    <h2 class="stat-value">{{ stats.total_events }}</h2>
-                    <p class="stat-label">{% trans "Total Events" %}</p>
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div>
+                        <h2 class="stat-value">{{ stats.total_events }}</h2>
+                        <p class="stat-label">{% trans "Total Events" %}</p>
+                    </div>
+                    <div class="stat-icon green">
+                        <i class="bi bi-calendar-event"></i>
+                    </div>
                 </div>
-                <div class="stat-icon green">
-                    <i class="bi bi-calendar-event"></i>
-                </div>
+                <p class="stat-trend">
+                    {{ stats.upcoming_events }} {% trans "upcoming" %}
+                </p>
             </div>
-            <p class="stat-trend">
-                {{ stats.upcoming_events }} {% trans "upcoming" %}
-            </p>
-        </div>
 
-        <div class="stat-card">
-            <div class="stat-card-header">
-                <div>
-                    <h2 class="stat-value">{{ stats.total_assets }}</h2>
-                    <p class="stat-label">{% trans "Total Assets" %}</p>
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div>
+                        <h2 class="stat-value">{{ stats.total_assets }}</h2>
+                        <p class="stat-label">{% trans "Total Assets" %}</p>
+                    </div>
+                    <div class="stat-icon orange">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
                 </div>
-                <div class="stat-icon orange">
-                    <i class="bi bi-box-seam"></i>
-                </div>
+                <p class="stat-trend">
+                    {{ stats.available_assets }} {% trans "available" %}
+                </p>
             </div>
-            <p class="stat-trend">
-                {{ stats.available_assets }} {% trans "available" %}
-            </p>
-        </div>
+        {% else %}
+            <!-- Regular users see only Active Members and Events -->
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div>
+                        <h2 class="stat-value">{{ stats.total_members }}</h2>
+                        <p class="stat-label">{% trans "Active Members" %}</p>
+                    </div>
+                    <div class="stat-icon blue">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                </div>
+                <p class="stat-trend up">
+                    <i class="bi bi-arrow-up"></i> +{{ stats.new_members }} {% trans "this month" %}
+                </p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div>
+                        <h2 class="stat-value">{{ stats.total_events }}</h2>
+                        <p class="stat-label">{% trans "Total Events" %}</p>
+                    </div>
+                    <div class="stat-icon green">
+                        <i class="bi bi-calendar-event"></i>
+                    </div>
+                </div>
+                <p class="stat-trend">
+                    {{ stats.upcoming_events }} {% trans "upcoming" %}
+                </p>
+            </div>
+        {% endif %}
     </div>
 
     <!-- Quick Actions -->
@@ -601,12 +635,12 @@
                 {% for activity in recent_activities %}
                 <div class="timeline-item">
                     {% if not forloop.last %}<div class="timeline-line"></div>{% endif %}
-                    <div class="timeline-dot {{ activity.color }}">
+                    <div class="timeline-dot stat-icon {{ activity.color }}">
                         <i class="bi {{ activity.icon }}"></i>
                     </div>
                     <div class="timeline-content">
+                        <p style="margin: 0 0 0.25rem 0; font-weight: 500; color: var(--dark-gray);">{{ activity.title }}</p>
                         <p class="timeline-time">{{ activity.created_at|timesince }} {% trans "ago" %}</p>
-                        <p style="margin: 0.5rem 0 0 0; font-weight: 500;">{{ activity.title }}</p>
                     </div>
                 </div>
                 {% endfor %}

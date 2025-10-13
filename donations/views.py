@@ -17,8 +17,10 @@ def donation_home(request):
     
     # Check if user is admin to determine what donations to show
     if request.user.is_authenticated and request.user.user_type == 'ADMINISTRATOR':
-        # Admin can see all donations
-        recent_donations = Donation.objects.filter(status='SUCCESS', anonymous=False).select_related('donor')[:5]
+        # Admin can see all donations (including anonymous ones)
+        recent_donations = Donation.objects.filter(
+            status='SUCCESS'
+        ).select_related('donor').order_by('-created_at')[:10]
         total_raised = Donation.objects.filter(status='SUCCESS').aggregate(
             total=models.Sum('amount')
         )['total'] or Decimal('0.00')

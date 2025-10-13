@@ -18,35 +18,27 @@
     <!-- Summary Stats -->
     <div class="row mb-4">
         <div class="col-md-6 col-lg-3">
-            <div class="card bg-success text-white">
-                <div class="card-body text-center">
-                    <h3>₹{{ total_donated|floatformat:0 }}</h3>
-                    <p class="mb-0">Total Donations</p>
-                </div>
+            <div class="stats-card success">
+                <h3>₹{{ total_donated|floatformat:0 }}</h3>
+                <p>Total Donated</p>
             </div>
         </div>
         <div class="col-md-6 col-lg-3">
-            <div class="card bg-primary text-white">
-                <div class="card-body text-center">
-                    <h3>{{ donations.count }}</h3>
-                    <p class="mb-0">Total Donations Made</p>
-                </div>
+            <div class="stats-card primary">
+                <h3>{{ donations.count }}</h3>
+                <p>Total Donations</p>
             </div>
         </div>
         <div class="col-md-6 col-lg-3">
-            <div class="card bg-info text-white">
-                <div class="card-body text-center">
-                    <h3>{{ donations|length }}</h3>
-                    <p class="mb-0">Successful Donations</p>
-                </div>
+            <div class="stats-card info">
+                <h3>{{ donations|length }}</h3>
+                <p>Successful</p>
             </div>
         </div>
         <div class="col-md-6 col-lg-3">
-            <div class="card bg-warning text-white">
-                <div class="card-body text-center">
-                    <h3>{% now "Y" %}</h3>
-                    <p class="mb-0">This Year</p>
-                </div>
+            <div class="stats-card warning">
+                <h3>{% now "Y" %}</h3>
+                <p>This Year</p>
             </div>
         </div>
     </div>
@@ -55,7 +47,7 @@
     {% if donations %}
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="table-card">
                 <div class="card-header">
                     <h6><i class="bi bi-list me-2"></i>Donation Details</h6>
                 </div>
@@ -76,17 +68,17 @@
                             <tbody>
                                 {% for donation in donations %}
                                 <tr>
-                                    <td>
+                                    <td data-label="Receipt Number">
                                         <strong>{{ donation.receipt_number }}</strong>
                                         {% if donation.anonymous %}
                                             <br><small class="badge bg-secondary">Anonymous</small>
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td data-label="Date">
                                         {{ donation.created_at|date:"d M Y" }}<br>
                                         <small class="text-muted">{{ donation.created_at|date:"h:i A" }}</small>
                                     </td>
-                                    <td>
+                                    <td data-label="Amount">
                                         <strong class="text-success">₹{{ donation.amount|floatformat:2 }}</strong>
                                         {% if donation.requires_pan_verification %}
                                             <br><small class="text-info">
@@ -94,7 +86,7 @@
                                             </small>
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td data-label="Payment Method">
                                         {% if donation.payment_method == 'ONLINE' %}
                                             <i class="bi bi-credit-card text-primary"></i> Online
                                         {% elif donation.payment_method == 'CASH' %}
@@ -109,13 +101,13 @@
                                             {{ donation.get_payment_method_display }}
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td data-label="Purpose">
                                         {{ donation.purpose|default:"General Donation"|truncatechars:30 }}
                                         {% if donation.constituency %}
                                             <br><small class="text-muted">{{ donation.constituency }}</small>
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td data-label="Status">
                                         {% if donation.status == 'SUCCESS' %}
                                             <span class="badge bg-success">Successful</span>
                                         {% elif donation.status == 'PENDING' %}
@@ -128,7 +120,7 @@
                                             <span class="badge bg-info">Refunded</span>
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td data-label="Actions">
                                         <div class="btn-group-vertical btn-group-sm">
                                             {% if donation.status == 'SUCCESS' %}
                                                 <a href="{% url 'donations:receipt' donation.id %}" 
@@ -215,13 +207,159 @@
 </div>
 
 <style>
-@media print {
-    .btn, .breadcrumb, nav, footer, .no-print { 
-        display: none !important; 
+    .stats-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.25rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: all 0.2s;
+        text-align: center;
+        margin-bottom: 1rem;
     }
-    .card { 
-        border: 1px solid #000 !important; 
+
+    .stats-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
     }
-}
+
+    .stats-card h3 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .stats-card p {
+        font-size: 0.875rem;
+        margin: 0;
+    }
+
+    .stats-card.success { border-top: 4px solid #198754; }
+    .stats-card.success h3 { color: #198754; }
+    .stats-card.primary { border-top: 4px solid var(--primary-red); }
+    .stats-card.primary h3 { color: var(--primary-red); }
+    .stats-card.info { border-top: 4px solid #0dcaf0; }
+    .stats-card.info h3 { color: #0dcaf0; }
+    .stats-card.warning { border-top: 4px solid #ffc107; }
+    .stats-card.warning h3 { color: #ffc107; }
+
+    .table-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        margin-bottom: 1.5rem;
+    }
+
+    .table-card .card-header {
+        background: white;
+        border-bottom: 2px solid #f0f0f0;
+        padding: 1.25rem 1.5rem;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .table-card .card-header h6 {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: var(--dark-gray);
+        margin: 0;
+    }
+
+    .table thead th {
+        border-bottom: 2px solid #e9ecef;
+        font-weight: 600;
+        color: var(--dark-gray);
+        font-size: 0.875rem;
+        padding: 0.75rem;
+    }
+
+    .table tbody td {
+        padding: 1rem 0.75rem;
+        font-size: 0.875rem;
+        vertical-align: middle;
+    }
+
+    @media (max-width: 768px) {
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 1rem;
+        }
+
+        .page-header .btn {
+            width: 100%;
+        }
+
+        .stats-card h3 {
+            font-size: 1.5rem;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .table {
+            font-size: 0.813rem;
+        }
+
+        .table thead {
+            display: none;
+        }
+
+        .table tbody tr {
+            display: block;
+            margin-bottom: 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            background: white;
+        }
+
+        .table tbody td {
+            display: block;
+            text-align: right;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .table tbody td:last-child {
+            border-bottom: none;
+        }
+
+        .table tbody td::before {
+            content: attr(data-label);
+            float: left;
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .btn-group-vertical {
+            display: flex;
+            flex-direction: row;
+            gap: 0.5rem;
+        }
+
+        .btn-group-vertical .btn {
+            width: auto;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .stats-card h3 {
+            font-size: 1.25rem;
+        }
+
+        .stats-card p {
+            font-size: 0.75rem;
+        }
+    }
+
+    @media print {
+        .btn, .breadcrumb, nav, footer, .no-print {
+            display: none !important;
+        }
+        .card {
+            border: 1px solid #000 !important;
+        }
+    }
 </style>
 {% endblock %}
