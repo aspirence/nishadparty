@@ -29,6 +29,7 @@ urlpatterns = [
     path('community/', include('community.urls')),
     path('gatepass/', include('gatepass.urls')),
     path('assets/', include('assets.urls')),
+    path('content/', include('content.urls')),
 ]
 
 # Serve media files in development

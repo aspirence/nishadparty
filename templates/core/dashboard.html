@@ -270,6 +270,181 @@
         text-align: center;
     }
 
+    /* Profile Details Card Styles */
+    .profile-details-card {
+        background: var(--secondary-white);
+        border-radius: 20px;
+        box-shadow: var(--shadow-sm);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: 1px solid var(--border-gray);
+    }
+
+    .profile-header-section {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 2px solid var(--border-gray);
+        margin-bottom: 2rem;
+    }
+
+    .profile-avatar-container {
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid var(--accent-gold);
+        box-shadow: var(--shadow-md);
+    }
+
+    .profile-avatar-placeholder {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary-red), #FF1744);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        color: var(--secondary-white);
+        border: 4px solid var(--accent-gold);
+        box-shadow: var(--shadow-md);
+    }
+
+    .profile-status-badge {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        background: #4CAF50;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--secondary-white);
+        border: 3px solid var(--secondary-white);
+        font-size: 0.9rem;
+    }
+
+    .profile-header-info {
+        flex: 1;
+    }
+
+    .profile-name {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--dark-gray);
+        margin: 0 0 0.5rem 0;
+    }
+
+    .profile-role {
+        margin: 0.5rem 0;
+    }
+
+    .badge-role {
+        display: inline-block;
+        background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dark));
+        color: var(--dark-gray);
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .profile-phone,
+    .profile-email {
+        color: var(--medium-gray);
+        font-size: 0.95rem;
+        margin: 0.5rem 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .profile-details-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .profile-detail-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1.25rem;
+        background: linear-gradient(135deg, var(--light-gray), #FAFAFA);
+        border-radius: 12px;
+        border-left: 4px solid var(--primary-red);
+        transition: all 0.3s ease;
+    }
+
+    .profile-detail-item:hover {
+        transform: translateX(5px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .detail-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, var(--primary-red), #FF1744);
+        color: var(--secondary-white);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+    }
+
+    .detail-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .detail-label {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .detail-value {
+        font-size: 1rem;
+        color: var(--dark-gray);
+        font-weight: 600;
+    }
+
+    .profile-bio {
+        background: rgba(220, 53, 69, 0.05);
+        padding: 1.5rem;
+        border-radius: 12px;
+        border-left: 4px solid var(--primary-red);
+    }
+
+    .profile-bio h4 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--primary-red);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .profile-bio p {
+        color: var(--medium-gray);
+        line-height: 1.8;
+        margin: 0;
+    }
+
     @media (max-width: 768px) {
         .dashboard-container .row {
             margin: 0;
@@ -299,6 +474,25 @@
 
         .content-section {
             padding: 1.5rem;
+        }
+
+        .profile-header-section {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .profile-details-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .profile-avatar,
+        .profile-avatar-placeholder {
+            width: 100px;
+            height: 100px;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
         }
     }
 </style>
@@ -368,9 +562,23 @@
 
                             {% if user.user_type == 'ADMINISTRATOR' %}
                                 <li class="sidebar-nav-item">
-                                    <a href="#admin" class="sidebar-nav-link" data-section="admin">
-                                        <i class="bi bi-gear"></i>
-                                        Administration
+                                    <a href="#user-management" class="sidebar-nav-link" data-section="user-management">
+                                        <i class="bi bi-people"></i>
+                                        User Management
+                                    </a>
+                                </li>
+
+                                <li class="sidebar-nav-item">
+                                    <a href="#event-management" class="sidebar-nav-link" data-section="event-management">
+                                        <i class="bi bi-calendar-event"></i>
+                                        Event Management
+                                    </a>
+                                </li>
+
+                                <li class="sidebar-nav-item">
+                                    <a href="#asset-management" class="sidebar-nav-link" data-section="asset-management">
+                                        <i class="bi bi-box-seam"></i>
+                                        Asset Management
                                     </a>
                                 </li>
                             {% endif %}
@@ -600,32 +808,90 @@
                         </div>
                     </div>
 
-                    <!-- Administration Section -->
+                    <!-- User Management Section -->
                     {% if user.user_type == 'ADMINISTRATOR' %}
-                    <div id="admin" class="content-section">
+                    <div id="user-management" class="content-section">
                         <div class="section-header">
                             <h2 class="section-title">
-                                <i class="bi bi-gear"></i>
-                                Administration Panel
+                                <i class="bi bi-people"></i>
+                                User Management
                             </h2>
                         </div>
 
                         <div class="quick-actions">
                             <a href="{% url 'admin_user_list' %}" class="quick-action-btn">
-                                <i class="bi bi-people"></i>
-                                <span>User Management</span>
+                                <i class="bi bi-list-ul"></i>
+                                <span>View All Users</span>
+                            </a>
+                            <a href="{% url 'admin_user_list' %}" class="quick-action-btn">
+                                <i class="bi bi-person-plus"></i>
+                                <span>Add New User</span>
+                            </a>
+                            <a href="{% url 'admin_user_list' %}" class="quick-action-btn">
+                                <i class="bi bi-search"></i>
+                                <span>Search Users</span>
+                            </a>
+                            <a href="{% url 'admin_user_list' %}" class="quick-action-btn">
+                                <i class="bi bi-shield-check"></i>
+                                <span>Manage Permissions</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Event Management Section -->
+                    <div id="event-management" class="content-section">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="bi bi-calendar-event"></i>
+                                Event Management
+                            </h2>
+                        </div>
+
+                        <div class="quick-actions">
+                            <a href="{% url 'campaigns:admin_events_dashboard' %}" class="quick-action-btn">
+                                <i class="bi bi-speedometer2"></i>
+                                <span>Events Dashboard</span>
+                            </a>
+                            <a href="{% url 'campaigns:admin_add_event' %}" class="quick-action-btn">
+                                <i class="bi bi-plus-circle"></i>
+                                <span>Create New Event</span>
                             </a>
                             <a href="{% url 'campaigns:admin_events_dashboard' %}" class="quick-action-btn">
-                                <i class="bi bi-calendar-event"></i>
-                                <span>Event Management</span>
+                                <i class="bi bi-list-check"></i>
+                                <span>Manage Events</span>
+                            </a>
+                            <a href="{% url 'campaigns:admin_events_dashboard' %}" class="quick-action-btn">
+                                <i class="bi bi-people-fill"></i>
+                                <span>View Registrations</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Asset Management Section -->
+                    <div id="asset-management" class="content-section">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="bi bi-box-seam"></i>
+                                Asset Management
+                            </h2>
+                        </div>
+
+                        <div class="quick-actions">
+                            <a href="{% url 'assets:dashboard' %}" class="quick-action-btn">
+                                <i class="bi bi-speedometer2"></i>
+                                <span>Assets Dashboard</span>
+                            </a>
+                            <a href="{% url 'assets:add' %}" class="quick-action-btn">
+                                <i class="bi bi-plus-circle"></i>
+                                <span>Add New Asset</span>
+                            </a>
+                            <a href="{% url 'assets:list' %}" class="quick-action-btn">
+                                <i class="bi bi-list-ul"></i>
+                                <span>View All Assets</span>
                             </a>
                             <a href="{% url 'assets:dashboard' %}" class="quick-action-btn">
-                                <i class="bi bi-box-seam"></i>
-                                <span>Asset Management</span>
-                            </a>
-                            <a href="{% url 'gatepass:manage_permissions' %}" class="quick-action-btn">
-                                <i class="bi bi-shield-check"></i>
-                                <span>Gate Pass Permissions</span>
+                                <i class="bi bi-arrow-left-right"></i>
+                                <span>Asset Assignments</span>
                             </a>
                         </div>
                     </div>
@@ -636,8 +902,133 @@
                         <div class="section-header">
                             <h2 class="section-title">
                                 <i class="bi bi-person-circle"></i>
-                                Profile Settings
+                                My Profile
                             </h2>
+                        </div>
+
+                        <!-- Profile Card -->
+                        <div class="profile-details-card">
+                            <div class="profile-header-section">
+                                <div class="profile-avatar-container">
+                                    {% if user.userprofile and user.userprofile.avatar %}
+                                        <img src="{{ user.userprofile.avatar.url }}" alt="{{ user.get_full_name }}" class="profile-avatar">
+                                    {% else %}
+                                        <div class="profile-avatar-placeholder">
+                                            <i class="bi bi-person-fill"></i>
+                                        </div>
+                                    {% endif %}
+                                    <div class="profile-status-badge">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                    </div>
+                                </div>
+                                <div class="profile-header-info">
+                                    <h3 class="profile-name">{{ user.get_full_name|default:user.phone_number }}</h3>
+                                    <p class="profile-role">
+                                        <span class="badge-role">{{ user.get_user_type_display }}</span>
+                                    </p>
+                                    <p class="profile-phone">
+                                        <i class="bi bi-phone me-2"></i>{{ user.phone_number }}
+                                    </p>
+                                    {% if user.email %}
+                                    <p class="profile-email">
+                                        <i class="bi bi-envelope me-2"></i>{{ user.email }}
+                                    </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="profile-details-grid">
+                                <div class="profile-detail-item">
+                                    <div class="detail-icon">
+                                        <i class="bi bi-geo-alt"></i>
+                                    </div>
+                                    <div class="detail-content">
+                                        <span class="detail-label">Location</span>
+                                        <span class="detail-value">
+                                            {{ user.constituency|default:"Not specified" }}
+                                            {% if user.district %}, {{ user.district }}{% endif %}
+                                            {% if user.state %}, {{ user.state }}{% endif %}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {% if user.userprofile and user.userprofile.community_type %}
+                                <div class="profile-detail-item">
+                                    <div class="detail-icon">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div class="detail-content">
+                                        <span class="detail-label">Community</span>
+                                        <span class="detail-value">{{ user.userprofile.get_community_type_display }}</span>
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                {% if user.userprofile and user.userprofile.occupation %}
+                                <div class="profile-detail-item">
+                                    <div class="detail-icon">
+                                        <i class="bi bi-briefcase"></i>
+                                    </div>
+                                    <div class="detail-content">
+                                        <span class="detail-label">Occupation</span>
+                                        <span class="detail-value">{{ user.userprofile.occupation }}</span>
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                {% if user.userprofile and user.userprofile.date_of_birth %}
+                                <div class="profile-detail-item">
+                                    <div class="detail-icon">
+                                        <i class="bi bi-calendar"></i>
+                                    </div>
+                                    <div class="detail-content">
+                                        <span class="detail-label">Date of Birth</span>
+                                        <span class="detail-value">{{ user.userprofile.date_of_birth|date:"d M Y" }}</span>
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                {% if user.fishing_license_number %}
+                                <div class="profile-detail-item">
+                                    <div class="detail-icon">
+                                        <i class="bi bi-card-heading"></i>
+                                    </div>
+                                    <div class="detail-content">
+                                        <span class="detail-label">Fishing License</span>
+                                        <span class="detail-value">{{ user.fishing_license_number }}</span>
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                {% if user.boat_registration %}
+                                <div class="profile-detail-item">
+                                    <div class="detail-icon">
+                                        <i class="bi bi-water"></i>
+                                    </div>
+                                    <div class="detail-content">
+                                        <span class="detail-label">Boat Registration</span>
+                                        <span class="detail-value">{{ user.boat_registration }}</span>
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                <div class="profile-detail-item">
+                                    <div class="detail-icon">
+                                        <i class="bi bi-clock"></i>
+                                    </div>
+                                    <div class="detail-content">
+                                        <span class="detail-label">Member Since</span>
+                                        <span class="detail-value">{{ user.created_at|date:"F Y" }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if user.userprofile and user.userprofile.bio %}
+                            <div class="profile-bio">
+                                <h4><i class="bi bi-chat-quote me-2"></i>About</h4>
+                                <p>{{ user.userprofile.bio }}</p>
+                            </div>
+                            {% endif %}
                         </div>
 
                         <div class="quick-actions">
@@ -646,8 +1037,8 @@
                                 <span>Edit Profile</span>
                             </a>
                             <a href="{% url 'complete_profile' %}" class="quick-action-btn">
-                                <i class="bi bi-shield-lock"></i>
-                                <span>Change Password</span>
+                                <i class="bi bi-image"></i>
+                                <span>Change Photo</span>
                             </a>
                             <a href="{% url 'complete_profile' %}" class="quick-action-btn">
                                 <i class="bi bi-shield-check"></i>

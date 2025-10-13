@@ -1,0 +1,483 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Photo Gallery - Nishad Party{% endblock %}
+
+{% block meta_description %}Explore our photo gallery showcasing Nishad Party's events, campaigns, community activities, and moments of triumph in our journey for social justice.{% endblock %}
+
+{% block extra_css %}
+<style>
+.gallery-hero {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    padding: 6rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.gallery-hero::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -10%;
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 215, 0, 0.1);
+    border-radius: 50%;
+    animation: heroFloat 20s ease-in-out infinite;
+}
+
+@keyframes heroFloat {
+    0%, 100% { transform: translateY(0px) scale(1) rotate(0deg); }
+    50% { transform: translateY(-40px) scale(1.1) rotate(180deg); }
+}
+
+.gallery-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.gallery-hero .lead {
+    font-size: 1.3rem;
+    opacity: 0.95;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.content-section {
+    padding: 5rem 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-title h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.section-title h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-gold));
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.filter-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.filter-tab {
+    background: transparent;
+    border: 2px solid var(--primary-red);
+    color: var(--primary-red);
+    padding: 0.75rem 2rem;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-tab:hover,
+.filter-tab.active {
+    background: var(--primary-red);
+    color: var(--secondary-white);
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.photo-card {
+    background: var(--secondary-white);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.photo-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--accent-gold);
+}
+
+.photo-container {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+.photo-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.photo-card:hover .photo-container img {
+    transform: scale(1.05);
+}
+
+.photo-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-muted);
+    font-size: 4rem;
+    opacity: 0.3;
+}
+
+.photo-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.7));
+    display: flex;
+    align-items: flex-end;
+    padding: 1.5rem;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.photo-card:hover .photo-overlay {
+    opacity: 1;
+}
+
+.photo-overlay-content {
+    color: var(--secondary-white);
+}
+
+.photo-overlay h5 {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.photo-overlay p {
+    font-size: 0.9rem;
+    margin: 0;
+    opacity: 0.9;
+}
+
+.photo-info {
+    padding: 1.5rem;
+}
+
+.photo-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 0.5rem;
+}
+
+.photo-description {
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.photo-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.photo-date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.photo-category {
+    background: rgba(220, 53, 69, 0.1);
+    color: var(--primary-red);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.stats-section {
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    padding: 4rem 0;
+    margin-top: 3rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 2rem;
+    background: var(--secondary-white);
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary-red);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-weight: 600;
+    color: var(--dark-gray);
+}
+
+.load-more {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.load-more-btn {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    border: none;
+    padding: 1rem 3rem;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.load-more-btn:hover {
+    background: linear-gradient(135deg, #B71C1C, var(--primary-red));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .gallery-hero {
+        padding: 4rem 0 3rem;
+        text-align: center;
+    }
+
+    .gallery-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .section-title h2 {
+        font-size: 2.2rem;
+    }
+
+    .photo-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .filter-tabs {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .filter-tab {
+        width: 200px;
+        justify-content: center;
+    }
+
+    .content-section,
+    .stats-section {
+        padding: 3rem 0;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+
+
+<!-- Gallery Section -->
+<div class="content-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Our Journey in Pictures</h2>
+            <p class="section-subtitle">Explore the visual story of our campaigns, events, and community initiatives that showcase our commitment to the people</p>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <a href="?category=all" class="filter-tab {% if current_category == 'all' %}active{% endif %}">
+                <i class="bi bi-grid"></i>All Photos
+            </a>
+            <a href="?category=campaigns" class="filter-tab {% if current_category == 'campaigns' %}active{% endif %}">
+                <i class="bi bi-megaphone"></i>Campaigns
+            </a>
+            <a href="?category=events" class="filter-tab {% if current_category == 'events' %}active{% endif %}">
+                <i class="bi bi-calendar-event"></i>Events
+            </a>
+            <a href="?category=community" class="filter-tab {% if current_category == 'community' %}active{% endif %}">
+                <i class="bi bi-people"></i>Community
+            </a>
+            <a href="?category=meetings" class="filter-tab {% if current_category == 'meetings' %}active{% endif %}">
+                <i class="bi bi-briefcase"></i>Meetings
+            </a>
+            <a href="?category=leadership" class="filter-tab {% if current_category == 'leadership' %}active{% endif %}">
+                <i class="bi bi-person-badge"></i>Leadership
+            </a>
+            <a href="?category=rallies" class="filter-tab {% if current_category == 'rallies' %}active{% endif %}">
+                <i class="bi bi-bullhorn"></i>Rallies
+            </a>
+        </div>
+
+        <!-- Photo Grid -->
+        <div class="photo-grid" id="photoGrid">
+            {% if photos %}
+                {% for photo in photos %}
+                <a href="{% url 'content:photo_detail' photo.slug %}" class="photo-card" data-category="{{ photo.category|lower }}">
+                    <div class="photo-container">
+                        {% if photo.image %}
+                            <img src="{{ photo.image.url }}" alt="{{ photo.title }}">
+                        {% else %}
+                            <div class="photo-placeholder">
+                                <i class="bi bi-image"></i>
+                            </div>
+                        {% endif %}
+                        <div class="photo-overlay">
+                            <div class="photo-overlay-content">
+                                <h5>{{ photo.title|truncatewords:5 }}</h5>
+                                <p>{{ photo.description|truncatewords:8 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="photo-info">
+                        <h3 class="photo-title">{{ photo.title }}</h3>
+                        <p class="photo-description">{{ photo.description|truncatewords:20 }}</p>
+                        <div class="photo-meta">
+                            <span class="photo-date">
+                                <i class="bi bi-calendar3"></i>
+                                {% if photo.event_date %}
+                                    {{ photo.event_date|date:"F d, Y" }}
+                                {% else %}
+                                    {{ photo.created_at|date:"F d, Y" }}
+                                {% endif %}
+                            </span>
+                            <span class="photo-category">{{ photo.get_category_display }}</span>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="bi bi-image" style="font-size: 4rem; color: var(--text-muted);"></i>
+                        <h4 class="mt-3 mb-2">No Photos Available</h4>
+                        <p class="text-muted">Photos will be displayed here once they are uploaded.</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Load More -->
+        <div class="load-more">
+            <button class="load-more-btn">
+                <i class="bi bi-arrow-down-circle"></i>
+                Load More Photos
+            </button>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const loadMoreBtn = document.querySelector('.load-more-btn');
+
+    // Load more functionality (simulate)
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', function() {
+            // In a real application, this would load more photos from the server
+            this.innerHTML = '<i class="bi bi-check-circle"></i>All Photos Loaded';
+            this.disabled = true;
+            this.style.opacity = '0.6';
+
+            // Show a message
+            setTimeout(() => {
+                this.innerHTML = '<i class="bi bi-arrow-down-circle"></i>Load More Photos';
+                this.disabled = false;
+                this.style.opacity = '1';
+            }, 2000);
+        });
+    }
+
+    // Add hover animation for photo cards
+    const photoCards = document.querySelectorAll('.photo-card');
+    photoCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+});
+</script>
+{% endblock %}

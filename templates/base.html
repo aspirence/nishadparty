@@ -185,21 +185,6 @@
             z-index: 1050;
         }
 
-        /* Auto-adjust dropdown position for right-side items */
-        .navbar-nav .dropdown:nth-last-child(-n+3) .dropdown-menu,
-        .navbar-nav .dropdown.dropdown-menu-end .dropdown-menu {
-            left: auto;
-            right: 0;
-            transform: translateX(0) translateY(-10px);
-        }
-
-        /* Force right-alignment for specific dropdowns */
-        .navbar-nav .dropdown:last-child .dropdown-menu,
-        .navbar-nav .dropdown:nth-last-child(2) .dropdown-menu {
-            left: auto !important;
-            right: 0 !important;
-        }
-
         /* Ensure dropdown stays within viewport */
         @media (min-width: 992px) {
             .navbar-nav .dropdown {
@@ -208,6 +193,23 @@
 
             .dropdown-menu {
                 will-change: transform, opacity;
+            }
+
+            /* Right-aligned dropdowns for items at the end of navbar */
+            .navbar-nav .dropdown.dropdown-menu-end .dropdown-menu,
+            .navbar-nav > .dropdown:nth-last-child(1) .dropdown-menu,
+            .navbar-nav > .dropdown:nth-last-child(2) .dropdown-menu {
+                left: auto !important;
+                right: 0 !important;
+                transform: translateY(-10px);
+            }
+
+            /* Keep left alignment for first dropdowns */
+            .navbar-nav > .dropdown:nth-child(1) .dropdown-menu,
+            .navbar-nav > .dropdown:nth-child(2) .dropdown-menu,
+            .navbar-nav > .dropdown:nth-child(3) .dropdown-menu {
+                left: 0 !important;
+                right: auto !important;
             }
         }
 
@@ -257,7 +259,6 @@
             padding: 1rem 1.5rem;
             transition: all var(--transition-fast);
             border-radius: 10px;
-            margin: 0.25rem 1rem;
             font-weight: 500;
             color: var(--dark-gray);
             display: flex;
@@ -952,13 +953,13 @@
                             About Us
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
-                            <li><a class="dropdown-item" href="#about">
+                            <li><a class="dropdown-item" href="{% url 'about' %}">
                                 <i class="bi bi-info-circle me-2"></i>About Party
                             </a></li>
-                            <li><a class="dropdown-item" href="#leadership">
+                            <li><a class="dropdown-item" href="{% url 'leadership' %}">
                                 <i class="bi bi-people me-2"></i>Leadership
                             </a></li>
-                            <li><a class="dropdown-item" href="#vision">
+                            <li><a class="dropdown-item" href="{% url 'vision' %}">
                                 <i class="bi bi-eye me-2"></i>Vision & Mission
                             </a></li>
                         </ul>
@@ -969,13 +970,13 @@
                             Media Gallery
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="mediaDropdown">
-                            <li><a class="dropdown-item" href="#photos">
+                            <li><a class="dropdown-item" href="{% url 'photo_gallery' %}">
                                 <i class="bi bi-image me-2"></i>Photo Gallery
                             </a></li>
-                            <li><a class="dropdown-item" href="#videos">
+                            <li><a class="dropdown-item" href="{% url 'video_gallery' %}">
                                 <i class="bi bi-play-circle me-2"></i>Video Gallery
                             </a></li>
-                            <li><a class="dropdown-item" href="#news">
+                            <li><a class="dropdown-item" href="{% url 'news' %}">
                                 <i class="bi bi-newspaper me-2"></i>News & Updates
                             </a></li>
                         </ul>
@@ -989,11 +990,8 @@
                             <li><a class="dropdown-item" href="{% url 'campaigns:events_list' %}">
                                 <i class="bi bi-calendar-event me-2"></i>Campaigns
                             </a></li>
-                            <li><a class="dropdown-item" href="#manifesto">
+                            <li><a class="dropdown-item" href="{% url 'manifesto' %}">
                                 <i class="bi bi-file-text me-2"></i>Manifesto
-                            </a></li>
-                            <li><a class="dropdown-item" href="#candidates">
-                                <i class="bi bi-person-badge me-2"></i>Candidates
                             </a></li>
                         </ul>
                     </li>
@@ -1009,9 +1007,6 @@
                             <li><a class="dropdown-item" href="{% url 'donations:home' %}">
                                 <i class="bi bi-heart me-2"></i>Donate
                             </a></li>
-                            <li><a class="dropdown-item" href="#volunteer">
-                                <i class="bi bi-hands-helping me-2"></i>Volunteer
-                            </a></li>
                         </ul>
                     </li>
                 </ul>
@@ -1023,31 +1018,12 @@
                         </a>
                     </li>
                     {% if user.is_authenticated %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="dashboardDropdown" role="button" 
-                               data-bs-toggle="dropdown" aria-expanded="false">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'dashboard' %}">
                                 <i class="bi bi-speedometer2 me-1"></i>Dashboard
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dashboardDropdown">
-                                <li><a class="dropdown-item" href="{% url 'dashboard' %}">
-                                    <i class="bi bi-house me-2"></i>My Dashboard
-                                </a></li>
-                                {% if user.user_type == 'ADMINISTRATOR' %}
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li class="dropdown-header text-muted">Administrative</li>
-                                    <li><a class="dropdown-item" href="{% url 'admin_user_list' %}">
-                                        <i class="bi bi-people me-2"></i>User Management
-                                    </a></li>
-                                    <li><a class="dropdown-item" href="{% url 'assets:dashboard' %}">
-                                        <i class="bi bi-box-seam me-2"></i>Asset Management
-                                    </a></li>
-                                    <li><a class="dropdown-item" href="{% url 'campaigns:admin_events_dashboard' %}">
-                                        <i class="bi bi-calendar-event me-2"></i>Event Management
-                                    </a></li>
-                                {% endif %}
-                            </ul>
                         </li>
-                        
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" 
                                data-bs-toggle="dropdown" aria-expanded="false">
@@ -1160,11 +1136,9 @@
                         <!-- Top Links -->
                         <div class="col-12 mb-4">
                             <div class="footer-top-links">
-                                <a href="#privacy" class="footer-link">PRIVACY POLICY</a>
-                                <a href="#terms" class="footer-link">TERMS</a>
-                                <a href="#cookies" class="footer-link">COOKIES</a>
-                                <a href="#sitemap" class="footer-link">SITEMAP</a>
-                                <a href="#brand" class="footer-link">BRAND KIT</a>
+                                <a href="{% url 'privacy_policy' %}" class="footer-link">PRIVACY POLICY</a>
+                                <a href="{% url 'terms' %}" class="footer-link">TERMS</a>
+                                <a href="{% url 'sitemap' %}" class="footer-link">SITEMAP</a>
                             </div>
                         </div>
 
@@ -1173,23 +1147,22 @@
                             <div class="footer-column">
                                 <h6 class="footer-section-title">PARTY</h6>
                                 <ul class="footer-menu">
-                                    <li><a href="#overview" class="footer-menu-link">Overview</a></li>
-                                    <li><a href="#leadership" class="footer-menu-link">Leadership</a></li>
-                                    <li><a href="#vision" class="footer-menu-link">Vision & Mission</a></li>
-                                    <li><a href="{% url 'campaigns:events_list' %}" class="footer-menu-link">Campaigns</a></li>
-                                    <li><a href="#manifesto" class="footer-menu-link">Manifesto</a></li>
+                                    <li><a href="{% url 'about' %}" class="footer-menu-link">About Party</a></li>
+                                    <li><a href="{% url 'leadership' %}" class="footer-menu-link">Leadership</a></li>
+                                    <li><a href="{% url 'vision' %}" class="footer-menu-link">Vision & Mission</a></li>
+                                    <li><a href="{% url 'manifesto' %}" class="footer-menu-link">Manifesto</a></li>
                                 </ul>
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
                             <div class="footer-column">
-                                <h6 class="footer-section-title">COMMUNITY</h6>
+                                <h6 class="footer-section-title">MEDIA</h6>
                                 <ul class="footer-menu">
-                                    <li><a href="#resources" class="footer-menu-link">Resources</a></li>
-                                    <li><a href="#community" class="footer-menu-link">Community Hub</a></li>
-                                    <li><a href="#news" class="footer-menu-link">News & Updates</a></li>
-                                    <li><a href="#gallery" class="footer-menu-link">Photo Gallery</a></li>
+                                    <li><a href="{% url 'photo_gallery' %}" class="footer-menu-link">Photo Gallery</a></li>
+                                    <li><a href="{% url 'video_gallery' %}" class="footer-menu-link">Video Gallery</a></li>
+                                    <li><a href="{% url 'news' %}" class="footer-menu-link">News & Updates</a></li>
+                                    <li><a href="{% url 'campaigns:events_list' %}" class="footer-menu-link">Events</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -1200,20 +1173,18 @@
                                 <ul class="footer-menu">
                                     <li><a href="{% url 'membership:home' %}" class="footer-menu-link">Membership</a></li>
                                     <li><a href="{% url 'donations:home' %}" class="footer-menu-link">Donations</a></li>
-                                    <li><a href="#volunteer" class="footer-menu-link">Volunteer</a></li>
-                                    <li><a href="#contact" class="footer-menu-link">Contact</a></li>
+                                    <li><a href="{% url 'campaigns:events_list' %}" class="footer-menu-link">Campaigns</a></li>
                                 </ul>
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
                             <div class="footer-column">
-                                <h6 class="footer-section-title">CONNECT</h6>
+                                <h6 class="footer-section-title">LEGAL</h6>
                                 <ul class="footer-menu">
-                                    <li><a href="#about" class="footer-menu-link">About</a></li>
-                                    <li><a href="#careers" class="footer-menu-link">Careers</a></li>
-                                    <li><a href="#contact" class="footer-menu-link">Contact</a></li>
-                                    <li><a href="#newsletter" class="footer-menu-link">Newsletter</a></li>
+                                    <li><a href="{% url 'privacy_policy' %}" class="footer-menu-link">Privacy Policy</a></li>
+                                    <li><a href="{% url 'terms' %}" class="footer-menu-link">Terms & Conditions</a></li>
+                                    <li><a href="{% url 'sitemap' %}" class="footer-menu-link">Sitemap</a></li>
                                 </ul>
                             </div>
                         </div>

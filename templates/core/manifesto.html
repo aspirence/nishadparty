@@ -1,0 +1,605 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Manifesto - Nishad Party{% endblock %}
+
+{% block meta_description %}Read the comprehensive manifesto of Nishad Party - our promises, policies, and commitment to empowering fishermen and marginalized communities across India.{% endblock %}
+
+{% block extra_css %}
+<style>
+.manifesto-hero {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    padding: 6rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.manifesto-hero::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -5%;
+    width: 350px;
+    height: 350px;
+    background: rgba(255, 215, 0, 0.1);
+    border-radius: 50%;
+    animation: heroFloat 25s ease-in-out infinite;
+}
+
+.manifesto-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -5%;
+    width: 250px;
+    height: 250px;
+    background: rgba(255, 215, 0, 0.05);
+    border-radius: 50%;
+    animation: heroFloat 20s ease-in-out infinite reverse;
+}
+
+@keyframes heroFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(180deg); }
+}
+
+.manifesto-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.manifesto-hero .lead {
+    font-size: 1.3rem;
+    opacity: 0.95;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.content-section {
+    padding: 5rem 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-title h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.section-title h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-gold));
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: var(--medium-gray);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.pillars-section {
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    padding: 5rem 0;
+}
+
+.pillar-card {
+    background: var(--secondary-white);
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+    border-left: 5px solid var(--primary-red);
+}
+
+.pillar-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.pillar-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.pillar-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-white);
+    font-size: 2.5rem;
+    flex-shrink: 0;
+}
+
+.pillar-header h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin: 0;
+}
+
+.pillar-content {
+    color: var(--medium-gray);
+    line-height: 1.8;
+    font-size: 1.05rem;
+    margin-bottom: 2rem;
+}
+
+.pillar-points {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.pillar-points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: rgba(220, 53, 69, 0.05);
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.pillar-points li:hover {
+    background: rgba(220, 53, 69, 0.1);
+    transform: translateX(5px);
+}
+
+.pillar-points i {
+    color: var(--accent-gold);
+    font-size: 1.2rem;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.pillar-points strong {
+    color: var(--dark-gray);
+    font-weight: 600;
+}
+
+.promises-section {
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.05), rgba(255, 215, 0, 0.05));
+    padding: 5rem 0;
+}
+
+.promises-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.promise-card {
+    background: var(--secondary-white);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.promise-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-gold));
+}
+
+.promise-card:hover {
+    border-color: var(--primary-red);
+    transform: translateY(-5px);
+}
+
+.promise-number {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-white);
+    font-weight: 800;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.promise-card h4 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+}
+
+.promise-card p {
+    color: var(--medium-gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.commitment-section {
+    padding: 5rem 0;
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+}
+
+.commitment-section .section-title h2 {
+    color: var(--secondary-white);
+}
+
+.commitment-section .section-title h2::after {
+    background: var(--accent-gold);
+}
+
+.commitment-section .section-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.commitment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.commitment-item {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.commitment-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-5px);
+}
+
+.commitment-item i {
+    font-size: 3rem;
+    color: var(--accent-gold);
+    margin-bottom: 1rem;
+}
+
+.commitment-item h5 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--secondary-white);
+    font-size: 1.2rem;
+}
+
+.commitment-item p {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.cta-section {
+    padding: 5rem 0;
+    background: var(--light-gray);
+}
+
+.cta-box {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    border-radius: 24px;
+    padding: 4rem;
+    text-align: center;
+    color: var(--secondary-white);
+    box-shadow: var(--shadow-xl);
+}
+
+.cta-box h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    color: var(--secondary-white);
+}
+
+.cta-box p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cta-buttons .btn {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .manifesto-hero {
+        padding: 4rem 0 3rem;
+        text-align: center;
+    }
+
+    .manifesto-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .section-title h2 {
+        font-size: 2.2rem;
+    }
+
+    .pillar-card {
+        padding: 2rem;
+    }
+
+    .pillar-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .content-section,
+    .pillars-section,
+    .promises-section,
+    .commitment-section,
+    .cta-section {
+        padding: 3rem 0;
+    }
+
+    .cta-box {
+        padding: 2.5rem 1.5rem;
+    }
+
+    .cta-box h2 {
+        font-size: 2rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+<!-- Five Pillars Section -->
+<div class="pillars-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Five Pillars of Development</h2>
+            <p class="section-subtitle">Our manifesto is built on five fundamental pillars that address the core needs of our communities</p>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <!-- Pillar 1: Livelihood Security -->
+                <div class="pillar-card">
+                    <div class="pillar-header">
+                        <div class="pillar-icon">
+                            <i class="bi bi-water"></i>
+                        </div>
+                        <h3>Livelihood Security</h3>
+                    </div>
+                    <p class="pillar-content">
+                        Ensuring sustainable and dignified livelihoods for fishing communities and allied sectors through modern infrastructure, fair pricing, and protection of traditional rights.
+                    </p>
+                    <ul class="pillar-points">
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Modern Fishing Infrastructure:</strong> Develop state-of-the-art fishing harbors, cold storage facilities, and processing units in every coastal district</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Fair Price Guarantee:</strong> Establish minimum support price (MSP) for all major fish varieties to ensure fair returns to fishermen</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Traditional Rights Protection:</strong> Legally protect traditional fishing grounds and water bodies from corporate exploitation</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Subsidized Equipment:</strong> Provide fishing equipment, boats, and nets at subsidized rates with easy loan facilities</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Market Access:</strong> Create direct market linkages and eliminate middlemen to ensure better prices for fishermen</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Pillar 2: Education & Skill Development -->
+                <div class="pillar-card">
+                    <div class="pillar-header">
+                        <div class="pillar-icon">
+                            <i class="bi bi-mortarboard"></i>
+                        </div>
+                        <h3>Education & Skill Development</h3>
+                    </div>
+                    <p class="pillar-content">
+                        Building a brighter future through quality education, vocational training, and skill development programs tailored to community needs.
+                    </p>
+                    <ul class="pillar-points">
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Free Education:</strong> Provide free quality education from primary to higher secondary level for children from fishing communities</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Scholarship Programs:</strong> Offer merit-based and need-based scholarships for college and professional courses</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Skill Training Centers:</strong> Establish modern skill development centers in fishing villages offering courses in various trades</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Digital Literacy:</strong> Launch comprehensive digital literacy programs to bridge the technology gap</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Marine Studies Institutes:</strong> Create specialized institutes for marine science, fisheries management, and aquaculture</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Pillar 3: Healthcare & Social Welfare -->
+                <div class="pillar-card">
+                    <div class="pillar-header">
+                        <div class="pillar-icon">
+                            <i class="bi bi-heart-pulse"></i>
+                        </div>
+                        <h3>Healthcare & Social Welfare</h3>
+                    </div>
+                    <p class="pillar-content">
+                        Comprehensive healthcare and social security measures to ensure the wellbeing and dignity of every community member.
+                    </p>
+                    <ul class="pillar-points">
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Free Healthcare:</strong> Provide free medical treatment at government hospitals for all community members</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Mobile Medical Units:</strong> Deploy mobile healthcare units to reach remote fishing villages</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Insurance Schemes:</strong> Implement comprehensive health and life insurance schemes at nominal premiums</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Pension Plans:</strong> Ensure pension benefits for elderly fishermen and their widows</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Disaster Relief:</strong> Create special relief funds for natural disasters and fishing season losses</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Pillar 4: Political Representation -->
+                <div class="pillar-card">
+                    <div class="pillar-header">
+                        <div class="pillar-icon">
+                            <i class="bi bi-building-check"></i>
+                        </div>
+                        <h3>Political Representation</h3>
+                    </div>
+                    <p class="pillar-content">
+                        Ensuring adequate representation and voice for fishing communities in governance and decision-making processes at all levels.
+                    </p>
+                    <ul class="pillar-points">
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Reserved Seats:</strong> Advocate for reserved seats in legislative bodies proportionate to community population</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Fisheries Board:</strong> Establish autonomous Fisheries Development Boards with community representation</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Policy Participation:</strong> Ensure community participation in formulating policies affecting fishing and allied sectors</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Local Governance:</strong> Strengthen Panchayati Raj institutions with adequate powers for community development</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Leadership Development:</strong> Create programs to develop political leadership from within the community</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Pillar 5: Infrastructure & Technology -->
+                <div class="pillar-card">
+                    <div class="pillar-header">
+                        <div class="pillar-icon">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <h3>Infrastructure & Technology</h3>
+                    </div>
+                    <p class="pillar-content">
+                        Modern infrastructure and technology adoption to improve living standards and boost economic opportunities in fishing communities.
+                    </p>
+                    <ul class="pillar-points">
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Roads & Connectivity:</strong> Construct all-weather roads connecting fishing villages to markets and towns</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Electricity & Water:</strong> Ensure 24x7 electricity supply and safe drinking water in all fishing hamlets</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Internet Access:</strong> Provide high-speed internet connectivity to enable digital empowerment</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Weather Forecasting:</strong> Deploy advanced weather forecasting systems and warning mechanisms for fishermen safety</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><strong>Modern Housing:</strong> Implement housing schemes with proper sanitation and living facilities</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Call to Action Section -->
+<div class="cta-section">
+    <div class="container">
+        <div class="cta-box">
+            <h2>Join Us in Building a Better Future</h2>
+            <p>Together, we can transform the vision of empowerment and development into reality. Your support matters!</p>
+            <div class="cta-buttons">
+                <a href="{% url 'membership:home' %}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-person-plus me-2"></i>Become a Member
+                </a>
+                <a href="{% url 'donations:home' %}" class="btn btn-secondary btn-lg">
+                    <i class="bi bi-heart me-2"></i>Support Our Cause
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

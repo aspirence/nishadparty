@@ -1,0 +1,358 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sitemap - Nishad Party{% endblock %}
+
+{% block meta_description %}Navigate through all pages and sections of Nishad Party's website. Find quick links to all our services, information, and resources.{% endblock %}
+
+{% block extra_css %}
+<style>
+.sitemap-hero {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    padding: 4rem 0 3rem;
+    text-align: center;
+}
+
+.sitemap-hero h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.sitemap-hero .lead {
+    font-size: 1.2rem;
+    opacity: 0.95;
+}
+
+.sitemap-content {
+    padding: 4rem 0;
+    background: var(--light-gray);
+}
+
+.sitemap-section {
+    background: var(--secondary-white);
+    border-radius: 20px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+}
+
+.sitemap-section:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.sitemap-section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border-gray);
+}
+
+.sitemap-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-white);
+    font-size: 1.8rem;
+    flex-shrink: 0;
+}
+
+.sitemap-section-header h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin: 0;
+}
+
+.sitemap-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.sitemap-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    background: rgba(220, 53, 69, 0.05);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--dark-gray);
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.sitemap-link:hover {
+    background: rgba(220, 53, 69, 0.1);
+    border-color: var(--primary-red);
+    transform: translateX(5px);
+    color: var(--primary-red);
+}
+
+.sitemap-link i {
+    color: var(--primary-red);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.sitemap-description {
+    color: var(--medium-gray);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+}
+
+@media (max-width: 768px) {
+    .sitemap-hero h1 {
+        font-size: 2rem;
+    }
+
+    .sitemap-section {
+        padding: 1.5rem;
+    }
+
+    .sitemap-section-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .sitemap-section-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .sitemap-links {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Content Section -->
+<div class="sitemap-content">
+    <div class="container">
+        <!-- Main Pages -->
+        <div class="sitemap-section">
+            <div class="sitemap-section-header">
+                <div class="sitemap-icon">
+                    <i class="bi bi-house-door"></i>
+                </div>
+                <h2>Main Pages</h2>
+            </div>
+            <p class="sitemap-description">Core pages with general information about our party and activities</p>
+            <div class="sitemap-links">
+                <a href="{% url 'home' %}" class="sitemap-link">
+                    <i class="bi bi-house"></i>
+                    <span>Home</span>
+                </a>
+                <a href="{% url 'about' %}" class="sitemap-link">
+                    <i class="bi bi-info-circle"></i>
+                    <span>About Party</span>
+                </a>
+                <a href="{% url 'leadership' %}" class="sitemap-link">
+                    <i class="bi bi-people"></i>
+                    <span>Leadership</span>
+                </a>
+                <a href="{% url 'vision' %}" class="sitemap-link">
+                    <i class="bi bi-eye"></i>
+                    <span>Vision & Mission</span>
+                </a>
+                <a href="{% url 'manifesto' %}" class="sitemap-link">
+                    <i class="bi bi-file-text"></i>
+                    <span>Manifesto</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Media & Content -->
+        <div class="sitemap-section">
+            <div class="sitemap-section-header">
+                <div class="sitemap-icon">
+                    <i class="bi bi-collection-play"></i>
+                </div>
+                <h2>Media Gallery</h2>
+            </div>
+            <p class="sitemap-description">Explore our photo galleries, videos, and latest news updates</p>
+            <div class="sitemap-links">
+                <a href="{% url 'photo_gallery' %}" class="sitemap-link">
+                    <i class="bi bi-image"></i>
+                    <span>Photo Gallery</span>
+                </a>
+                <a href="{% url 'video_gallery' %}" class="sitemap-link">
+                    <i class="bi bi-play-circle"></i>
+                    <span>Video Gallery</span>
+                </a>
+                <a href="{% url 'news' %}" class="sitemap-link">
+                    <i class="bi bi-newspaper"></i>
+                    <span>News & Updates</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Campaigns & Events -->
+        <div class="sitemap-section">
+            <div class="sitemap-section-header">
+                <div class="sitemap-icon">
+                    <i class="bi bi-calendar-event"></i>
+                </div>
+                <h2>Campaigns & Events</h2>
+            </div>
+            <p class="sitemap-description">Upcoming events, campaigns, and political activities</p>
+            <div class="sitemap-links">
+                <a href="{% url 'campaigns:events_list' %}" class="sitemap-link">
+                    <i class="bi bi-calendar3"></i>
+                    <span>Events List</span>
+                </a>
+                <a href="{% url 'campaigns:calendar' %}" class="sitemap-link">
+                    <i class="bi bi-calendar-week"></i>
+                    <span>Calendar View</span>
+                </a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'campaigns:my_events' %}" class="sitemap-link">
+                    <i class="bi bi-person-check"></i>
+                    <span>My Registered Events</span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Get Involved -->
+        <div class="sitemap-section">
+            <div class="sitemap-section-header">
+                <div class="sitemap-icon">
+                    <i class="bi bi-hand-thumbs-up"></i>
+                </div>
+                <h2>Get Involved</h2>
+            </div>
+            <p class="sitemap-description">Join our party, donate, and participate in our initiatives</p>
+            <div class="sitemap-links">
+                <a href="{% url 'membership:home' %}" class="sitemap-link">
+                    <i class="bi bi-person-plus"></i>
+                    <span>Membership</span>
+                </a>
+                <a href="{% url 'donations:home' %}" class="sitemap-link">
+                    <i class="bi bi-heart"></i>
+                    <span>Donations</span>
+                </a>
+                <a href="{% url 'donations:donate' %}" class="sitemap-link">
+                    <i class="bi bi-currency-rupee"></i>
+                    <span>Make a Donation</span>
+                </a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'donations:my_donations' %}" class="sitemap-link">
+                    <i class="bi bi-receipt"></i>
+                    <span>My Donations</span>
+                </a>
+                <a href="{% url 'membership:card' %}" class="sitemap-link">
+                    <i class="bi bi-card-heading"></i>
+                    <span>Membership Card</span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- User Account -->
+        <div class="sitemap-section">
+            <div class="sitemap-section-header">
+                <div class="sitemap-icon">
+                    <i class="bi bi-person-circle"></i>
+                </div>
+                <h2>User Account</h2>
+            </div>
+            <p class="sitemap-description">Manage your account, profile, and personal information</p>
+            <div class="sitemap-links">
+                {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" class="sitemap-link">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="{% url 'complete_profile' %}" class="sitemap-link">
+                    <i class="bi bi-person"></i>
+                    <span>Profile Settings</span>
+                </a>
+                <a href="{% url 'logout' %}" class="sitemap-link">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </a>
+                {% else %}
+                <a href="{% url 'phone_login' %}" class="sitemap-link">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    <span>Login</span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Resources (Admin Users) -->
+        {% if user.is_authenticated and user.user_type == 'ADMINISTRATOR' %}
+        <div class="sitemap-section">
+            <div class="sitemap-section-header">
+                <div class="sitemap-icon">
+                    <i class="bi bi-gear"></i>
+                </div>
+                <h2>Administrative</h2>
+            </div>
+            <p class="sitemap-description">Administrative tools and management panels</p>
+            <div class="sitemap-links">
+                <a href="{% url 'admin_user_list' %}" class="sitemap-link">
+                    <i class="bi bi-people"></i>
+                    <span>User Management</span>
+                </a>
+                <a href="{% url 'assets:dashboard' %}" class="sitemap-link">
+                    <i class="bi bi-box-seam"></i>
+                    <span>Asset Management</span>
+                </a>
+                <a href="{% url 'campaigns:admin_events_dashboard' %}" class="sitemap-link">
+                    <i class="bi bi-calendar-event"></i>
+                    <span>Event Management</span>
+                </a>
+                <a href="{% url 'gatepass:dashboard' %}" class="sitemap-link">
+                    <i class="bi bi-card-heading"></i>
+                    <span>Gate Pass Management</span>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Legal & Policies -->
+        <div class="sitemap-section">
+            <div class="sitemap-section-header">
+                <div class="sitemap-icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <h2>Legal & Policies</h2>
+            </div>
+            <p class="sitemap-description">Important legal information and policies</p>
+            <div class="sitemap-links">
+                <a href="{% url 'privacy_policy' %}" class="sitemap-link">
+                    <i class="bi bi-shield-lock"></i>
+                    <span>Privacy Policy</span>
+                </a>
+                <a href="{% url 'terms' %}" class="sitemap-link">
+                    <i class="bi bi-file-text"></i>
+                    <span>Terms & Conditions</span>
+                </a>
+                <a href="{% url 'sitemap' %}" class="sitemap-link">
+                    <i class="bi bi-map"></i>
+                    <span>Sitemap</span>
+                </a>
+                <a href="{% url 'contact' %}" class="sitemap-link">
+                    <i class="bi bi-envelope"></i>
+                    <span>Contact Us</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

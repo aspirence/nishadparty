@@ -1,0 +1,476 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Leadership - Nishad Party{% endblock %}
+
+{% block meta_description %}Meet the dedicated leaders of Nishad Party who work tirelessly for the empowerment of fishing communities and marginalized sections of society.{% endblock %}
+
+{% block extra_css %}
+<style>
+.leadership-hero {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    padding: 6rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.leadership-hero::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    left: -10%;
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 215, 0, 0.1);
+    border-radius: 50%;
+    animation: heroFloat 20s ease-in-out infinite;
+}
+
+@keyframes heroFloat {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-30px) scale(1.1); }
+}
+
+.leadership-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.leadership-hero .lead {
+    font-size: 1.3rem;
+    opacity: 0.95;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.content-section {
+    padding: 5rem 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-title h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.section-title h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-gold));
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.leader-card {
+    background: var(--secondary-white);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
+    height: 100%;
+    border: 2px solid transparent;
+}
+
+.leader-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--accent-gold);
+}
+
+.leader-image {
+    position: relative;
+    height: 280px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.leader-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.leader-card:hover .leader-image img {
+    transform: scale(1.05);
+}
+
+.leader-image .placeholder-icon {
+    font-size: 6rem;
+    color: var(--text-muted);
+    opacity: 0.3;
+}
+
+.leader-content {
+    padding: 2rem;
+}
+
+.leader-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 0.5rem;
+}
+
+.leader-position {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-red);
+    margin-bottom: 1rem;
+}
+
+.leader-description {
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.leader-highlights {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.leader-highlights li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--dark-gray);
+}
+
+.leader-highlights i {
+    color: var(--accent-gold);
+    font-size: 0.8rem;
+}
+
+.organizational-structure {
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    padding: 5rem 0;
+}
+
+.structure-card {
+    background: var(--secondary-white);
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    height: 100%;
+}
+
+.structure-card:hover {
+    border-color: var(--primary-red);
+    transform: translateY(-5px);
+}
+
+.structure-icon {
+    font-size: 3rem;
+    color: var(--primary-red);
+    margin-bottom: 1.5rem;
+    background: rgba(220, 53, 69, 0.1);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.structure-card h4 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+}
+
+.structure-card p {
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.structure-count {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary-red);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.values-section {
+    padding: 5rem 0;
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.05), rgba(255, 215, 0, 0.05));
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.value-item {
+    background: var(--secondary-white);
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+}
+
+.value-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.value-item i {
+    font-size: 2.5rem;
+    color: var(--primary-red);
+    margin-bottom: 1rem;
+}
+
+.value-item h5 {
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 0.5rem;
+}
+
+.value-item p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .leadership-hero {
+        padding: 4rem 0 3rem;
+        text-align: center;
+    }
+
+    .leadership-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .section-title h2 {
+        font-size: 2.2rem;
+    }
+
+    .leader-content {
+        padding: 1.5rem;
+    }
+
+    .content-section,
+    .organizational-structure,
+    .values-section {
+        padding: 3rem 0;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+
+
+<!-- Leadership Team Section -->
+<div class="content-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Key Leaders</h2>
+            <p class="section-subtitle">Meet the visionary leaders who guide our party's mission and represent the voice of the people</p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="leader-card">
+                    <div class="leader-image">
+                        <div class="placeholder-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                    </div>
+                    <div class="leader-content">
+                        <h3 class="leader-name">Dr. Sanjay Nishad</h3>
+                        <div class="leader-position">National President</div>
+                        <p class="leader-description">A dedicated leader who has worked extensively for the rights and welfare of the fishing community. Under his leadership, the party has grown significantly and continues to fight for social justice.</p>
+                        <ul class="leader-highlights">
+                            <li><i class="bi bi-star-fill"></i>15+ years of social service</li>
+                            <li><i class="bi bi-star-fill"></i>Champion of fishing community rights</li>
+                            <li><i class="bi bi-star-fill"></i>Legislative assembly member</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="leader-card">
+                    <div class="leader-image">
+                        <div class="placeholder-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                    </div>
+                    <div class="leader-content">
+                        <h3 class="leader-name">Praveen Nishad</h3>
+                        <div class="leader-position">Member of Parliament</div>
+                        <p class="leader-description">A dynamic leader representing the party at the national level in Parliament. Known for raising important issues affecting the fishing and marginalized communities in the Lok Sabha.</p>
+                        <ul class="leader-highlights">
+                            <li><i class="bi bi-star-fill"></i>Current MP, Sant Kabir Nagar</li>
+                            <li><i class="bi bi-star-fill"></i>Youth leader and organizer</li>
+                            <li><i class="bi bi-star-fill"></i>Social welfare advocate</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="leader-card">
+                    <div class="leader-image">
+                        <div class="placeholder-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                    </div>
+                    <div class="leader-content">
+                        <h3 class="leader-name">Regional Leaders</h3>
+                        <div class="leader-position">State & District Level</div>
+                        <p class="leader-description">Our strong network of regional leaders ensures grassroots connectivity and effective implementation of party policies at the local level.</p>
+                        <ul class="leader-highlights">
+                            <li><i class="bi bi-star-fill"></i>50+ district presidents</li>
+                            <li><i class="bi bi-star-fill"></i>State coordinators</li>
+                            <li><i class="bi bi-star-fill"></i>Block level organizers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Organizational Structure -->
+<div class="organizational-structure">
+    <div class="container">
+        <div class="section-title">
+            <h2>Organizational Structure</h2>
+            <p class="section-subtitle">Our democratic and inclusive organizational structure ensures effective representation at all levels</p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="structure-card">
+                    <div class="structure-icon">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <h4>National Level</h4>
+                    <span class="structure-count">1</span>
+                    <p>National President, General Secretary, and Core Committee members</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="structure-card">
+                    <div class="structure-icon">
+                        <i class="bi bi-map"></i>
+                    </div>
+                    <h4>State Level</h4>
+                    <span class="structure-count">15+</span>
+                    <p>State Presidents and Coordinators across various states of India</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="structure-card">
+                    <div class="structure-icon">
+                        <i class="bi bi-geo-alt"></i>
+                    </div>
+                    <h4>District Level</h4>
+                    <span class="structure-count">50+</span>
+                    <p>District Presidents and Committee members working at ground level</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="structure-card">
+                    <div class="structure-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <h4>Block Level</h4>
+                    <span class="structure-count">200+</span>
+                    <p>Block coordinators and village-level organizers</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Leadership Values -->
+<div class="values-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Leadership Principles</h2>
+            <p class="section-subtitle">The core values that guide our leadership approach and decision-making process</p>
+        </div>
+
+        <div class="values-grid">
+            <div class="value-item">
+                <i class="bi bi-people-fill"></i>
+                <h5>Grassroots Connect</h5>
+                <p>Staying connected with the people and understanding their real problems</p>
+            </div>
+            <div class="value-item">
+                <i class="bi bi-transparent"></i>
+                <h5>Transparency</h5>
+                <p>Maintaining openness in all party activities and decision-making processes</p>
+            </div>
+            <div class="value-item">
+                <i class="bi bi-shield-check"></i>
+                <h5>Accountability</h5>
+                <p>Being answerable to the people and taking responsibility for our actions</p>
+            </div>
+            <div class="value-item">
+                <i class="bi bi-heart"></i>
+                <h5>Service</h5>
+                <p>Dedicating ourselves to serve the community without personal gain</p>
+            </div>
+            <div class="value-item">
+                <i class="bi bi-lightbulb"></i>
+                <h5>Innovation</h5>
+                <p>Bringing fresh ideas and modern solutions to age-old problems</p>
+            </div>
+            <div class="value-item">
+                <i class="bi bi-globe"></i>
+                <h5>Inclusivity</h5>
+                <p>Ensuring representation and participation of all sections of society</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

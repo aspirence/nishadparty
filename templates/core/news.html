@@ -1,0 +1,745 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}News & Updates - Nishad Party{% endblock %}
+
+{% block meta_description %}Stay updated with the latest news, press releases, and announcements from Nishad Party. Read about our initiatives, achievements, and ongoing work for fishing communities.{% endblock %}
+
+{% block extra_css %}
+<style>
+.news-hero {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    padding: 6rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.news-hero::before {
+    content: '';
+    position: absolute;
+    top: -25%;
+    right: -15%;
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 215, 0, 0.1);
+    border-radius: 50%;
+    animation: heroFloat 30s ease-in-out infinite;
+}
+
+.news-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -35%;
+    left: -15%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 215, 0, 0.05);
+    border-radius: 50%;
+    animation: heroFloat 25s ease-in-out infinite reverse;
+}
+
+@keyframes heroFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+    50% { transform: translateY(-40px) rotate(180deg) scale(1.1); }
+}
+
+.news-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.news-hero .lead {
+    font-size: 1.3rem;
+    opacity: 0.95;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.content-section {
+    padding: 5rem 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-title h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.section-title h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-gold));
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.filter-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.filter-tab {
+    background: transparent;
+    border: 2px solid var(--primary-red);
+    color: var(--primary-red);
+    padding: 0.75rem 2rem;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-tab:hover,
+.filter-tab.active {
+    background: var(--primary-red);
+    color: var(--secondary-white);
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.featured-news {
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    padding: 4rem 0;
+    margin-bottom: 3rem;
+}
+
+.featured-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--secondary-white);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    border: 2px solid var(--accent-gold);
+}
+
+.featured-image {
+    height: 300px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.featured-image-placeholder {
+    font-size: 5rem;
+    color: var(--text-muted);
+    opacity: 0.3;
+}
+
+.featured-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: var(--accent-gold);
+    color: var(--dark-gray);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.featured-content {
+    padding: 2.5rem;
+}
+
+.featured-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+.featured-excerpt {
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.featured-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1.5rem;
+    border-top: 2px solid #f1f5f9;
+    gap: 1rem;
+}
+
+.featured-date {
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+}
+
+.read-more-btn {
+    background: var(--primary-red);
+    color: var(--secondary-white);
+    padding: 0.75rem 2rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    cursor: pointer;
+}
+
+.read-more-btn:hover {
+    background: #B71C1C;
+    color: var(--secondary-white);
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.news-card {
+    background: var(--secondary-white);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.news-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--accent-gold);
+}
+
+.news-image {
+    height: 200px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.news-image-placeholder {
+    font-size: 3rem;
+    color: var(--text-muted);
+    opacity: 0.3;
+}
+
+.news-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.news-card:hover .news-image img {
+    transform: scale(1.05);
+}
+
+.news-tag {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--primary-red);
+    color: var(--secondary-white);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.news-content {
+    padding: 1.5rem;
+}
+
+.news-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+}
+
+.news-excerpt {
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.news-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #f1f5f9;
+    gap: 1rem;
+}
+
+.news-date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.news-category {
+    background: rgba(220, 53, 69, 0.1);
+    color: var(--primary-red);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.breaking-news {
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+    border: 2px solid #ffc107;
+    padding: 1.5rem;
+    border-radius: 16px;
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.breaking-news::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, #ffc107, #ffcd39);
+}
+
+.breaking-badge {
+    background: #dc3545;
+    color: var(--secondary-white);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    margin-bottom: 1rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.breaking-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #856404;
+    margin-bottom: 0.5rem;
+}
+
+.breaking-text {
+    color: #856404;
+    margin: 0;
+    font-weight: 500;
+}
+
+.pagination-section {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid #f1f5f9;
+}
+
+.pagination {
+    display: inline-flex;
+    gap: 0.5rem;
+}
+
+.page-btn {
+    background: transparent;
+    border: 2px solid var(--primary-red);
+    color: var(--primary-red);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.page-btn:hover,
+.page-btn.active {
+    background: var(--primary-red);
+    color: var(--secondary-white);
+    text-decoration: none;
+}
+
+.subscribe-section {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    padding: 4rem 0;
+    margin-top: 3rem;
+}
+
+.subscribe-section .section-title h2 {
+    color: var(--secondary-white);
+}
+
+.subscribe-section .section-title h2::after {
+    background: var(--accent-gold);
+}
+
+.subscribe-section .section-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.subscribe-form {
+    max-width: 500px;
+    margin: 2rem auto 0;
+    display: flex;
+    gap: 1rem;
+}
+
+.subscribe-input {
+    flex: 1;
+    padding: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    color: var(--secondary-white);
+    font-size: 1rem;
+}
+
+.subscribe-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.subscribe-btn {
+    background: var(--accent-gold);
+    color: var(--dark-gray);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.subscribe-btn:hover {
+    background: #ffb300;
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .news-hero {
+        padding: 4rem 0 3rem;
+        text-align: center;
+    }
+
+    .news-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .section-title h2 {
+        font-size: 2.2rem;
+    }
+
+    .news-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .filter-tabs {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .filter-tab {
+        width: 200px;
+        justify-content: center;
+    }
+
+    .featured-content {
+        padding: 2rem;
+    }
+
+    .featured-title {
+        font-size: 1.5rem;
+    }
+
+    .featured-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .subscribe-form {
+        flex-direction: column;
+    }
+
+    .content-section,
+    .featured-news,
+    .subscribe-section {
+        padding: 3rem 0;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+
+
+
+<!-- News Section -->
+<div class="content-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Latest News</h2>
+            <p class="section-subtitle">Stay updated with our recent activities, policy initiatives, and community outreach programs</p>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <a href="?category=all" class="filter-tab {% if current_category == 'all' %}active{% endif %}">
+                <i class="bi bi-grid"></i>All News
+            </a>
+            <a href="?category=politics" class="filter-tab {% if current_category == 'politics' %}active{% endif %}">
+                <i class="bi bi-bank"></i>Politics
+            </a>
+            <a href="?category=community" class="filter-tab {% if current_category == 'community' %}active{% endif %}">
+                <i class="bi bi-people"></i>Community
+            </a>
+            <a href="?category=achievements" class="filter-tab {% if current_category == 'achievements' %}active{% endif %}">
+                <i class="bi bi-trophy"></i>Achievements
+            </a>
+            <a href="?category=press" class="filter-tab {% if current_category == 'press' %}active{% endif %}">
+                <i class="bi bi-newspaper"></i>Press Releases
+            </a>
+        </div>
+
+        <!-- News Grid -->
+        <div class="news-grid" id="newsGrid">
+            {% if articles %}
+                {% for article in articles %}
+                <a href="{% url 'content:article_detail' article.slug %}" class="news-card" data-category="{{ article.category|lower }}">
+                    <div class="news-image">
+                        {% if article.featured_image %}
+                            <img src="{{ article.featured_image.url }}" alt="{{ article.title }}">
+                        {% else %}
+                            <div class="news-image-placeholder">
+                                {% if article.category == 'POLICY' or article.category == 'ANNOUNCEMENT' %}
+                                    <i class="bi bi-bank"></i>
+                                {% elif article.category == 'COMMUNITY' or article.category == 'FISHING' %}
+                                    <i class="bi bi-people"></i>
+                                {% elif article.category == 'EVENTS' %}
+                                    <i class="bi bi-trophy"></i>
+                                {% elif article.category == 'PRESS_RELEASE' %}
+                                    <i class="bi bi-newspaper"></i>
+                                {% else %}
+                                    <i class="bi bi-newspaper"></i>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        <span class="news-tag">{{ article.get_category_display }}</span>
+                    </div>
+                    <div class="news-content">
+                        <h3 class="news-title">{{ article.title }}</h3>
+                        <p class="news-excerpt">{{ article.excerpt|default:article.content|truncatewords:25 }}</p>
+                        <div class="news-meta">
+                            <span class="news-date">
+                                <i class="bi bi-calendar3"></i>
+                                {% if article.published_date %}
+                                    {{ article.published_date|date:"M d, Y" }}
+                                {% else %}
+                                    {{ article.created_at|date:"M d, Y" }}
+                                {% endif %}
+                            </span>
+                            <span class="news-category">{{ article.get_category_display }}</span>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="bi bi-newspaper" style="font-size: 4rem; color: var(--text-muted);"></i>
+                        <h4 class="mt-3 mb-2">No Articles Available</h4>
+                        <p class="text-muted">News articles will be displayed here once they are published.</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-section">
+            <div class="pagination">
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">Next</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const newsCards = document.querySelectorAll('.news-card');
+    const pageButtons = document.querySelectorAll('.page-btn');
+    const subscribeForm = document.querySelector('.subscribe-form');
+
+    // Filter functionality
+    filterTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            // Remove active class from all tabs
+            filterTabs.forEach(t => t.classList.remove('active'));
+
+            // Add active class to clicked tab
+            this.classList.add('active');
+
+            const filterValue = this.getAttribute('data-filter');
+
+            // Show/hide news based on filter
+            newsCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+
+                if (filterValue === 'all' || category === filterValue) {
+                    card.style.display = 'block';
+                    // Add animation
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.3s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // Pagination functionality
+    pageButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            if (this.textContent === 'Next') {
+                // Handle next page logic
+                console.log('Loading next page...');
+                return;
+            }
+
+            // Remove active class from all buttons
+            pageButtons.forEach(btn => {
+                if (btn.textContent !== 'Next') {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Add active class to clicked button
+            this.classList.add('active');
+
+            // In a real application, this would load different page content
+            console.log('Loading page:', this.textContent);
+        });
+    });
+
+    // Newsletter subscription
+    subscribeForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const emailInput = this.querySelector('.subscribe-input');
+        const subscribeBtn = this.querySelector('.subscribe-btn');
+
+        if (emailInput.value) {
+            // Simulate subscription
+            subscribeBtn.textContent = 'Subscribed!';
+            subscribeBtn.style.background = '#28a745';
+            emailInput.value = '';
+
+            setTimeout(() => {
+                subscribeBtn.textContent = 'Subscribe';
+                subscribeBtn.style.background = '';
+            }, 2000);
+        }
+    });
+
+    // News card click handlers
+    newsCards.forEach(card => {
+        card.addEventListener('click', function() {
+            // In a real application, this would navigate to the full article
+            const newsTitle = this.querySelector('.news-title').textContent;
+            console.log('News card clicked:', newsTitle);
+        });
+    });
+
+    // Read more button functionality
+    const readMoreBtn = document.querySelector('.read-more-btn');
+    if (readMoreBtn) {
+        readMoreBtn.addEventListener('click', function() {
+            // In a real application, this would navigate to the full article
+            console.log('Read more clicked for featured story');
+        });
+    }
+});
+</script>
+{% endblock %}

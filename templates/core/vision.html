@@ -1,0 +1,534 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Vision & Mission - Nishad Party{% endblock %}
+
+{% block meta_description %}Discover the vision and mission of Nishad Party - our commitment to empowering marginalized communities and creating a just society for all.{% endblock %}
+
+{% block extra_css %}
+<style>
+.vision-hero {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    padding: 6rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.vision-hero::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -5%;
+    width: 350px;
+    height: 350px;
+    background: rgba(255, 215, 0, 0.1);
+    border-radius: 50%;
+    animation: heroFloat 25s ease-in-out infinite;
+}
+
+.vision-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -5%;
+    width: 250px;
+    height: 250px;
+    background: rgba(255, 215, 0, 0.05);
+    border-radius: 50%;
+    animation: heroFloat 20s ease-in-out infinite reverse;
+}
+
+@keyframes heroFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(180deg); }
+}
+
+.vision-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.vision-hero .lead {
+    font-size: 1.3rem;
+    opacity: 0.95;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.content-section {
+    padding: 5rem 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-title h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.section-title h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-gold));
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.vision-mission-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-top: 3rem;
+}
+
+.vm-card {
+    background: var(--secondary-white);
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.vm-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--accent-gold);
+}
+
+.vm-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-gold));
+}
+
+.vm-card .icon {
+    font-size: 4rem;
+    color: var(--primary-red);
+    margin-bottom: 2rem;
+    background: rgba(220, 53, 69, 0.1);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vm-card h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 1.5rem;
+}
+
+.vm-card p {
+    color: var(--text-muted);
+    line-height: 1.8;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.vm-card .highlights {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.vm-card .highlights li {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: var(--dark-gray);
+    font-weight: 500;
+}
+
+.vm-card .highlights i {
+    color: var(--accent-gold);
+    font-size: 1.2rem;
+}
+
+.goals-section {
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    padding: 5rem 0;
+}
+
+.goals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.goal-card {
+    background: var(--secondary-white);
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    border-left: 5px solid var(--primary-red);
+    position: relative;
+}
+
+.goal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.goal-card .number {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 3rem;
+    font-weight: 800;
+    color: rgba(220, 53, 69, 0.1);
+}
+
+.goal-card h4 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.goal-card h4 i {
+    color: var(--primary-red);
+    font-size: 1.5rem;
+}
+
+.goal-card p {
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.values-section {
+    padding: 5rem 0;
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.05), rgba(255, 215, 0, 0.05));
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.value-card {
+    background: var(--secondary-white);
+    padding: 2.5rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.value-card:hover {
+    border-color: var(--primary-red);
+    transform: translateY(-5px);
+}
+
+.value-card .icon {
+    font-size: 3rem;
+    color: var(--primary-red);
+    margin-bottom: 1.5rem;
+    background: rgba(220, 53, 69, 0.1);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.value-card h5 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+}
+
+.value-card p {
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.commitment-section {
+    padding: 5rem 0;
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+}
+
+.commitment-section .section-title h2 {
+    color: var(--secondary-white);
+}
+
+.commitment-section .section-title h2::after {
+    background: var(--accent-gold);
+}
+
+.commitment-section .section-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.commitment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.commitment-item {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.commitment-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-5px);
+}
+
+.commitment-item i {
+    font-size: 2.5rem;
+    color: var(--accent-gold);
+    margin-bottom: 1rem;
+}
+
+.commitment-item h5 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--secondary-white);
+}
+
+.commitment-item p {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .vision-hero {
+        padding: 4rem 0 3rem;
+        text-align: center;
+    }
+
+    .vision-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .section-title h2 {
+        font-size: 2.2rem;
+    }
+
+    .vision-mission-cards {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .vm-card {
+        padding: 2rem;
+    }
+
+    .content-section,
+    .goals-section,
+    .values-section,
+    .commitment-section {
+        padding: 3rem 0;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+<!-- Vision and Mission Section -->
+<div class="content-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Our Guiding Principles</h2>
+            <p class="section-subtitle">The foundation of our party's ideology and the driving force behind all our initiatives</p>
+        </div>
+
+        <div class="vision-mission-cards">
+            <div class="vm-card">
+                <div class="icon">
+                    <i class="bi bi-eye"></i>
+                </div>
+                <h3>Our Vision</h3>
+                <p>To create a society where every citizen, especially those from marginalized communities like fishermen, sailors, and other neglected sections, enjoys equal opportunities, dignity, and prosperity.</p>
+                <ul class="highlights">
+                    <li><i class="bi bi-check-circle-fill"></i>Inclusive development for all</li>
+                    <li><i class="bi bi-check-circle-fill"></i>Equal opportunities and rights</li>
+                    <li><i class="bi bi-check-circle-fill"></i>Sustainable livelihood security</li>
+                    <li><i class="bi bi-check-circle-fill"></i>Social justice and empowerment</li>
+                </ul>
+            </div>
+
+            <div class="vm-card">
+                <div class="icon">
+                    <i class="bi bi-bullseye"></i>
+                </div>
+                <h3>Our Mission</h3>
+                <p>To work tirelessly for the political, social, and economic empowerment of marginalized communities by ensuring their participation in governance and development processes.</p>
+                <ul class="highlights">
+                    <li><i class="bi bi-check-circle-fill"></i>Political representation and voice</li>
+                    <li><i class="bi bi-check-circle-fill"></i>Policy advocacy and reform</li>
+                    <li><i class="bi bi-check-circle-fill"></i>Community development programs</li>
+                    <li><i class="bi bi-check-circle-fill"></i>Welfare scheme implementation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Goals Section -->
+<div class="goals-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Strategic Goals</h2>
+            <p class="section-subtitle">Our focused approach to achieving meaningful change for the communities we represent</p>
+        </div>
+
+        <div class="goals-grid">
+            <div class="goal-card">
+                <div class="number">01</div>
+                <h4><i class="bi bi-water"></i>Fishing Rights Protection</h4>
+                <p>Secure and protect traditional fishing rights, ensure fair compensation for environmental damages, and advocate for sustainable fishing practices that benefit both communities and the environment.</p>
+            </div>
+
+            <div class="goal-card">
+                <div class="number">02</div>
+                <h4><i class="bi bi-mortarboard"></i>Education & Skill Development</h4>
+                <p>Establish educational institutions and skill development programs specifically designed for fishing and allied communities to enhance their capabilities and create new opportunities.</p>
+            </div>
+
+            <div class="goal-card">
+                <div class="number">03</div>
+                <h4><i class="bi bi-briefcase"></i>Employment Generation</h4>
+                <p>Create sustainable employment opportunities through government schemes, private partnerships, and entrepreneurship programs tailored to the skills and needs of our communities.</p>
+            </div>
+
+            <div class="goal-card">
+                <div class="number">04</div>
+                <h4><i class="bi bi-heart-pulse"></i>Healthcare Access</h4>
+                <p>Ensure comprehensive healthcare services reach remote fishing villages and communities, including specialized care for occupational health issues faced by fishermen and sailors.</p>
+            </div>
+
+            <div class="goal-card">
+                <div class="number">05</div>
+                <h4><i class="bi bi-building"></i>Infrastructure Development</h4>
+                <p>Develop modern infrastructure including fishing harbors, storage facilities, transportation networks, and communication systems to support community livelihoods.</p>
+            </div>
+
+            <div class="goal-card">
+                <div class="number">06</div>
+                <h4><i class="bi bi-shield-check"></i>Social Security</h4>
+                <p>Implement comprehensive social security measures including insurance schemes, pension plans, and disaster relief funds for fishing and allied communities.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Core Values Section -->
+<div class="values-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Core Values</h2>
+            <p class="section-subtitle">The fundamental principles that shape our approach and define our character as a political organization</p>
+        </div>
+
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="icon">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <h5>Community First</h5>
+                <p>We prioritize community needs and collective welfare over individual interests</p>
+            </div>
+
+            <div class="value-card">
+                <div class="icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <h5>Integrity</h5>
+                <p>We maintain the highest standards of honesty and ethical conduct in all our actions</p>
+            </div>
+
+            <div class="value-card">
+                <div class="icon">
+                    <i class="bi bi-globe"></i>
+                </div>
+                <h5>Sustainability</h5>
+                <p>We advocate for development that protects the environment for future generations</p>
+            </div>
+
+            <div class="value-card">
+                <div class="icon">
+                    <i class="bi bi-balance"></i>
+                </div>
+                <h5>Social Justice</h5>
+                <p>We fight for equal rights, opportunities, and fair treatment for all citizens</p>
+            </div>
+
+            <div class="value-card">
+                <div class="icon">
+                    <i class="bi bi-arrow-up-circle"></i>
+                </div>
+                <h5>Progress</h5>
+                <p>We embrace innovation and modern solutions while respecting traditional wisdom</p>
+            </div>
+
+            <div class="value-card">
+                <div class="icon">
+                    <i class="bi bi-hand-thumbs-up"></i>
+                </div>
+                <h5>Empowerment</h5>
+                <p>We believe in empowering communities to become self-reliant and prosperous</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

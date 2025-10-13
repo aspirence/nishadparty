@@ -1,0 +1,656 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Video Gallery - Nishad Party{% endblock %}
+
+{% block meta_description %}Watch our video gallery featuring speeches, campaigns, events, and documentary content showcasing Nishad Party's work for fishing communities and social justice.{% endblock %}
+
+{% block extra_css %}
+<style>
+.video-gallery-hero {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    padding: 6rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.video-gallery-hero::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: -10%;
+    width: 350px;
+    height: 350px;
+    background: rgba(255, 215, 0, 0.1);
+    border-radius: 50%;
+    animation: heroFloat 25s ease-in-out infinite;
+}
+
+.video-gallery-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    right: -5%;
+    width: 250px;
+    height: 250px;
+    background: rgba(255, 215, 0, 0.05);
+    border-radius: 50%;
+    animation: heroFloat 20s ease-in-out infinite reverse;
+}
+
+@keyframes heroFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(180deg); }
+}
+
+.video-gallery-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.video-gallery-hero .lead {
+    font-size: 1.3rem;
+    opacity: 0.95;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.content-section {
+    padding: 5rem 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-title h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.section-title h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-gold));
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.filter-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.filter-tab {
+    background: transparent;
+    border: 2px solid var(--primary-red);
+    color: var(--primary-red);
+    padding: 0.75rem 2rem;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-tab:hover,
+.filter-tab.active {
+    background: var(--primary-red);
+    color: var(--secondary-white);
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.video-card {
+    background: var(--secondary-white);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.video-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--accent-gold);
+}
+
+.video-container {
+    position: relative;
+    height: 200px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.video-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.video-card:hover .video-thumbnail {
+    transform: scale(1.05);
+}
+
+.video-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.video-placeholder i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.3;
+}
+
+.video-placeholder p {
+    font-size: 0.9rem;
+    margin: 0;
+    opacity: 0.6;
+}
+
+.play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.video-card:hover .play-overlay {
+    opacity: 1;
+}
+
+.play-button {
+    background: var(--primary-red);
+    color: var(--secondary-white);
+    border: none;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+}
+
+.play-button:hover {
+    background: #B71C1C;
+    transform: scale(1.1);
+}
+
+.video-info {
+    padding: 1.5rem;
+}
+
+.video-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.video-description {
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.video-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #f1f5f9;
+    gap: 1rem;
+}
+
+.video-duration {
+    background: var(--primary-red);
+    color: var(--secondary-white);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.video-date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.video-category {
+    background: rgba(220, 53, 69, 0.1);
+    color: var(--primary-red);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.featured-video {
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    padding: 4rem 0;
+    margin-bottom: 3rem;
+}
+
+.featured-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--secondary-white);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+.featured-video-container {
+    position: relative;
+    height: 400px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.featured-info {
+    padding: 2rem;
+}
+
+.featured-badge {
+    background: var(--accent-gold);
+    color: var(--dark-gray);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.featured-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+.featured-description {
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-size: 1.1rem;
+}
+
+.stats-section {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    padding: 4rem 0;
+}
+
+.stats-section .section-title h2 {
+    color: var(--secondary-white);
+}
+
+.stats-section .section-title h2::after {
+    background: var(--accent-gold);
+}
+
+.stats-section .section-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-5px);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent-gold);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-weight: 600;
+    color: var(--secondary-white);
+    font-size: 1.1rem;
+}
+
+.load-more {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.load-more-btn {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    border: none;
+    padding: 1rem 3rem;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.load-more-btn:hover {
+    background: linear-gradient(135deg, #B71C1C, var(--primary-red));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .video-gallery-hero {
+        padding: 4rem 0 3rem;
+        text-align: center;
+    }
+
+    .video-gallery-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .section-title h2 {
+        font-size: 2.2rem;
+    }
+
+    .video-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .filter-tabs {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .filter-tab {
+        width: 200px;
+        justify-content: center;
+    }
+
+    .featured-video-container {
+        height: 250px;
+    }
+
+    .featured-info {
+        padding: 1.5rem;
+    }
+
+    .featured-title {
+        font-size: 1.5rem;
+    }
+
+    .content-section,
+    .featured-video,
+    .stats-section {
+        padding: 3rem 0;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Video Gallery Section -->
+<div class="content-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Video Collection</h2>
+            <p class="section-subtitle">Explore our comprehensive collection of videos documenting our journey and commitment to the people</p>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <a href="?category=all" class="filter-tab {% if current_category == 'all' %}active{% endif %}">
+                <i class="bi bi-grid"></i>All Videos
+            </a>
+            <a href="?category=speeches" class="filter-tab {% if current_category == 'speeches' %}active{% endif %}">
+                <i class="bi bi-mic"></i>Speeches
+            </a>
+            <a href="?category=campaigns" class="filter-tab {% if current_category == 'campaigns' %}active{% endif %}">
+                <i class="bi bi-megaphone"></i>Campaigns
+            </a>
+            <a href="?category=events" class="filter-tab {% if current_category == 'events' %}active{% endif %}">
+                <i class="bi bi-calendar-event"></i>Events
+            </a>
+            <a href="?category=documentaries" class="filter-tab {% if current_category == 'documentaries' %}active{% endif %}">
+                <i class="bi bi-film"></i>Documentaries
+            </a>
+            <a href="?category=interviews" class="filter-tab {% if current_category == 'interviews' %}active{% endif %}">
+                <i class="bi bi-chat-quote"></i>Interviews
+            </a>
+            <a href="?category=news" class="filter-tab {% if current_category == 'news' %}active{% endif %}">
+                <i class="bi bi-newspaper"></i>News Coverage
+            </a>
+        </div>
+
+        <!-- Video Grid -->
+        <div class="video-grid" id="videoGrid">
+            {% if videos %}
+                {% for video in videos %}
+                <a href="{% url 'content:video_detail' video.slug %}" class="video-card" data-category="{{ video.category|lower }}">
+                    <div class="video-container">
+                        {% if video.get_youtube_thumbnail %}
+                            <img src="{{ video.get_youtube_thumbnail }}" alt="{{ video.title }}" class="video-thumbnail">
+                        {% elif video.thumbnail %}
+                            <img src="{{ video.thumbnail.url }}" alt="{{ video.title }}" class="video-thumbnail">
+                        {% else %}
+                            <div class="video-placeholder">
+                                <i class="bi bi-play-circle"></i>
+                                <p>{{ video.title|truncatewords:3 }}</p>
+                            </div>
+                        {% endif %}
+                        <div class="play-overlay">
+                            <button class="play-button">
+                                <i class="bi bi-play-fill"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">{{ video.title }}</h3>
+                        <p class="video-description">{{ video.description|truncatewords:20 }}</p>
+                        <div class="video-meta">
+                            <span class="video-duration">{{ video.get_duration_display }}</span>
+                            <span class="video-date">
+                                <i class="bi bi-calendar3"></i>
+                                {% if video.event_date %}
+                                    {{ video.event_date|date:"M d, Y" }}
+                                {% else %}
+                                    {{ video.created_at|date:"M d, Y" }}
+                                {% endif %}
+                            </span>
+                            <span class="video-category">{{ video.get_category_display }}</span>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="bi bi-play-circle" style="font-size: 4rem; color: var(--text-muted);"></i>
+                        <h4 class="mt-3 mb-2">No Videos Available</h4>
+                        <p class="text-muted">Videos will be displayed here once they are uploaded.</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Load More -->
+        <div class="load-more">
+            <button class="load-more-btn">
+                <i class="bi bi-arrow-down-circle"></i>
+                Load More Videos
+            </button>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const videoCards = document.querySelectorAll('.video-card');
+    const loadMoreBtn = document.querySelector('.load-more-btn');
+    const playButtons = document.querySelectorAll('.play-button');
+
+    // Filter functionality
+    filterTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            // Remove active class from all tabs
+            filterTabs.forEach(t => t.classList.remove('active'));
+
+            // Add active class to clicked tab
+            this.classList.add('active');
+
+            const filterValue = this.getAttribute('data-filter');
+
+            // Show/hide videos based on filter
+            videoCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+
+                if (filterValue === 'all' || category === filterValue) {
+                    card.style.display = 'block';
+                    // Add animation
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.3s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // Play button functionality
+    playButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.stopPropagation();
+            // In a real application, this would open a video player or modal
+            const videoTitle = this.closest('.video-card').querySelector('.video-title').textContent;
+            console.log('Play video:', videoTitle);
+
+            // Show feedback
+            this.innerHTML = '<i class="bi bi-check-circle"></i>';
+            setTimeout(() => {
+                this.innerHTML = '<i class="bi bi-play-fill"></i>';
+            }, 1000);
+        });
+    });
+
+    // Load more functionality (simulate)
+    loadMoreBtn.addEventListener('click', function() {
+        // In a real application, this would load more videos from the server
+        this.innerHTML = '<i class="bi bi-check-circle"></i>All Videos Loaded';
+        this.disabled = true;
+        this.style.opacity = '0.6';
+
+        // Show a message
+        setTimeout(() => {
+            this.innerHTML = '<i class="bi bi-arrow-down-circle"></i>Load More Videos';
+            this.disabled = false;
+            this.style.opacity = '1';
+        }, 2000);
+    });
+
+    // Video card click handlers
+    videoCards.forEach(card => {
+        card.addEventListener('click', function() {
+            // In a real application, this would open a video player
+            const videoTitle = this.querySelector('.video-title').textContent;
+            console.log('Video card clicked:', videoTitle);
+        });
+    });
+});
+</script>
+{% endblock %}

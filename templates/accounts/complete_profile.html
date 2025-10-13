@@ -408,11 +408,18 @@
                                     <i class="bi bi-camera"></i>
                                     Profile Photo
                                 </label>
+                                {% if profile.avatar %}
+                                <div style="margin-bottom: 1rem;">
+                                    <img src="{{ profile.avatar.url }}" alt="Current profile photo"
+                                         style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid var(--accent-gold); box-shadow: var(--shadow-md);">
+                                    <p class="form-help-text mt-2"><i class="bi bi-check-circle text-success me-1"></i>Current profile photo</p>
+                                </div>
+                                {% endif %}
                                 <div class="file-input-container">
                                     <input type="file" class="modern-file-input" id="avatar" name="avatar" accept="image/*">
                                     <label for="avatar" class="file-input-label">
                                         <i class="bi bi-cloud-upload file-input-icon"></i>
-                                        <span>Choose profile photo or drag & drop</span>
+                                        <span>{% if profile.avatar %}Change profile photo{% else %}Choose profile photo or drag & drop{% endif %}</span>
                                     </label>
                                 </div>
                                 <div class="form-help-text">JPG, PNG or GIF file (maximum 2MB)</div>

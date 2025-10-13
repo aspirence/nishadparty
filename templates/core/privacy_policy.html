@@ -1,0 +1,332 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Privacy Policy - Nishad Party{% endblock %}
+
+{% block meta_description %}Read about how Nishad Party collects, uses, and protects your personal information. Our commitment to your privacy and data security.{% endblock %}
+
+{% block extra_css %}
+<style>
+.policy-hero {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    padding: 4rem 0 3rem;
+    text-align: center;
+}
+
+.policy-hero h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.policy-hero .lead {
+    font-size: 1.2rem;
+    opacity: 0.95;
+}
+
+.policy-content {
+    padding: 4rem 0;
+    background: var(--light-gray);
+}
+
+.policy-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--secondary-white);
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: var(--shadow-md);
+}
+
+.last-updated {
+    background: rgba(220, 53, 69, 0.1);
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--primary-red);
+}
+
+.policy-section {
+    margin-bottom: 3rem;
+}
+
+.policy-section h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-red);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-gray);
+}
+
+.policy-section h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--dark-gray);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.policy-section p {
+    color: var(--medium-gray);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+}
+
+.policy-section ul {
+    margin: 1rem 0 1rem 2rem;
+}
+
+.policy-section ul li {
+    color: var(--medium-gray);
+    line-height: 1.8;
+    margin-bottom: 0.5rem;
+}
+
+.policy-section strong {
+    color: var(--dark-gray);
+    font-weight: 600;
+}
+
+.contact-box {
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.05), rgba(255, 215, 0, 0.05));
+    padding: 2rem;
+    border-radius: 15px;
+    margin-top: 3rem;
+    border: 1px solid var(--border-gray);
+}
+
+.contact-box h3 {
+    color: var(--primary-red);
+    margin-bottom: 1rem;
+}
+
+.contact-box p {
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .policy-hero h1 {
+        font-size: 2rem;
+    }
+
+    .policy-container {
+        padding: 2rem 1.5rem;
+    }
+
+    .policy-section h2 {
+        font-size: 1.5rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Content Section -->
+<div class="policy-content">
+    <div class="container">
+        <div class="policy-container">
+            <div class="last-updated">
+                <strong><i class="bi bi-calendar3 me-2"></i>Last Updated:</strong> January 2025
+            </div>
+
+            <div class="policy-section">
+                <h2>1. Introduction</h2>
+                <p>
+                    Welcome to Nishad Party's Privacy Policy. This policy describes how we collect, use, store, and protect your personal information when you interact with our website, mobile applications, and services.
+                </p>
+                <p>
+                    By using our services, you agree to the collection and use of information in accordance with this policy. If you do not agree with our policies and practices, please do not use our services.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>2. Information We Collect</h2>
+
+                <h3>2.1 Personal Information</h3>
+                <p>We may collect the following types of personal information:</p>
+                <ul>
+                    <li><strong>Identity Data:</strong> Name, date of birth, gender, photograph</li>
+                    <li><strong>Contact Data:</strong> Phone number, email address, postal address</li>
+                    <li><strong>Membership Data:</strong> Membership ID, constituency, occupation, caste category</li>
+                    <li><strong>Financial Data:</strong> Donation history, payment information (processed securely through payment gateways)</li>
+                    <li><strong>Document Data:</strong> Identification documents (Aadhaar, Voter ID, PAN card) for verification purposes</li>
+                </ul>
+
+                <h3>2.2 Technical Information</h3>
+                <p>We automatically collect certain information when you use our services:</p>
+                <ul>
+                    <li>IP address and browser type</li>
+                    <li>Device information and operating system</li>
+                    <li>Pages visited and time spent on our website</li>
+                    <li>Referring website addresses</li>
+                    <li>Cookies and similar tracking technologies</li>
+                </ul>
+
+                <h3>2.3 Usage Data</h3>
+                <p>Information about how you use our website, mobile applications, products, and services, including:</p>
+                <ul>
+                    <li>Event registrations and attendance</li>
+                    <li>Volunteer activities and contributions</li>
+                    <li>Campaign participation and interactions</li>
+                    <li>Content downloads and views</li>
+                </ul>
+            </div>
+
+            <div class="policy-section">
+                <h2>3. How We Use Your Information</h2>
+                <p>We use your information for the following purposes:</p>
+                <ul>
+                    <li><strong>Membership Management:</strong> To process and manage party memberships, verify identities, and maintain membership records</li>
+                    <li><strong>Communication:</strong> To send you updates, newsletters, event invitations, and important announcements</li>
+                    <li><strong>Event Management:</strong> To register you for events, campaigns, and rallies, and send event-related communications</li>
+                    <li><strong>Donation Processing:</strong> To process donations, issue receipts, and maintain financial records as required by law</li>
+                    <li><strong>Volunteer Coordination:</strong> To organize and coordinate volunteer activities and campaigns</li>
+                    <li><strong>Service Improvement:</strong> To analyze usage patterns and improve our website, applications, and services</li>
+                    <li><strong>Legal Compliance:</strong> To comply with legal obligations, including election laws and political party regulations</li>
+                    <li><strong>Security:</strong> To protect against fraud, unauthorized access, and other security threats</li>
+                </ul>
+            </div>
+
+            <div class="policy-section">
+                <h2>4. Information Sharing and Disclosure</h2>
+
+                <h3>4.1 We May Share Information With:</h3>
+                <ul>
+                    <li><strong>Election Commission:</strong> As required by law for political party compliance and reporting</li>
+                    <li><strong>Government Authorities:</strong> When legally required or for compliance with legal processes</li>
+                    <li><strong>Service Providers:</strong> Third-party service providers who assist us in operating our website, conducting business, or servicing you (under strict confidentiality agreements)</li>
+                    <li><strong>Party Officials:</strong> Authorized party officials and coordinators for organizational purposes</li>
+                </ul>
+
+                <h3>4.2 We Will NOT:</h3>
+                <ul>
+                    <li>Sell or rent your personal information to third parties</li>
+                    <li>Share your information for marketing purposes without your consent</li>
+                    <li>Disclose sensitive personal information except as required by law</li>
+                </ul>
+            </div>
+
+            <div class="policy-section">
+                <h2>5. Data Security</h2>
+                <p>We implement appropriate technical and organizational security measures to protect your personal information:</p>
+                <ul>
+                    <li>Encryption of data in transit and at rest</li>
+                    <li>Secure servers with regular security updates</li>
+                    <li>Access controls and authentication mechanisms</li>
+                    <li>Regular security audits and vulnerability assessments</li>
+                    <li>Staff training on data protection and privacy</li>
+                    <li>Secure payment processing through certified payment gateways</li>
+                </ul>
+                <p>
+                    While we strive to protect your personal information, no method of transmission over the internet or electronic storage is 100% secure. We cannot guarantee absolute security.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>6. Data Retention</h2>
+                <p>
+                    We retain your personal information only for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law.
+                </p>
+                <ul>
+                    <li><strong>Membership Records:</strong> Retained during active membership and as required by law</li>
+                    <li><strong>Donation Records:</strong> Retained for 7 years as per legal requirements</li>
+                    <li><strong>Event Data:</strong> Retained for organizational and historical purposes</li>
+                    <li><strong>Marketing Data:</strong> Retained until you opt-out or request deletion</li>
+                </ul>
+            </div>
+
+            <div class="policy-section">
+                <h2>7. Your Rights</h2>
+                <p>You have the following rights regarding your personal information:</p>
+                <ul>
+                    <li><strong>Access:</strong> Request access to your personal information we hold</li>
+                    <li><strong>Correction:</strong> Request correction of inaccurate or incomplete information</li>
+                    <li><strong>Deletion:</strong> Request deletion of your personal information (subject to legal requirements)</li>
+                    <li><strong>Opt-out:</strong> Unsubscribe from marketing communications at any time</li>
+                    <li><strong>Data Portability:</strong> Request a copy of your data in a commonly used format</li>
+                    <li><strong>Objection:</strong> Object to processing of your personal information for certain purposes</li>
+                    <li><strong>Withdrawal of Consent:</strong> Withdraw consent where processing is based on consent</li>
+                </ul>
+                <p>
+                    To exercise these rights, please contact us using the information provided in the "Contact Us" section.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>8. Cookies and Tracking Technologies</h2>
+                <p>
+                    We use cookies and similar tracking technologies to enhance your experience on our website. Cookies are small files stored on your device that help us:
+                </p>
+                <ul>
+                    <li>Remember your preferences and settings</li>
+                    <li>Understand how you use our website</li>
+                    <li>Improve website functionality and user experience</li>
+                    <li>Provide personalized content and recommendations</li>
+                </ul>
+                <p>
+                    You can control cookies through your browser settings. However, disabling cookies may affect your ability to use certain features of our website.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>9. Third-Party Links</h2>
+                <p>
+                    Our website may contain links to third-party websites, including social media platforms and payment gateways. We are not responsible for the privacy practices of these third-party sites. We encourage you to review their privacy policies before providing any personal information.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>10. Children's Privacy</h2>
+                <p>
+                    Our services are not intended for individuals under the age of 18. We do not knowingly collect personal information from children. If you become aware that a child has provided us with personal information, please contact us, and we will take steps to delete such information.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>11. Changes to This Privacy Policy</h2>
+                <p>
+                    We may update this Privacy Policy from time to time to reflect changes in our practices, technologies, legal requirements, or other factors. We will notify you of any significant changes by:
+                </p>
+                <ul>
+                    <li>Posting the updated policy on our website</li>
+                    <li>Updating the "Last Updated" date</li>
+                    <li>Sending email notifications for material changes (if applicable)</li>
+                </ul>
+                <p>
+                    We encourage you to review this Privacy Policy periodically to stay informed about how we protect your information.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>12. Legal Compliance</h2>
+                <p>
+                    Our privacy practices comply with:
+                </p>
+                <ul>
+                    <li>Information Technology Act, 2000</li>
+                    <li>Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011</li>
+                    <li>Representation of the People Act, 1951</li>
+                    <li>Election Commission of India guidelines for political parties</li>
+                </ul>
+            </div>
+
+            <div class="contact-box">
+                <h3><i class="bi bi-envelope me-2"></i>Contact Us</h3>
+                <p>
+                    If you have any questions, concerns, or requests regarding this Privacy Policy or our privacy practices, please contact us:
+                </p>
+                <p><strong>Email:</strong> privacy@nishadparty.org</p>
+                <p><strong>Phone:</strong> +91-XXXXXXXXXX</p>
+                <p><strong>Address:</strong> Nishad Party Headquarters, [Address]</p>
+                <p class="mt-3 mb-0">
+                    <strong>Data Protection Officer:</strong> [Name]<br>
+                    <strong>Email:</strong> dpo@nishadparty.org
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

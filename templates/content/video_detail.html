@@ -1,0 +1,599 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ video.title }} - Video Gallery - Nishad Party{% endblock %}
+
+{% block meta_description %}{{ video.description|truncatewords:30 }}{% endblock %}
+
+{% block extra_css %}
+<style>
+.video-detail-hero {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    padding: 4rem 0 2rem;
+}
+
+.video-detail-hero h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+.breadcrumb-item a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+}
+
+.breadcrumb-item.active {
+    color: var(--accent-gold);
+}
+
+.video-content {
+    padding: 3rem 0;
+}
+
+.video-main {
+    background: var(--secondary-white);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 3rem;
+}
+
+.video-player {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    background: #000;
+}
+
+.video-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.video-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+}
+
+.video-placeholder i {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+}
+
+.video-placeholder p {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.video-info {
+    padding: 2rem;
+}
+
+.video-meta {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.meta-item i {
+    color: var(--primary-red);
+}
+
+.duration-badge {
+    background: var(--primary-red);
+    color: var(--secondary-white);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.category-badge {
+    background: rgba(220, 53, 69, 0.1);
+    color: var(--primary-red);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.video-description {
+    color: var(--dark-gray);
+    line-height: 1.8;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.video-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.tag {
+    background: rgba(220, 53, 69, 0.1);
+    color: var(--primary-red);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.video-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1.5rem;
+    border-top: 2px solid #f1f5f9;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.view-count {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+}
+
+.video-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    background: transparent;
+    border: 2px solid var(--primary-red);
+    color: var(--primary-red);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.action-btn:hover {
+    background: var(--primary-red);
+    color: var(--secondary-white);
+    text-decoration: none;
+}
+
+.action-btn.primary {
+    background: var(--primary-red);
+    color: var(--secondary-white);
+}
+
+.action-btn.primary:hover {
+    background: #B71C1C;
+}
+
+.speaker-info {
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.speaker-info h4 {
+    color: var(--dark-gray);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.speaker-info p {
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.related-section {
+    margin-top: 4rem;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-title h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 0.5rem;
+}
+
+.section-title p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+.related-videos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.related-video-card {
+    background: var(--secondary-white);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+}
+
+.related-video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    text-decoration: none;
+    color: inherit;
+}
+
+.related-video-thumbnail {
+    height: 180px;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.related-video-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.related-video-placeholder {
+    color: var(--text-muted);
+    font-size: 2rem;
+}
+
+.related-video-duration {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--secondary-white);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.related-video-info {
+    padding: 1rem;
+}
+
+.related-video-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--dark-gray);
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.related-video-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.related-video-date {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.related-video-category {
+    background: rgba(220, 53, 69, 0.1);
+    color: var(--primary-red);
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.back-button {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.back-button:hover {
+    background: linear-gradient(135deg, #B71C1C, var(--primary-red));
+    color: var(--secondary-white);
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .video-detail-hero {
+        padding: 3rem 0 1.5rem;
+        text-align: center;
+    }
+
+    .video-detail-hero h1 {
+        font-size: 2rem;
+    }
+
+    .video-meta {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .video-stats {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .video-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .related-videos {
+        grid-template-columns: 1fr;
+    }
+
+    .video-content {
+        padding: 2rem 0;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="video-detail-hero">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'video_gallery' %}">Video Gallery</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ video.title|truncatewords:3 }}</li>
+            </ol>
+        </nav>
+        <h1>{{ video.title }}</h1>
+    </div>
+</div>
+
+<!-- Video Content -->
+<div class="video-content">
+    <div class="container">
+        <a href="{% url 'video_gallery' %}" class="back-button">
+            <i class="bi bi-arrow-left"></i>
+            Back to Gallery
+        </a>
+
+        <div class="video-main">
+            <div class="video-player">
+                {% if video.youtube_url and video.get_youtube_embed_url %}
+                    <iframe src="{{ video.get_youtube_embed_url }}" class="video-iframe" allowfullscreen></iframe>
+                {% elif video.video_file %}
+                    <video controls class="video-iframe">
+                        <source src="{{ video.video_file.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                {% else %}
+                    <div class="video-placeholder">
+                        <i class="bi bi-play-circle"></i>
+                        <p>{{ video.title }}</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="video-info">
+                <div class="video-meta">
+                    <div class="meta-item">
+                        <i class="bi bi-calendar3"></i>
+                        {% if video.event_date %}
+                            {{ video.event_date|date:"F d, Y" }}
+                        {% else %}
+                            {{ video.created_at|date:"F d, Y" }}
+                        {% endif %}
+                    </div>
+
+                    {% if video.location %}
+                    <div class="meta-item">
+                        <i class="bi bi-geo-alt"></i>
+                        {{ video.location }}
+                    </div>
+                    {% endif %}
+
+                    <div class="meta-item">
+                        <span class="duration-badge">{{ video.get_duration_display }}</span>
+                    </div>
+
+                    <div class="meta-item">
+                        <span class="category-badge">{{ video.get_category_display }}</span>
+                    </div>
+                </div>
+
+                {% if video.speaker %}
+                <div class="speaker-info">
+                    <h4><i class="bi bi-person-circle"></i>Speaker</h4>
+                    <p>{{ video.speaker }}</p>
+                </div>
+                {% endif %}
+
+                <div class="video-description">
+                    {{ video.description|linebreaks }}
+                </div>
+
+                {% if video.tags %}
+                <div class="video-tags">
+                    {% for tag in video.tags %}
+                        <span class="tag">#{{ tag }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="video-stats">
+                    <div class="view-count">
+                        <i class="bi bi-eye"></i>
+                        {{ video.view_count }} view{{ video.view_count|pluralize }}
+                    </div>
+
+                    <div class="video-actions">
+                        <button class="action-btn primary" onclick="shareVideo()">
+                            <i class="bi bi-share"></i>
+                            Share
+                        </button>
+                        {% if video.youtube_url %}
+                        <a href="{{ video.youtube_url }}" target="_blank" class="action-btn">
+                            <i class="bi bi-youtube"></i>
+                            Watch on YouTube
+                        </a>
+                        {% endif %}
+                        <button class="action-btn" onclick="toggleFullscreen()">
+                            <i class="bi bi-fullscreen"></i>
+                            Fullscreen
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Videos -->
+        {% if related_videos %}
+        <div class="related-section">
+            <div class="section-title">
+                <h2>Related Videos</h2>
+                <p>More videos from {{ video.get_category_display }} category</p>
+            </div>
+
+            <div class="related-videos">
+                {% for related_video in related_videos %}
+                <a href="{% url 'content:video_detail' related_video.slug %}" class="related-video-card">
+                    <div class="related-video-thumbnail">
+                        {% if related_video.get_youtube_thumbnail %}
+                            <img src="{{ related_video.get_youtube_thumbnail }}" alt="{{ related_video.title }}">
+                        {% elif related_video.thumbnail %}
+                            <img src="{{ related_video.thumbnail.url }}" alt="{{ related_video.title }}">
+                        {% else %}
+                            <div class="related-video-placeholder">
+                                <i class="bi bi-play-circle"></i>
+                            </div>
+                        {% endif %}
+                        <div class="related-video-duration">{{ related_video.get_duration_display }}</div>
+                    </div>
+                    <div class="related-video-info">
+                        <h3 class="related-video-title">{{ related_video.title|truncatewords:8 }}</h3>
+                        <div class="related-video-meta">
+                            <div class="related-video-date">
+                                {% if related_video.event_date %}
+                                    {{ related_video.event_date|date:"M d, Y" }}
+                                {% else %}
+                                    {{ related_video.created_at|date:"M d, Y" }}
+                                {% endif %}
+                            </div>
+                            <div class="related-video-category">{{ related_video.get_category_display }}</div>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function shareVideo() {
+    if (navigator.share) {
+        navigator.share({
+            title: '{{ video.title|escapejs }}',
+            text: '{{ video.description|truncatewords:20|escapejs }}',
+            url: window.location.href
+        }).catch(console.error);
+    } else {
+        // Fallback: copy URL to clipboard
+        navigator.clipboard.writeText(window.location.href).then(() => {
+            alert('Video URL copied to clipboard!');
+        }).catch(() => {
+            // Final fallback
+            const textArea = document.createElement('textarea');
+            textArea.value = window.location.href;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('Video URL copied to clipboard!');
+        });
+    }
+}
+
+function toggleFullscreen() {
+    const videoPlayer = document.querySelector('.video-player');
+    const iframe = videoPlayer.querySelector('.video-iframe');
+
+    if (iframe && iframe.requestFullscreen) {
+        iframe.requestFullscreen();
+    } else if (videoPlayer.requestFullscreen) {
+        videoPlayer.requestFullscreen();
+    } else {
+        alert('Fullscreen not supported in this browser');
+    }
+}
+</script>
+{% endblock %}

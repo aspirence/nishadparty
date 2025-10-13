@@ -1,0 +1,386 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Nishad Party - Our Story{% endblock %}
+
+{% block meta_description %}Learn about Nishad Party - Nirbal Indian Shoshit Hamara Aam Dal. Our history, mission, and commitment to the fishermen and sailing communities across India.{% endblock %}
+
+{% block extra_css %}
+<style>
+.about-hero {
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    color: var(--secondary-white);
+    padding: 6rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 215, 0, 0.1);
+    border-radius: 50%;
+    animation: heroFloat 15s ease-in-out infinite;
+}
+
+@keyframes heroFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-40px) rotate(180deg); }
+}
+
+.about-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.about-hero .lead {
+    font-size: 1.3rem;
+    opacity: 0.95;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.content-section {
+    padding: 5rem 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-title h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.section-title h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-gold));
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.story-card {
+    background: var(--secondary-white);
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 3rem;
+    border-left: 5px solid var(--primary-red);
+    transition: all 0.3s ease;
+}
+
+.story-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+}
+
+.story-card h3 {
+    color: var(--primary-red);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.story-card h3 i {
+    font-size: 2rem;
+    background: linear-gradient(135deg, var(--primary-red), #FF1744);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.story-card p {
+    color: var(--dark-gray);
+    line-height: 1.8;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stats-section {
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    padding: 5rem 0;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.stat-card {
+    background: var(--secondary-white);
+    padding: 2.5rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    border-color: var(--accent-gold);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--primary-red);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.stat-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--dark-gray);
+    margin-bottom: 0.5rem;
+}
+
+.stat-description {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.values-section {
+    padding: 5rem 0;
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.05), rgba(255, 215, 0, 0.05));
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.value-card {
+    background: var(--secondary-white);
+    padding: 2.5rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.value-card:hover {
+    border-color: var(--primary-red);
+    transform: translateY(-5px);
+}
+
+.value-icon {
+    font-size: 3.5rem;
+    color: var(--primary-red);
+    margin-bottom: 1.5rem;
+    background: rgba(220, 53, 69, 0.1);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.value-card h4 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+}
+
+.value-card p {
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .about-hero {
+        padding: 4rem 0 3rem;
+        text-align: center;
+    }
+
+    .about-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .section-title h2 {
+        font-size: 2.2rem;
+    }
+
+    .story-card {
+        padding: 2rem;
+    }
+
+    .content-section {
+        padding: 3rem 0;
+    }
+
+    .stats-section,
+    .values-section {
+        padding: 3rem 0;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+<!-- Our Story Section -->
+<div class="content-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Our Story</h2>
+            <p class="section-subtitle">Born from the struggles of the fishing and sailing communities, Nishad Party stands as a beacon of hope for the marginalized sections of society.</p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="story-card">
+                    <h3><i class="bi bi-flag"></i>Our Beginning</h3>
+                    <p>Nishad Party was founded with a vision to represent the unheard voices of fishermen, sailors, and other marginalized communities across India. Our party emerged from the grassroots, understanding the real challenges faced by these communities.</p>
+                    <p>The name "Nirbal Indian Shoshit Hamara Aam Dal" reflects our commitment to standing with the weak, the oppressed, and the common people of our nation.</p>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <div class="story-card">
+                    <h3><i class="bi bi-people"></i>Our Community</h3>
+                    <p>We represent millions of fishermen, boat operators, sailors, and allied workers who form the backbone of India's maritime and fishing industry. Their livelihoods depend on the rivers, seas, and water bodies that sustain our nation.</p>
+                    <p>Beyond the fishing community, we stand with all marginalized sections including farmers, laborers, and small business owners who need a strong voice in politics.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="story-card">
+                    <h3><i class="bi bi-heart"></i>Our Commitment</h3>
+                    <p>Our commitment goes beyond mere political representation. We work tirelessly to ensure that government policies are inclusive and beneficial to the communities we serve. From securing fishing rights to ensuring fair compensation for environmental damages, we fight for justice at every level.</p>
+                    <p>We believe in sustainable development that protects both livelihoods and the environment. Our approach combines traditional wisdom with modern solutions to create a better future for our communities.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Section -->
+<div class="stats-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Our Impact</h2>
+            <p class="section-subtitle">Numbers that reflect our growing influence and the trust people place in us</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">50+</span>
+                <div class="stat-label">Constituencies</div>
+                <div class="stat-description">Active presence across multiple states</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">10L+</span>
+                <div class="stat-label">Community Members</div>
+                <div class="stat-description">Fishermen and allied workers supported</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">15+</span>
+                <div class="stat-label">Years</div>
+                <div class="stat-description">Of dedicated service to the community</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">500+</span>
+                <div class="stat-label">Initiatives</div>
+                <div class="stat-description">Programs for community development</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Values Section -->
+<div class="values-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Our Core Values</h2>
+            <p class="section-subtitle">The principles that guide our every action and decision</p>
+        </div>
+
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <h4>Integrity</h4>
+                <p>We maintain the highest standards of honesty and transparency in all our dealings with the people and in governance.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <h4>Inclusivity</h4>
+                <p>We believe in equal representation and opportunities for all, regardless of caste, creed, or economic status.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="bi bi-globe"></i>
+                </div>
+                <h4>Sustainability</h4>
+                <p>We advocate for policies that balance economic growth with environmental protection for future generations.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="bi bi-lightning"></i>
+                </div>
+                <h4>Empowerment</h4>
+                <p>We work to empower communities through education, skill development, and economic opportunities.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="bi bi-balance"></i>
+                </div>
+                <h4>Justice</h4>
+                <p>We fight for social and economic justice, ensuring fair treatment and equal rights for all citizens.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="bi bi-arrow-up-circle"></i>
+                </div>
+                <h4>Progress</h4>
+                <p>We are committed to progressive policies that drive development while preserving our cultural heritage.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

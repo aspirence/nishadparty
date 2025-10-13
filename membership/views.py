@@ -215,14 +215,26 @@ def payment_complete(request, membership_id):
 @login_required
 def membership_card(request):
     """Display digital membership card"""
-    membership = get_object_or_404(
-        Membership,
-        user=request.user,
-        is_active=True,
-        verification_status='APPROVED'
-    )
+    try:
+        membership = Membership.objects.get(
+            user=request.user,
+            is_active=True,
+            verification_status='APPROVED'
+        )
+        context = {
+            'membership': membership,
+            'has_membership': True,
+        }
+    except Membership.DoesNotExist:
+        # Check if user has any membership (pending/rejected)
+        pending_membership = Membership.objects.filter(
+            user=request.user
+        ).order_by('-created_at').first()
 
-    context = {
-        'membership': membership,
-    }
+        context = {
+            'membership': None,
+            'has_membership': False,
+            'pending_membership': pending_membership,
+        }
+
     return render(request, 'membership/card.html', context)
