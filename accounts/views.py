@@ -223,9 +223,9 @@ def complete_profile_view(request):
             profile.avatar = request.FILES['avatar']
         
         profile.save()
-        
+
         messages.success(request, 'Profile updated successfully!')
-        return redirect('home')
+        return redirect('complete_profile')
     
     return render(request, 'accounts/complete_profile.html', {
         'profile': profile

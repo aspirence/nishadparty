@@ -3,214 +3,560 @@
 {% block title %}Payment Instructions - Nishad Party{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-12">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'donations:home' %}">Donations</a></li>
-                    <li class="breadcrumb-item active">Payment Instructions</li>
-                </ol>
-            </nav>
+<style>
+    .payment-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .breadcrumb {
+        background: white;
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        color: var(--medium-gray);
+    }
+
+    .breadcrumb-item a {
+        color: var(--primary-red);
+        text-decoration: none;
+    }
+
+    .breadcrumb-item a:hover {
+        text-decoration: underline;
+    }
+
+    .success-banner {
+        background: linear-gradient(135deg, #198754, #20c997);
+        color: white;
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 12px rgba(25, 135, 84, 0.2);
+        border: none;
+    }
+
+    .success-banner h5 {
+        color: white;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .success-banner p {
+        color: rgba(255, 255, 255, 0.95);
+        margin: 0;
+    }
+
+    .info-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .card-header-custom {
+        background: linear-gradient(135deg, var(--primary-red), var(--primary-red-dark));
+        color: white;
+        border-radius: 12px 12px 0 0;
+        padding: 1.25rem 1.5rem;
+        margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .card-header-custom h5 {
+        margin: 0;
+        font-weight: 700;
+        font-size: 1.125rem;
+        color: white;
+    }
+
+    .card-header-custom i {
+        font-size: 1.5rem;
+    }
+
+    .detail-row {
+        display: flex;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .detail-row:last-child {
+        border-bottom: none;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        color: var(--medium-gray);
+        min-width: 150px;
+    }
+
+    .detail-value {
+        color: var(--dark-gray);
+        font-weight: 500;
+    }
+
+    .instruction-box {
+        background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        border-left: 4px solid #2196f3;
+        border-radius: 8px;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .instruction-box ul {
+        margin: 0;
+        padding-left: 1.25rem;
+    }
+
+    .instruction-box li {
+        margin-bottom: 0.5rem;
+        line-height: 1.6;
+    }
+
+    .address-card {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        border-radius: 12px;
+        padding: 1.5rem;
+        border-left: 4px solid var(--primary-red);
+        margin-top: 1rem;
+    }
+
+    .address-card h6 {
+        color: var(--dark-gray);
+        font-weight: 700;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .bank-details {
+        background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+        border-radius: 12px;
+        padding: 1.5rem;
+        border-left: 4px solid #ff9800;
+    }
+
+    .bank-detail-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        border-bottom: 1px dashed #ddd;
+    }
+
+    .bank-detail-item:last-child {
+        border-bottom: none;
+    }
+
+    .bank-detail-label {
+        font-weight: 600;
+        color: var(--medium-gray);
+    }
+
+    .bank-detail-value {
+        font-weight: 700;
+        color: var(--dark-gray);
+    }
+
+    .warning-box {
+        background: linear-gradient(135deg, #fff8e1, #ffecb3);
+        border-left: 4px solid #ffc107;
+        border-radius: 8px;
+        padding: 1.25rem;
+        margin-top: 1rem;
+    }
+
+    .warning-box h6 {
+        color: var(--dark-gray);
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .warning-box ul {
+        margin: 0;
+        padding-left: 1.25rem;
+    }
+
+    .warning-box li {
+        margin-bottom: 0.5rem;
+    }
+
+    .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .step-box {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 1.25rem;
+        border-left: 4px solid var(--primary-red);
+    }
+
+    .step-box h6 {
+        color: var(--dark-gray);
+        font-weight: 700;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .step-box ul {
+        margin: 0;
+        padding-left: 1.25rem;
+    }
+
+    .step-box li {
+        margin-bottom: 0.5rem;
+        line-height: 1.6;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+    }
+
+    .btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn-primary {
+        background: var(--primary-red);
+        border: 2px solid var(--primary-red);
+    }
+
+    .btn-primary:hover {
+        background: var(--primary-red-dark);
+        border-color: var(--primary-red-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
+
+    .btn-outline-primary {
+        border: 2px solid var(--primary-red);
+        color: var(--primary-red);
+        background: white;
+    }
+
+    .btn-outline-primary:hover {
+        background: var(--primary-red);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .btn-outline-secondary {
+        border: 2px solid #6c757d;
+        color: #6c757d;
+        background: white;
+    }
+
+    .btn-outline-secondary:hover {
+        background: #6c757d;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .donation-id-highlight {
+        background: linear-gradient(135deg, #fff3cd, #ffe69c);
+        padding: 0.25rem 0.75rem;
+        border-radius: 6px;
+        font-weight: 700;
+        color: var(--dark-gray);
+    }
+
+    @media (max-width: 768px) {
+        .steps-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .detail-row {
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .detail-label {
+            min-width: auto;
+        }
+
+        .bank-detail-item {
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .breadcrumb {
+            padding: 0.75rem 1rem;
+        }
+
+        .success-banner {
+            padding: 1.5rem;
+        }
+
+        .info-card {
+            padding: 1.25rem;
+        }
+
+        .card-header-custom {
+            padding: 1rem 1.25rem;
+            margin: -1.25rem -1.25rem 1.25rem -1.25rem;
+        }
+    }
+</style>
+
+<div class="payment-container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'donations:home' %}">Donations</a></li>
+            <li class="breadcrumb-item active">Payment Instructions</li>
+        </ol>
+    </nav>
+
+    <!-- Success Message -->
+    <div class="success-banner">
+        <h5><i class="bi bi-check-circle-fill"></i>Donation Registration Successful!</h5>
+        <p>Your donation has been registered. Please follow the instructions below to complete the payment.</p>
+    </div>
+
+    <!-- Donation Details -->
+    <div class="info-card">
+        <div class="card-header-custom">
+            <i class="bi bi-info-circle-fill"></i>
+            <h5>Donation Details</h5>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Donation ID:</span>
+            <span class="detail-value donation-id-highlight">{{ donation.id }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Donor Name:</span>
+            <span class="detail-value">{{ donation.donor_name }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Amount:</span>
+            <span class="detail-value">₹{{ donation.amount|floatformat:2 }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Payment Method:</span>
+            <span class="detail-value">
+                {% if donation.payment_method == 'CASH' %}Cash
+                {% elif donation.payment_method == 'CHEQUE' %}Cheque
+                {% elif donation.payment_method == 'DD' %}Demand Draft
+                {% elif donation.payment_method == 'BANK_TRANSFER' %}Bank Transfer
+                {% endif %}
+            </span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Registration Date:</span>
+            <span class="detail-value">{{ donation.created_at|date:"d M Y, h:i A" }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Purpose:</span>
+            <span class="detail-value">{{ donation.purpose|default:"General Donation" }}</span>
         </div>
     </div>
 
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <!-- Success Message -->
-            <div class="alert alert-success">
-                <h5><i class="bi bi-check-circle me-2"></i>Donation Registration Successful!</h5>
-                <p class="mb-0">Your donation has been registered. Please follow the instructions below to complete the payment.</p>
-            </div>
-
-            <!-- Donation Details -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5><i class="bi bi-info-circle me-2"></i>Donation Details</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p><strong>Donation ID:</strong> {{ donation.id }}</p>
-                            <p><strong>Donor:</strong> {{ donation.donor_name }}</p>
-                            <p><strong>Amount:</strong> ₹{{ donation.amount|floatformat:2 }}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong>Payment Method:</strong> 
-                                {% if donation.payment_method == 'CASH' %}Cash
-                                {% elif donation.payment_method == 'CHEQUE' %}Cheque
-                                {% elif donation.payment_method == 'DD' %}Demand Draft
-                                {% elif donation.payment_method == 'BANK_TRANSFER' %}Bank Transfer
-                                {% endif %}
-                            </p>
-                            <p><strong>Registration Date:</strong> {{ donation.created_at|date:"d M Y, h:i A" }}</p>
-                            <p><strong>Purpose:</strong> {{ donation.purpose|default:"General Donation" }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Payment Instructions -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5><i class="bi bi-credit-card me-2"></i>Payment Instructions</h5>
-                </div>
-                <div class="card-body">
-                    {% if donation.payment_method == 'CASH' %}
-                        <h6><i class="bi bi-cash me-2"></i>Cash Payment</h6>
-                        <div class="alert alert-info">
-                            <ul class="mb-0">
-                                <li>Please visit the office address given below</li>
-                                <li>Bring this Donation ID number with you: <strong>{{ donation.id }}</strong></li>
-                                <li>Office hours: Monday to Saturday, 10:00 AM to 5:00 PM</li>
-                                <li>Office closed on Sundays</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="card bg-light">
-                            <div class="card-body">
-                                <h6>Office Address:</h6>
-                                <p class="mb-2">
-                                    <strong>Nishad Party Headquarters</strong><br>
-                                    [Office address will be here]<br>
-                                    Phone: [Office phone number]
-                                </p>
-                                <small class="text-muted">
-                                    <i class="bi bi-clock me-1"></i>Office Hours: Monday-Saturday 10:00 AM - 5:00 PM
-                                </small>
-                            </div>
-                        </div>
-
-                    {% elif donation.payment_method == 'CHEQUE' or donation.payment_method == 'DD' %}
-                        <h6>
-                            <i class="bi bi-bank me-2"></i>
-                            {% if donation.payment_method == 'CHEQUE' %}Cheque{% else %}Demand Draft{% endif %} Payment
-                        </h6>
-                        <div class="alert alert-info">
-                            <ul class="mb-0">
-                                <li>
-                                    Make {% if donation.payment_method == 'CHEQUE' %}Cheque{% else %}Demand Draft{% endif %}
-                                    in favor of "<strong>Nishad Party</strong>"
-                                </li>
-                                <li>Amount: <strong>₹{{ donation.amount|floatformat:2 }}</strong></li>
-                                <li>
-                                    Write the following information on the back of the {% if donation.payment_method == 'CHEQUE' %}Cheque{% else %}Demand Draft{% endif %}:
-                                    <ul>
-                                        <li>Donation ID: {{ donation.id }}</li>
-                                        <li>Donor Name: {{ donation.donor_name }}</li>
-                                        <li>Phone: {{ donation.donor_phone }}</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="card bg-light">
-                            <div class="card-body">
-                                <h6>Mailing Address:</h6>
-                                <address>
-                                    <strong>Nishad Party</strong><br>
-                                    Treasurer<br>
-                                    [Office Address]<br>
-                                    <strong>Subject:</strong> Donation - {{ donation.donor_name }}
-                                </address>
-                            </div>
-                        </div>
-
-                    {% elif donation.payment_method == 'BANK_TRANSFER' %}
-                        <h6><i class="bi bi-bank2 me-2"></i>Bank Transfer</h6>
-                        <div class="alert alert-info">
-                            <p>Transfer amount to the following bank account:</p>
-                        </div>
-
-                        <div class="card bg-light">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p><strong>Account Name:</strong> Nishad Party</p>
-                                        <p><strong>Account Number:</strong> [Account Number]</p>
-                                        <p><strong>IFSC Code:</strong> [IFSC Code]</p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p><strong>Bank Name:</strong> [Bank Name]</p>
-                                        <p><strong>Branch:</strong> [Branch Name]</p>
-                                        <p><strong>Amount:</strong> ₹{{ donation.amount|floatformat:2 }}</p>
-                                    </div>
-                                </div>
-                                <hr>
-                                <p class="mb-0"><strong>Write in transfer description:</strong></p>
-                                <p class="small mb-0">Donation ID: {{ donation.id }} - {{ donation.donor_name }}</p>
-                            </div>
-                        </div>
-
-                        <div class="alert alert-warning mt-3">
-                            <h6><i class="bi bi-exclamation-triangle me-2"></i>Important:</h6>
-                            <ul class="mb-0">
-                                <li>Keep Transaction ID safe after transfer</li>
-                                <li>Send screenshot or receipt of transfer</li>
-                                <li>WhatsApp: [Phone Number]</li>
-                                <li>Email: [Email Address]</li>
-                            </ul>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-
-            <!-- Next Steps -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5><i class="bi bi-list-check me-2"></i>Next Steps</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h6>After Payment:</h6>
-                            <ul>
-                                <li>Wait for payment confirmation</li>
-                                <li>Verification will take 2-3 working days</li>
-                                <li>Receipt will be prepared after verification</li>
-                                <li>Receipt will be sent via email or SMS</li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6">
-                            <h6>Contact Information:</h6>
-                            <ul>
-                                <li><strong>Phone:</strong> [Contact Number]</li>
-                                <li><strong>WhatsApp:</strong> [WhatsApp Number]</li>
-                                <li><strong>Email:</strong> [Email Address]</li>
-                                <li><strong>Hours:</strong> 10:00 AM - 5:00 PM</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Important Notes -->
-            <div class="alert alert-warning">
-                <h6><i class="bi bi-exclamation-triangle me-2"></i>Important Notice:</h6>
-                <ul class="mb-0">
-                    <li>This donation is eligible for income tax exemption</li>
-                    <li>{% if donation.amount >= 2000 %}Donations of ₹2000 or above are reported to Election Commission{% endif %}</li>
-                    <li>Please wait 2-3 working days for payment confirmation</li>
-                    <li>Contact us for any issues</li>
+    <!-- Payment Instructions -->
+    <div class="info-card">
+        <div class="card-header-custom">
+            <i class="bi bi-credit-card-fill"></i>
+            <h5>Payment Instructions</h5>
+        </div>
+        {% if donation.payment_method == 'CASH' %}
+            <h6 style="color: var(--dark-gray); font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="bi bi-cash-stack"></i>Cash Payment
+            </h6>
+            <div class="instruction-box">
+                <ul>
+                    <li>Please visit the office address given below</li>
+                    <li>Bring this Donation ID number with you: <span class="donation-id-highlight">{{ donation.id }}</span></li>
+                    <li>Office hours: Monday to Saturday, 10:00 AM to 5:00 PM</li>
+                    <li>Office closed on Sundays</li>
                 </ul>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="text-center">
-                <a href="{% url 'donations:home' %}" class="btn btn-primary me-2">
-                    <i class="bi bi-house me-1"></i>Donations Home Page
-                </a>
-                <button onclick="window.print()" class="btn btn-outline-secondary me-2">
-                    <i class="bi bi-printer me-1"></i>Print
-                </button>
-                {% if user.is_authenticated %}
-                <a href="{% url 'donations:my_donations' %}" class="btn btn-outline-primary">
-                    <i class="bi bi-list me-1"></i>View My Donations
-                </a>
-                {% endif %}
+            <div class="address-card">
+                <h6><i class="bi bi-geo-alt-fill"></i>Office Address</h6>
+                <p style="margin-bottom: 0.5rem;">
+                    <strong>Nishad Party Headquarters</strong><br>
+                    [Office address will be here]<br>
+                    Phone: [Office phone number]
+                </p>
+                <small style="color: var(--medium-gray); display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="bi bi-clock-fill"></i>Office Hours: Monday-Saturday 10:00 AM - 5:00 PM
+                </small>
+            </div>
+
+        {% elif donation.payment_method == 'CHEQUE' or donation.payment_method == 'DD' %}
+            <h6 style="color: var(--dark-gray); font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="bi bi-bank"></i>
+                {% if donation.payment_method == 'CHEQUE' %}Cheque{% else %}Demand Draft{% endif %} Payment
+            </h6>
+            <div class="instruction-box">
+                <ul>
+                    <li>
+                        Make {% if donation.payment_method == 'CHEQUE' %}Cheque{% else %}Demand Draft{% endif %}
+                        in favor of "<strong>Nishad Party</strong>"
+                    </li>
+                    <li>Amount: <strong>₹{{ donation.amount|floatformat:2 }}</strong></li>
+                    <li>
+                        Write the following information on the back of the {% if donation.payment_method == 'CHEQUE' %}Cheque{% else %}Demand Draft{% endif %}:
+                        <ul>
+                            <li>Donation ID: <span class="donation-id-highlight">{{ donation.id }}</span></li>
+                            <li>Donor Name: {{ donation.donor_name }}</li>
+                            <li>Phone: {{ donation.donor_phone }}</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="address-card">
+                <h6><i class="bi bi-envelope-fill"></i>Mailing Address</h6>
+                <address style="margin: 0; line-height: 1.8;">
+                    <strong>Nishad Party</strong><br>
+                    Treasurer<br>
+                    [Office Address]<br>
+                    <strong>Subject:</strong> Donation - {{ donation.donor_name }}
+                </address>
+            </div>
+
+        {% elif donation.payment_method == 'BANK_TRANSFER' %}
+            <h6 style="color: var(--dark-gray); font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="bi bi-bank2"></i>Bank Transfer
+            </h6>
+            <div class="instruction-box">
+                <p style="margin: 0; font-weight: 600;">Transfer amount to the following bank account:</p>
+            </div>
+
+            <div class="bank-details">
+                <div class="bank-detail-item">
+                    <span class="bank-detail-label">Account Name:</span>
+                    <span class="bank-detail-value">Nishad Party</span>
+                </div>
+                <div class="bank-detail-item">
+                    <span class="bank-detail-label">Account Number:</span>
+                    <span class="bank-detail-value">[Account Number]</span>
+                </div>
+                <div class="bank-detail-item">
+                    <span class="bank-detail-label">IFSC Code:</span>
+                    <span class="bank-detail-value">[IFSC Code]</span>
+                </div>
+                <div class="bank-detail-item">
+                    <span class="bank-detail-label">Bank Name:</span>
+                    <span class="bank-detail-value">[Bank Name]</span>
+                </div>
+                <div class="bank-detail-item">
+                    <span class="bank-detail-label">Branch:</span>
+                    <span class="bank-detail-value">[Branch Name]</span>
+                </div>
+                <div class="bank-detail-item">
+                    <span class="bank-detail-label">Amount:</span>
+                    <span class="bank-detail-value">₹{{ donation.amount|floatformat:2 }}</span>
+                </div>
+                <hr style="margin: 1rem 0; border-color: rgba(0,0,0,0.1);">
+                <p style="margin: 0; font-weight: 600; color: var(--dark-gray);">Write in transfer description:</p>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.938rem;">Donation ID: <span class="donation-id-highlight">{{ donation.id }}</span> - {{ donation.donor_name }}</p>
+            </div>
+
+            <div class="warning-box">
+                <h6><i class="bi bi-exclamation-triangle-fill"></i>Important</h6>
+                <ul>
+                    <li>Keep Transaction ID safe after transfer</li>
+                    <li>Send screenshot or receipt of transfer</li>
+                    <li>WhatsApp: [Phone Number]</li>
+                    <li>Email: [Email Address]</li>
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Next Steps -->
+    <div class="info-card">
+        <div class="card-header-custom">
+            <i class="bi bi-list-check"></i>
+            <h5>Next Steps</h5>
+        </div>
+        <div class="steps-grid">
+            <div class="step-box">
+                <h6><i class="bi bi-check-circle-fill"></i>After Payment</h6>
+                <ul>
+                    <li>Wait for payment confirmation</li>
+                    <li>Verification will take 2-3 working days</li>
+                    <li>Receipt will be prepared after verification</li>
+                    <li>Receipt will be sent via email or SMS</li>
+                </ul>
+            </div>
+            <div class="step-box">
+                <h6><i class="bi bi-telephone-fill"></i>Contact Information</h6>
+                <ul>
+                    <li><strong>Phone:</strong> [Contact Number]</li>
+                    <li><strong>WhatsApp:</strong> [WhatsApp Number]</li>
+                    <li><strong>Email:</strong> [Email Address]</li>
+                    <li><strong>Hours:</strong> 10:00 AM - 5:00 PM</li>
+                </ul>
             </div>
         </div>
+    </div>
+
+    <!-- Important Notes -->
+    <div class="warning-box">
+        <h6><i class="bi bi-exclamation-triangle-fill"></i>Important Notice</h6>
+        <ul>
+            <li>This donation is eligible for income tax exemption</li>
+            {% if donation.amount >= 2000 %}<li>Donations of ₹2000 or above are reported to Election Commission</li>{% endif %}
+            <li>Please wait 2-3 working days for payment confirmation</li>
+            <li>Contact us for any issues</li>
+        </ul>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+        <a href="{% url 'donations:home' %}" class="btn btn-primary">
+            <i class="bi bi-house-fill"></i>Donations Home Page
+        </a>
+        <button onclick="window.print()" class="btn btn-outline-secondary">
+            <i class="bi bi-printer-fill"></i>Print
+        </button>
+        {% if user.is_authenticated %}
+        <a href="{% url 'donations:my_donations' %}" class="btn btn-outline-primary">
+            <i class="bi bi-list-ul"></i>View My Donations
+        </a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
