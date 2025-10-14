@@ -199,6 +199,124 @@ def terms_view(request):
 def sitemap_view(request):
     return render(request, 'core/sitemap.html')
 
+def sitemap_xml(request):
+    """Generate XML sitemap for search engines"""
+    from django.urls import reverse
+    from django.utils import timezone
+
+    # Build list of static pages with priorities and change frequencies
+    urls = [
+        {
+            'loc': request.build_absolute_uri(reverse('home')),
+            'changefreq': 'daily',
+            'priority': '1.0',
+            'lastmod': timezone.now()
+        },
+        {
+            'loc': request.build_absolute_uri(reverse('about')),
+            'changefreq': 'monthly',
+            'priority': '0.9'
+        },
+        {
+            'loc': request.build_absolute_uri(reverse('leadership')),
+            'changefreq': 'monthly',
+            'priority': '0.9'
+        },
+        {
+            'loc': request.build_absolute_uri(reverse('vision')),
+            'changefreq': 'monthly',
+            'priority': '0.9'
+        },
+        {
+            'loc': request.build_absolute_uri(reverse('manifesto')),
+            'changefreq': 'monthly',
+            'priority': '0.9'
+        },
+        {
+            'loc': request.build_absolute_uri(reverse('photo_gallery')),
+            'changefreq': 'weekly',
+            'priority': '0.8'
+        },
+        {
+            'loc': request.build_absolute_uri(reverse('video_gallery')),
+            'changefreq': 'weekly',
+            'priority': '0.8'
+        },
+        {
+            'loc': request.build_absolute_uri(reverse('news')),
+            'changefreq': 'daily',
+            'priority': '0.8'
+        },
+        {
+            'loc': request.build_absolute_uri(reverse('contact')),
+            'changefreq': 'yearly',
+            'priority': '0.7'
+        },
+        {
+            'loc': request.build_absolute_uri(reverse('privacy_policy')),
+            'changefreq': 'yearly',
+            'priority': '0.5'
+        },
+        {
+            'loc': request.build_absolute_uri(reverse('terms')),
+            'changefreq': 'yearly',
+            'priority': '0.5'
+        },
+        {
+            'loc': request.build_absolute_uri(reverse('sitemap')),
+            'changefreq': 'monthly',
+            'priority': '0.6'
+        },
+    ]
+
+    # Add donation page
+    try:
+        urls.append({
+            'loc': request.build_absolute_uri(reverse('donations:home')),
+            'changefreq': 'weekly',
+            'priority': '0.9'
+        })
+    except:
+        pass
+
+    # Add membership page
+    try:
+        urls.append({
+            'loc': request.build_absolute_uri(reverse('membership:home')),
+            'changefreq': 'weekly',
+            'priority': '0.9'
+        })
+    except:
+        pass
+
+    # Add events list page
+    try:
+        urls.append({
+            'loc': request.build_absolute_uri(reverse('campaigns:events_list')),
+            'changefreq': 'daily',
+            'priority': '0.9'
+        })
+
+        # Add individual events
+        from campaigns.models import Event
+        events = Event.objects.filter(is_published=True)[:50]  # Limit to 50 recent events
+        for event in events:
+            urls.append({
+                'loc': request.build_absolute_uri(reverse('campaigns:event_detail', kwargs={'slug': event.slug})),
+                'changefreq': 'weekly',
+                'priority': '0.7',
+                'lastmod': event.updated_at
+            })
+    except:
+        pass
+
+    context = {
+        'urls': urls,
+        'domain': request.get_host()
+    }
+
+    return render(request, 'core/sitemap.xml', context, content_type='application/xml')
+
 def kejriwal_videos_api(request):
     """
     API endpoint to serve Kejriwal speaks videos data

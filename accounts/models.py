@@ -99,18 +99,75 @@ class PhoneVerification(models.Model):
     is_verified = models.BooleanField(default=False)
     attempts = models.IntegerField(default=0)
     expires_at = models.DateTimeField()
-    
+
     def save(self, *args, **kwargs):
         if not self.expires_at:
             self.expires_at = timezone.now() + timezone.timedelta(minutes=10)
         super().save(*args, **kwargs)
-    
+
     @property
     def is_expired(self):
         return timezone.now() > self.expires_at
-    
+
     def __str__(self):
         return f"OTP for {self.phone_number}"
-    
+
     class Meta:
         ordering = ['-created_at']
+
+
+# Feature Permission System
+FEATURE_CHOICES = [
+    ('USER_MANAGEMENT', 'User Management'),
+    ('ASSET_MANAGEMENT', 'Asset Management'),
+    ('GATE_PASS', 'Gate Pass Management'),
+    ('DONATION_MANAGEMENT', 'Donation Management'),
+    ('EVENT_MANAGEMENT', 'Event Management'),
+    ('MEMBERSHIP_MANAGEMENT', 'Membership Management'),
+]
+
+class FeaturePermission(models.Model):
+    """
+    Model to manage feature-level permissions for users.
+    Allows admins to grant specific users access to manage certain features.
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='feature_permissions')
+    feature = models.CharField(max_length=50, choices=FEATURE_CHOICES)
+    granted_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='permissions_granted')
+    granted_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+    notes = models.TextField(blank=True, help_text="Optional notes about this permission")
+
+    class Meta:
+        unique_together = ('user', 'feature')
+        ordering = ['-granted_at']
+        verbose_name = 'Feature Permission'
+        verbose_name_plural = 'Feature Permissions'
+
+    def __str__(self):
+        return f"{self.user.get_full_name()} - {self.get_feature_display()}"
+
+    @classmethod
+    def user_has_permission(cls, user, feature):
+        """Check if a user has permission for a specific feature"""
+        # Admins have all permissions
+        if user.user_type == 'ADMINISTRATOR':
+            return True
+
+        # Check if user has active permission for this feature
+        return cls.objects.filter(
+            user=user,
+            feature=feature,
+            is_active=True
+        ).exists()
+
+    @classmethod
+    def get_user_features(cls, user):
+        """Get all features a user has access to"""
+        if user.user_type == 'ADMINISTRATOR':
+            return [choice[0] for choice in FEATURE_CHOICES]
+
+        return list(cls.objects.filter(
+            user=user,
+            is_active=True
+        ).values_list('feature', flat=True))

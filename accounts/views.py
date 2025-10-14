@@ -15,6 +15,7 @@ import json
 
 from .models import User, UserProfile, PhoneVerification, USER_TYPE_CHOICES
 from .utils import create_or_update_otp, create_or_update_otp_with_default, send_otp_sms, verify_otp, format_phone_number, format_phone_number_with_country, is_phone_number_valid
+from .decorators import admin_or_feature_required
 
 class PhoneLoginView(View):
     template_name = 'accounts/phone_login.html'
@@ -324,11 +325,9 @@ def logout_view(request):
 
 # Admin User Management Views
 @login_required
+@admin_or_feature_required('USER_MANAGEMENT')
 def admin_user_list(request):
     """Admin view to manage all users"""
-    if request.user.user_type != 'ADMINISTRATOR':
-        messages.error(request, _('You do not have permission to view this page.'))
-        return redirect('home')
     
     # Get search and filter parameters
     search_query = request.GET.get('search', '')
@@ -379,10 +378,9 @@ def admin_user_list(request):
     return render(request, 'accounts/admin_user_list.html', context)
 
 @login_required
+@admin_or_feature_required('USER_MANAGEMENT')
 def admin_change_user_type(request, user_id):
     """Admin function to change user type"""
-    if request.user.user_type != 'ADMINISTRATOR':
-        return JsonResponse({'status': 'error', 'message': 'Permission denied'}, status=403)
     
     user = get_object_or_404(User, id=user_id)
     
@@ -416,12 +414,10 @@ def admin_change_user_type(request, user_id):
     
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
 
-@login_required 
+@login_required
+@admin_or_feature_required('USER_MANAGEMENT')
 def admin_user_detail(request, user_id):
     """Admin view to see detailed user information"""
-    if request.user.user_type != 'ADMINISTRATOR':
-        messages.error(request, _('You do not have permission to view this page.'))
-        return redirect('home')
     
     user = get_object_or_404(User, id=user_id)
     profile, created = UserProfile.objects.get_or_create(user=user)
@@ -446,10 +442,9 @@ def admin_user_detail(request, user_id):
     return render(request, 'accounts/admin_user_detail.html', context)
 
 @login_required
+@admin_or_feature_required('USER_MANAGEMENT')
 def admin_toggle_user_status(request, user_id):
     """Admin function to activate/deactivate user"""
-    if request.user.user_type != 'ADMINISTRATOR':
-        return JsonResponse({'status': 'error', 'message': 'Permission denied'}, status=403)
     
     user = get_object_or_404(User, id=user_id)
     
@@ -473,11 +468,9 @@ def admin_toggle_user_status(request, user_id):
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
 
 @login_required
+@admin_or_feature_required('USER_MANAGEMENT')
 def dashboard_user_management_content(request):
     """Return user management dashboard content for AJAX loading"""
-    # Check if user is admin
-    if request.user.user_type != 'ADMINISTRATOR':
-        return render(request, 'accounts/dashboard_content_denied.html')
 
     # Get user statistics
     total_users = User.objects.count()
@@ -509,3 +502,143 @@ def dashboard_user_management_content(request):
         'user_types': USER_TYPE_CHOICES,
     }
     return render(request, 'accounts/dashboard_content.html', context)
+
+
+# Permission Management Views
+from .decorators import admin_required
+from .models import FeaturePermission, FEATURE_CHOICES
+from django.db.models import Q
+
+@admin_required
+def permission_management(request):
+    """View to manage feature permissions"""
+    search_query = request.GET.get('search', '')
+    feature_filter = request.GET.get('feature', '')
+
+    # Get all permissions
+    permissions = FeaturePermission.objects.select_related('user', 'granted_by').all()
+
+    # Apply filters
+    if search_query:
+        permissions = permissions.filter(
+            Q(user__first_name__icontains=search_query) |
+            Q(user__last_name__icontains=search_query) |
+            Q(user__phone_number__icontains=search_query)
+        )
+
+    if feature_filter:
+        permissions = permissions.filter(feature=feature_filter)
+
+    # Get users who can be granted permissions (non-admins)
+    available_users = User.objects.exclude(
+        user_type='ADMINISTRATOR'
+    ).order_by('first_name', 'last_name')
+
+    # Get all users with permissions for display
+    users_with_permissions = User.objects.filter(
+        feature_permissions__is_active=True
+    ).distinct().order_by('first_name', 'last_name')
+
+    context = {
+        'permissions': permissions,
+        'available_users': available_users,
+        'users_with_permissions': users_with_permissions,
+        'features': FEATURE_CHOICES,
+        'search_query': search_query,
+        'feature_filter': feature_filter,
+    }
+    return render(request, 'accounts/permission_management.html', context)
+
+
+@admin_required
+def grant_permission(request):
+    """Grant feature permissions to a user (supports multiple features)"""
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id')
+        features = request.POST.getlist('features')  # Get list of features
+        notes = request.POST.get('notes', '')
+
+        try:
+            user = User.objects.get(id=user_id)
+
+            granted_count = 0
+            reactivated_count = 0
+            already_exists = []
+
+            for feature in features:
+                # Check if permission already exists
+                permission, created = FeaturePermission.objects.get_or_create(
+                    user=user,
+                    feature=feature,
+                    defaults={
+                        'granted_by': request.user,
+                        'notes': notes,
+                        'is_active': True
+                    }
+                )
+
+                if created:
+                    granted_count += 1
+                else:
+                    if not permission.is_active:
+                        permission.is_active = True
+                        permission.granted_by = request.user
+                        permission.notes = notes
+                        permission.save()
+                        reactivated_count += 1
+                    else:
+                        already_exists.append(permission.get_feature_display())
+
+            # Build success message
+            if granted_count > 0:
+                messages.success(request, f'{granted_count} permission(s) granted to {user.get_full_name()}')
+            if reactivated_count > 0:
+                messages.success(request, f'{reactivated_count} permission(s) re-activated for {user.get_full_name()}')
+            if already_exists:
+                messages.info(request, f'{user.get_full_name()} already has: {", ".join(already_exists)}')
+
+        except User.DoesNotExist:
+            messages.error(request, 'User not found')
+        except Exception as e:
+            messages.error(request, f'Error granting permissions: {str(e)}')
+
+    return redirect('permission_management')
+
+
+@admin_required
+def revoke_permission(request, permission_id):
+    """Revoke a feature permission from a user"""
+    try:
+        permission = FeaturePermission.objects.get(id=permission_id)
+        user_name = permission.user.get_full_name()
+        feature_name = permission.get_feature_display()
+
+        permission.is_active = False
+        permission.save()
+
+        messages.success(request, f'Permission for {feature_name} revoked from {user_name}')
+    except FeaturePermission.DoesNotExist:
+        messages.error(request, 'Permission not found')
+    except Exception as e:
+        messages.error(request, f'Error revoking permission: {str(e)}')
+
+    return redirect('permission_management')
+
+
+@admin_required
+def delete_permission(request, permission_id):
+    """Permanently delete a feature permission"""
+    try:
+        permission = FeaturePermission.objects.get(id=permission_id)
+        user_name = permission.user.get_full_name()
+        feature_name = permission.get_feature_display()
+
+        permission.delete()
+
+        messages.success(request, f'Permission for {feature_name} deleted from {user_name}')
+    except FeaturePermission.DoesNotExist:
+        messages.error(request, 'Permission not found')
+    except Exception as e:
+        messages.error(request, f'Error deleting permission: {str(e)}')
+
+    return redirect('permission_management')

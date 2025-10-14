@@ -15,4 +15,10 @@ urlpatterns = [
     path('admin/users/<int:user_id>/change-type/', views.admin_change_user_type, name='admin_change_user_type'),
     path('admin/users/<int:user_id>/toggle-status/', views.admin_toggle_user_status, name='admin_toggle_user_status'),
     path('admin/dashboard-content/', views.dashboard_user_management_content, name='dashboard_user_management_content'),
+
+    # Permission Management URLs
+    path('admin/permissions/', views.permission_management, name='permission_management'),
+    path('admin/permissions/grant/', views.grant_permission, name='grant_permission'),
+    path('admin/permissions/<int:permission_id>/revoke/', views.revoke_permission, name='revoke_permission'),
+    path('admin/permissions/<int:permission_id>/delete/', views.delete_permission, name='delete_permission'),
 ]

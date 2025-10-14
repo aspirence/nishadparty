@@ -10,6 +10,7 @@ from datetime import timedelta
 
 from .models import Asset, AssetCheckout, AssetMaintenance
 from accounts.models import User
+from accounts.decorators import admin_or_feature_required
 from django.forms import ModelForm
 
 def admin_required(user):
@@ -17,6 +18,7 @@ def admin_required(user):
     return user.is_authenticated and user.user_type == 'ADMINISTRATOR'
 
 @login_required
+@admin_or_feature_required('ASSET_MANAGEMENT')
 def asset_dashboard(request):
     """Asset dashboard showing overview for admins or user assignments for regular users"""
     if request.user.user_type == 'ADMINISTRATOR':

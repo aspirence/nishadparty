@@ -665,37 +665,73 @@
                         </a>
                     </li>
 
-                    {% if user.user_type == 'ADMINISTRATOR' %}
+                    {% load permission_tags %}
+                    {% if user.user_type == 'ADMINISTRATOR' or user|has_any_permission %}
                         <div class="sidebar-divider"></div>
                         <div class="sidebar-section-title">{% trans "Administration" %}</div>
 
+                        {% if user.user_type == 'ADMINISTRATOR' or user|has_feature_permission:'USER_MANAGEMENT' %}
                         <li class="sidebar-nav-item">
                             <a href="{% url 'admin_user_list' %}" class="sidebar-nav-link">
                                 <i class="bi bi-people"></i>
                                 <span>{% trans "Manage Users" %}</span>
                             </a>
                         </li>
+                        {% endif %}
 
+                        {% if user.user_type == 'ADMINISTRATOR' or user|has_feature_permission:'DONATION_MANAGEMENT' %}
                         <li class="sidebar-nav-item">
                             <a href="{% url 'donations:home' %}" class="sidebar-nav-link">
                                 <i class="bi bi-cash-coin"></i>
                                 <span>{% trans "Manage Donations" %}</span>
                             </a>
                         </li>
+                        {% endif %}
 
+                        {% if user.user_type == 'ADMINISTRATOR' or user|has_feature_permission:'EVENT_MANAGEMENT' %}
                         <li class="sidebar-nav-item">
                             <a href="{% url 'campaigns:admin_events_dashboard' %}" class="sidebar-nav-link">
                                 <i class="bi bi-calendar3"></i>
                                 <span>{% trans "Manage Events" %}</span>
                             </a>
                         </li>
+                        {% endif %}
 
+                        {% if user.user_type == 'ADMINISTRATOR' or user|has_feature_permission:'ASSET_MANAGEMENT' %}
                         <li class="sidebar-nav-item">
                             <a href="{% url 'assets:dashboard' %}" class="sidebar-nav-link">
                                 <i class="bi bi-box-seam"></i>
                                 <span>{% trans "Manage Assets" %}</span>
                             </a>
                         </li>
+                        {% endif %}
+
+                        {% if user.user_type == 'ADMINISTRATOR' or user|has_feature_permission:'GATE_PASS' %}
+                        <li class="sidebar-nav-item">
+                            <a href="{% url 'gatepass:dashboard' %}" class="sidebar-nav-link">
+                                <i class="bi bi-pass-fill"></i>
+                                <span>{% trans "Manage Gate Pass" %}</span>
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        {% if user.user_type == 'ADMINISTRATOR' or user|has_feature_permission:'MEMBERSHIP_MANAGEMENT' %}
+                        <li class="sidebar-nav-item">
+                            <a href="{% url 'membership:home' %}" class="sidebar-nav-link">
+                                <i class="bi bi-card-checklist"></i>
+                                <span>{% trans "Manage Membership" %}</span>
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        {% if user.user_type == 'ADMINISTRATOR' %}
+                        <li class="sidebar-nav-item">
+                            <a href="{% url 'permission_management' %}" class="sidebar-nav-link">
+                                <i class="bi bi-shield-lock-fill"></i>
+                                <span>{% trans "Manage Permissions" %}</span>
+                            </a>
+                        </li>
+                        {% endif %}
                     {% endif %}
 
                     <div class="sidebar-divider"></div>

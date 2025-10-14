@@ -18267,3 +18267,919 @@ WARNING 2025-10-13 22:29:03,365 log 73307 6159953920 Not Found: /manifest.json
 WARNING 2025-10-13 22:29:03,365 basehttp 73307 6159953920 "GET /manifest.json HTTP/1.1" 404 6107
 INFO 2025-10-13 22:29:05,653 basehttp 73307 6126301184 "GET /accounts/dashboard/ HTTP/1.1" 200 40739
 INFO 2025-10-13 22:29:09,556 basehttp 73307 6126301184 "GET /assets/ HTTP/1.1" 200 32688
+INFO 2025-10-13 22:30:16,694 basehttp 73307 6126301184 "GET /assets/ HTTP/1.1" 200 32688
+INFO 2025-10-13 22:30:16,729 basehttp 73307 6126301184 "GET /media/avatars/2c5c9cf1bb6cc344d5306057a6fa8090987601b2c0433734adb355ea34b37ae9_1.png HTTP/1.1" 200 588977
+WARNING 2025-10-13 22:30:16,936 log 73307 6126301184 Not Found: /favicon.ico
+WARNING 2025-10-13 22:30:16,936 basehttp 73307 6126301184 "GET /favicon.ico HTTP/1.1" 404 6101
+INFO 2025-10-13 22:30:26,815 basehttp 73307 6126301184 "GET /campaigns/admin/ HTTP/1.1" 200 32630
+INFO 2025-10-13 22:30:27,728 basehttp 73307 6126301184 "GET /donations/my-donations/ HTTP/1.1" 200 39362
+INFO 2025-10-13 22:30:31,955 basehttp 73307 6126301184 "GET /accounts/dashboard/ HTTP/1.1" 200 40739
+INFO 2025-10-13 22:30:37,053 basehttp 73307 6126301184 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:30:37,062 basehttp 73307 6126301184 "GET /membership/ HTTP/1.1" 200 70234
+WARNING 2025-10-13 22:30:37,200 log 73307 6126301184 Not Found: /sw.js
+WARNING 2025-10-13 22:30:37,202 log 73307 6159953920 Not Found: /manifest.json
+WARNING 2025-10-13 22:30:37,202 basehttp 73307 6126301184 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:30:37,202 basehttp 73307 6159953920 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:30:38,891 basehttp 73307 6126301184 "GET /accounts/dashboard/ HTTP/1.1" 200 40739
+INFO 2025-10-13 22:30:41,298 basehttp 73307 6126301184 "GET /assets/ HTTP/1.1" 200 32688
+INFO 2025-10-13 22:33:36,736 basehttp 73307 6126301184 "GET /donations/my-donations/ HTTP/1.1" 200 39362
+INFO 2025-10-13 22:33:39,061 basehttp 73307 6126301184 "GET /campaigns/admin/ HTTP/1.1" 200 32630
+INFO 2025-10-13 22:33:42,685 basehttp 73307 6126301184 "GET /campaigns/calendar/ HTTP/1.1" 200 48487
+INFO 2025-10-13 22:33:46,172 basehttp 73307 6126301184 "GET /campaigns/event/rally-aa88f81b/ HTTP/1.1" 200 31489
+INFO 2025-10-13 22:33:53,635 basehttp 73307 6126301184 "GET /campaigns/events/ HTTP/1.1" 200 32799
+INFO 2025-10-13 22:33:55,255 basehttp 73307 6126301184 "GET /accounts/dashboard/ HTTP/1.1" 200 40739
+INFO 2025-10-13 22:34:22,851 basehttp 73307 6126301184 "GET / HTTP/1.1" 200 86286
+WARNING 2025-10-13 22:34:23,468 log 73307 6126301184 Not Found: /sw.js
+WARNING 2025-10-13 22:34:23,469 log 73307 6159953920 Not Found: /manifest.json
+WARNING 2025-10-13 22:34:23,469 basehttp 73307 6126301184 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:34:23,469 basehttp 73307 6159953920 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:34:24,371 basehttp 73307 6126301184 "GET /accounts/dashboard/ HTTP/1.1" 200 40739
+INFO 2025-10-13 22:34:28,637 basehttp 73307 6126301184 "GET /membership/card/ HTTP/1.1" 200 28810
+INFO 2025-10-13 22:34:30,966 basehttp 73307 6126301184 "GET /donations/my-donations/ HTTP/1.1" 200 39362
+INFO 2025-10-13 22:34:32,576 basehttp 73307 6126301184 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:34:32,585 basehttp 73307 6126301184 "GET /membership/ HTTP/1.1" 200 70234
+WARNING 2025-10-13 22:34:32,715 log 73307 6159953920 Not Found: /manifest.json
+WARNING 2025-10-13 22:34:32,716 log 73307 6126301184 Not Found: /sw.js
+WARNING 2025-10-13 22:34:32,716 basehttp 73307 6159953920 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:34:32,716 basehttp 73307 6126301184 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:34:34,053 basehttp 73307 6126301184 "GET /accounts/dashboard/ HTTP/1.1" 200 40739
+INFO 2025-10-13 22:34:35,718 basehttp 73307 6126301184 "GET /accounts/admin/users/ HTTP/1.1" 200 63260
+INFO 2025-10-13 22:34:42,110 autoreload 73307 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/accounts/models.py changed, reloading.
+INFO 2025-10-13 22:34:42,422 autoreload 78380 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-13 22:34:45,369 basehttp 78380 6125875200 "GET /accounts/admin/users/8/ HTTP/1.1" 200 38008
+INFO 2025-10-13 22:34:53,147 basehttp 78380 6125875200 "POST /accounts/admin/users/8/toggle-status/ HTTP/1.1" 200 85
+INFO 2025-10-13 22:34:57,594 basehttp 78380 6125875200 "GET /accounts/dashboard/ HTTP/1.1" 200 40739
+INFO 2025-10-13 22:36:07,180 autoreload 78380 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/accounts/views.py changed, reloading.
+INFO 2025-10-13 22:36:07,472 autoreload 78922 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-13 22:36:21,927 autoreload 78922 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/accounts/urls.py changed, reloading.
+INFO 2025-10-13 22:36:22,331 autoreload 79025 8485232832 Watching for file changes with StatReloader
+ERROR 2025-10-13 22:38:49,783 log 79025 6134198272 Internal Server Error: /accounts/dashboard/
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/defaulttags.py", line 1033, in find_library
+    return parser.libraries[name]
+           ~~~~~~~~~~~~~~~~^^^^^^
+KeyError: 'permission_tags'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/contrib/auth/decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/accounts/views.py", line 318, in dashboard_view
+    return render(request, 'core/main_dashboard.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 1000, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 961, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/loader_tags.py", line 134, in render
+    compiled_parent = self.get_parent(context)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/loader_tags.py", line 131, in get_parent
+    return self.find_template(parent, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/loader_tags.py", line 109, in find_template
+    template, origin = context.template.engine.find_template(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/engine.py", line 157, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 196, in compile_nodelist
+    return parser.parse()
+           ^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/defaulttags.py", line 960, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 510, in parse
+    raise self.error(token, e)
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/defaulttags.py", line 1095, in load
+    lib = find_library(parser, name)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/site-packages/django/template/defaulttags.py", line 1035, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'permission_tags' is not a registered tag library. Must be one of:
+admin_list
+admin_modify
+admin_urls
+cache
+debugger_tags
+highlighting
+i18n
+indent_text
+l10n
+log
+rest_framework
+static
+syntax_color
+tz
+widont
+ERROR 2025-10-13 22:38:49,785 basehttp 79025 6134198272 "GET /accounts/dashboard/ HTTP/1.1" 500 256828
+WARNING 2025-10-13 22:38:49,936 log 79025 6134198272 Not Found: /favicon.ico
+WARNING 2025-10-13 22:38:49,936 basehttp 79025 6134198272 "GET /favicon.ico HTTP/1.1" 404 6101
+INFO 2025-10-13 22:38:58,448 autoreload 79025 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/assets/views.py changed, reloading.
+INFO 2025-10-13 22:38:58,741 autoreload 79892 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-13 22:39:36,256 basehttp 79892 6126530560 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 22:39:36,295 basehttp 79892 6126530560 "GET /media/avatars/2c5c9cf1bb6cc344d5306057a6fa8090987601b2c0433734adb355ea34b37ae9_1.png HTTP/1.1" 200 588977
+WARNING 2025-10-13 22:39:36,491 log 79892 6126530560 Not Found: /favicon.ico
+WARNING 2025-10-13 22:39:36,491 basehttp 79892 6126530560 "GET /favicon.ico HTTP/1.1" 404 6101
+INFO 2025-10-13 22:39:40,415 basehttp 79892 6126530560 "GET /donations/my-donations/ HTTP/1.1" 200 40725
+INFO 2025-10-13 22:39:42,453 basehttp 79892 6126530560 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:39:42,467 basehttp 79892 6126530560 "GET /membership/ HTTP/1.1" 200 70540
+WARNING 2025-10-13 22:39:42,628 log 79892 6126530560 Not Found: /sw.js
+WARNING 2025-10-13 22:39:42,629 basehttp 79892 6126530560 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:39:42,633 log 79892 6160183296 Not Found: /manifest.json
+WARNING 2025-10-13 22:39:42,633 basehttp 79892 6160183296 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:39:44,943 basehttp 79892 6126530560 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 22:39:49,322 basehttp 79892 6126530560 "GET /accounts/admin/permissions/ HTTP/1.1" 200 34491
+INFO 2025-10-13 22:40:00,444 basehttp 79892 6126530560 "POST /accounts/admin/permissions/grant/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:40:00,457 basehttp 79892 6126530560 "GET /accounts/admin/permissions/ HTTP/1.1" 200 36564
+INFO 2025-10-13 22:40:18,250 basehttp 79892 6126530560 "POST /accounts/admin/permissions/1/delete/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:40:18,263 basehttp 79892 6126530560 "GET /accounts/admin/permissions/ HTTP/1.1" 200 34839
+INFO 2025-10-13 22:40:38,068 basehttp 79892 6126530560 "GET /membership/ HTTP/1.1" 200 69865
+WARNING 2025-10-13 22:40:38,205 log 79892 6126530560 Not Found: /sw.js
+WARNING 2025-10-13 22:40:38,206 log 79892 6160183296 Not Found: /manifest.json
+WARNING 2025-10-13 22:40:38,206 basehttp 79892 6160183296 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:40:38,206 basehttp 79892 6126530560 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:40:39,685 basehttp 79892 6126530560 "GET /accounts/complete-profile/ HTTP/1.1" 200 42268
+INFO 2025-10-13 22:40:40,858 basehttp 79892 6126530560 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 22:40:54,965 basehttp 79892 13035925504 "GET /accounts/dashboard/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:40:54,968 basehttp 79892 13035925504 "GET /accounts/login/?next=/accounts/dashboard/ HTTP/1.1" 200 66311
+INFO 2025-10-13 22:40:54,978 basehttp 79892 13035925504 "GET /static/images/nishad-party-logo.png HTTP/1.1" 200 352190
+WARNING 2025-10-13 22:40:55,227 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:40:55,228 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:40:56,504 basehttp 79892 13035925504 "GET /accounts/login/ HTTP/1.1" 200 66311
+WARNING 2025-10-13 22:40:56,522 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:40:56,522 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:41:08,349 basehttp 79892 13035925504 "POST /accounts/login/ HTTP/1.1" 200 124
+INFO 2025-10-13 22:41:09,868 basehttp 79892 13035925504 "GET /accounts/verify-otp/ HTTP/1.1" 200 70731
+WARNING 2025-10-13 22:41:09,892 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:41:09,893 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:41:12,523 basehttp 79892 13035925504 "POST /accounts/verify-otp/ HTTP/1.1" 200 73
+INFO 2025-10-13 22:41:13,540 basehttp 79892 13035925504 "GET / HTTP/1.1" 200 85214
+INFO 2025-10-13 22:41:13,576 basehttp 79892 13035925504 "GET /static/images/banner_nishad_party.png HTTP/1.1" 200 5081361
+WARNING 2025-10-13 22:41:14,523 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:41:14,524 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:41:14,786 basehttp 79892 13035925504 "GET /accounts/login/ HTTP/1.1" 200 66311
+WARNING 2025-10-13 22:41:14,810 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:41:14,810 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:41:19,684 basehttp 79892 13035925504 "GET /accounts/login/ HTTP/1.1" 200 66311
+INFO 2025-10-13 22:41:19,700 basehttp 79892 13035925504 "GET /static/images/nishad-party-logo.png HTTP/1.1" 200 352190
+WARNING 2025-10-13 22:41:19,891 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:41:19,892 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:41:31,457 basehttp 79892 13035925504 "POST /accounts/login/ HTTP/1.1" 200 124
+INFO 2025-10-13 22:41:32,977 basehttp 79892 13035925504 "GET /accounts/verify-otp/ HTTP/1.1" 200 70731
+WARNING 2025-10-13 22:41:33,000 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:41:33,000 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:41:36,418 basehttp 79892 13035925504 "POST /accounts/verify-otp/ HTTP/1.1" 200 73
+INFO 2025-10-13 22:41:37,442 basehttp 79892 13035925504 "GET / HTTP/1.1" 200 85214
+WARNING 2025-10-13 22:41:37,741 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:41:37,741 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:41:39,485 basehttp 79892 13035925504 "GET /accounts/login/ HTTP/1.1" 200 66311
+WARNING 2025-10-13 22:41:39,512 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:41:39,512 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:41:42,267 basehttp 79892 13035925504 "GET /accounts/login/ HTTP/1.1" 200 66311
+INFO 2025-10-13 22:41:42,284 basehttp 79892 13035925504 "GET /static/images/nishad-party-logo.png HTTP/1.1" 200 352190
+WARNING 2025-10-13 22:41:42,473 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:41:42,474 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:41:54,277 basehttp 79892 13035925504 "POST /accounts/login/ HTTP/1.1" 200 124
+INFO 2025-10-13 22:41:55,798 basehttp 79892 13035925504 "GET /accounts/verify-otp/ HTTP/1.1" 200 70731
+WARNING 2025-10-13 22:41:55,846 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:41:55,847 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:41:59,136 basehttp 79892 13035925504 "POST /accounts/verify-otp/ HTTP/1.1" 200 99
+INFO 2025-10-13 22:42:00,157 basehttp 79892 13035925504 "GET /accounts/complete-profile/ HTTP/1.1" 200 39186
+INFO 2025-10-13 22:42:07,612 basehttp 79892 6126530560 "GET /accounts/admin/permissions/ HTTP/1.1" 200 34665
+INFO 2025-10-13 22:42:07,637 basehttp 79892 6126530560 "GET /media/avatars/2c5c9cf1bb6cc344d5306057a6fa8090987601b2c0433734adb355ea34b37ae9_1.png HTTP/1.1" 200 588977
+WARNING 2025-10-13 22:42:07,763 log 79892 6126530560 Not Found: /favicon.ico
+WARNING 2025-10-13 22:42:07,763 basehttp 79892 6126530560 "GET /favicon.ico HTTP/1.1" 404 6101
+INFO 2025-10-13 22:42:07,807 basehttp 79892 6126530560 "GET /accounts/admin/permissions/ HTTP/1.1" 200 34665
+INFO 2025-10-13 22:42:07,824 basehttp 79892 6126530560 "GET /media/avatars/2c5c9cf1bb6cc344d5306057a6fa8090987601b2c0433734adb355ea34b37ae9_1.png HTTP/1.1" 200 588977
+WARNING 2025-10-13 22:42:07,912 log 79892 6126530560 Not Found: /favicon.ico
+WARNING 2025-10-13 22:42:07,913 basehttp 79892 6126530560 "GET /favicon.ico HTTP/1.1" 404 6101
+INFO 2025-10-13 22:42:15,429 basehttp 79892 6126530560 "POST /accounts/admin/permissions/grant/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:42:15,440 basehttp 79892 6126530560 "GET /accounts/admin/permissions/ HTTP/1.1" 200 36725
+INFO 2025-10-13 22:42:18,471 basehttp 79892 13035925504 "GET /accounts/complete-profile/ HTTP/1.1" 200 39877
+INFO 2025-10-13 22:42:20,751 basehttp 79892 13035925504 "GET /accounts/admin/users/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:42:20,762 basehttp 79892 13035925504 "GET / HTTP/1.1" 200 86661
+WARNING 2025-10-13 22:42:21,071 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:42:21,071 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:42:23,523 basehttp 79892 13035925504 "GET /accounts/dashboard/ HTTP/1.1" 200 37057
+INFO 2025-10-13 22:42:26,356 basehttp 79892 13035925504 "GET /accounts/admin/users/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:42:26,364 basehttp 79892 13035925504 "GET / HTTP/1.1" 200 86661
+WARNING 2025-10-13 22:42:26,389 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:42:26,390 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:42:33,742 basehttp 79892 13035925504 "GET / HTTP/1.1" 200 86287
+INFO 2025-10-13 22:42:33,760 basehttp 79892 13035925504 "GET /static/images/nishad-party-logo.png HTTP/1.1" 200 352190
+INFO 2025-10-13 22:42:33,898 basehttp 79892 13035925504 "GET /static/images/banner_nishad_party.png HTTP/1.1" 200 5081361
+WARNING 2025-10-13 22:42:34,342 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:42:34,342 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:42:37,340 basehttp 79892 13035925504 "GET /accounts/dashboard/ HTTP/1.1" 200 37057
+INFO 2025-10-13 22:42:41,899 basehttp 79892 13035925504 "GET /accounts/admin/users/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:42:41,907 basehttp 79892 13035925504 "GET / HTTP/1.1" 200 86661
+WARNING 2025-10-13 22:42:41,931 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:42:41,931 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:42:44,161 basehttp 79892 13035925504 "GET / HTTP/1.1" 200 86287
+INFO 2025-10-13 22:42:44,178 basehttp 79892 13035925504 "GET /static/images/nishad-party-logo.png HTTP/1.1" 200 352190
+INFO 2025-10-13 22:42:44,308 basehttp 79892 13035925504 "GET /static/images/banner_nishad_party.png HTTP/1.1" 200 5081361
+WARNING 2025-10-13 22:42:44,711 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:42:44,711 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:42:45,521 basehttp 79892 13035925504 "GET /accounts/dashboard/ HTTP/1.1" 200 37057
+INFO 2025-10-13 22:43:23,553 basehttp 79892 13035925504 "GET /accounts/admin/users/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:43:23,561 basehttp 79892 13035925504 "GET / HTTP/1.1" 200 86661
+WARNING 2025-10-13 22:43:23,919 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:43:23,919 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:44:09,534 basehttp 79892 13035925504 "GET / HTTP/1.1" 200 86287
+WARNING 2025-10-13 22:44:09,869 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:44:09,870 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:44:10,202 basehttp 79892 13035925504 "GET / HTTP/1.1" 200 86287
+WARNING 2025-10-13 22:44:10,455 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:44:10,455 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:44:11,539 basehttp 79892 13035925504 "GET /accounts/dashboard/ HTTP/1.1" 200 37057
+INFO 2025-10-13 22:44:17,402 basehttp 79892 13035925504 "GET /donations/my-donations/ HTTP/1.1" 200 26793
+INFO 2025-10-13 22:44:18,550 basehttp 79892 13035925504 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:44:18,558 basehttp 79892 13035925504 "GET /membership/ HTTP/1.1" 200 72625
+WARNING 2025-10-13 22:44:18,622 log 79892 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 22:44:18,622 basehttp 79892 13035925504 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:44:23,882 basehttp 79892 13035925504 "GET /accounts/dashboard/ HTTP/1.1" 200 37057
+INFO 2025-10-13 22:44:27,282 basehttp 79892 13035925504 "GET /accounts/complete-profile/ HTTP/1.1" 200 39877
+INFO 2025-10-13 22:44:31,196 autoreload 79892 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/accounts/views.py changed, reloading.
+INFO 2025-10-13 22:44:31,445 autoreload 81279 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-13 22:44:48,829 autoreload 81279 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/accounts/views.py changed, reloading.
+INFO 2025-10-13 22:44:49,033 autoreload 81388 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-13 22:44:57,288 autoreload 81388 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/accounts/views.py changed, reloading.
+INFO 2025-10-13 22:44:57,479 autoreload 81440 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-13 22:45:20,039 autoreload 81440 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/accounts/views.py changed, reloading.
+INFO 2025-10-13 22:45:20,519 autoreload 81619 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-13 22:45:28,931 autoreload 81619 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/accounts/views.py changed, reloading.
+INFO 2025-10-13 22:45:29,210 autoreload 81678 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-13 22:45:37,645 autoreload 81678 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/accounts/views.py changed, reloading.
+INFO 2025-10-13 22:45:37,967 autoreload 81728 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-13 22:45:51,435 autoreload 81728 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/accounts/views.py changed, reloading.
+INFO 2025-10-13 22:45:51,698 autoreload 81821 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-13 22:46:02,110 autoreload 81821 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/accounts/views.py changed, reloading.
+INFO 2025-10-13 22:46:02,327 autoreload 81893 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-13 22:46:55,012 basehttp 81893 6166409216 "GET / HTTP/1.1" 200 86287
+WARNING 2025-10-13 22:46:55,337 log 81893 6166409216 Not Found: /sw.js
+WARNING 2025-10-13 22:46:55,337 basehttp 81893 6166409216 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:46:56,197 basehttp 81893 6166409216 "GET /accounts/logout/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:46:56,201 basehttp 81893 6166409216 "GET /accounts/login/ HTTP/1.1" 200 66680
+WARNING 2025-10-13 22:46:56,231 log 81893 6166409216 Not Found: /sw.js
+WARNING 2025-10-13 22:46:56,231 basehttp 81893 6166409216 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:47:01,782 basehttp 81893 6166409216 "POST /accounts/login/ HTTP/1.1" 200 124
+INFO 2025-10-13 22:47:03,300 basehttp 81893 6166409216 "GET /accounts/verify-otp/ HTTP/1.1" 200 70731
+WARNING 2025-10-13 22:47:03,322 log 81893 6166409216 Not Found: /sw.js
+WARNING 2025-10-13 22:47:03,323 basehttp 81893 6166409216 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:47:06,060 basehttp 81893 6166409216 "POST /accounts/verify-otp/ HTTP/1.1" 200 73
+INFO 2025-10-13 22:47:07,073 basehttp 81893 6166409216 "GET / HTTP/1.1" 200 86286
+WARNING 2025-10-13 22:47:07,097 log 81893 6166409216 Not Found: /sw.js
+WARNING 2025-10-13 22:47:07,097 basehttp 81893 6166409216 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:47:08,397 basehttp 81893 6166409216 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 22:47:08,417 basehttp 81893 6166409216 "GET /media/avatars/2c5c9cf1bb6cc344d5306057a6fa8090987601b2c0433734adb355ea34b37ae9_1.png HTTP/1.1" 200 588977
+INFO 2025-10-13 22:47:11,300 basehttp 81893 6166409216 "GET /donations/my-donations/ HTTP/1.1" 200 40725
+INFO 2025-10-13 22:47:12,380 basehttp 81893 6166409216 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:47:12,392 basehttp 81893 6166409216 "GET /membership/ HTTP/1.1" 200 70234
+WARNING 2025-10-13 22:47:12,411 log 81893 6166409216 Not Found: /sw.js
+WARNING 2025-10-13 22:47:12,412 basehttp 81893 6166409216 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:47:13,653 basehttp 81893 6166409216 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 22:47:14,503 basehttp 81893 6166409216 "GET /campaigns/events/ HTTP/1.1" 200 34162
+INFO 2025-10-13 22:47:15,895 basehttp 81893 6166409216 "GET /gatepass/ HTTP/1.1" 200 48637
+INFO 2025-10-13 22:47:17,654 basehttp 81893 6166409216 "GET /accounts/admin/users/ HTTP/1.1" 200 66512
+INFO 2025-10-13 22:47:20,000 basehttp 81893 6166409216 "GET /donations/ HTTP/1.1" 200 37778
+INFO 2025-10-13 22:47:22,527 basehttp 81893 6166409216 "GET /assets/ HTTP/1.1" 200 34051
+INFO 2025-10-13 22:47:24,371 basehttp 81893 6166409216 "GET /gatepass/ HTTP/1.1" 200 48637
+INFO 2025-10-13 22:47:27,126 basehttp 81893 6166409216 "GET /accounts/admin/permissions/ HTTP/1.1" 200 36391
+INFO 2025-10-13 22:47:30,538 basehttp 81893 6166409216 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 22:49:32,590 basehttp 81893 13170143232 "GET /accounts/admin/permissions/ HTTP/1.1" 200 36391
+INFO 2025-10-13 22:49:32,610 basehttp 81893 13170143232 "GET /media/avatars/2c5c9cf1bb6cc344d5306057a6fa8090987601b2c0433734adb355ea34b37ae9_1.png HTTP/1.1" 200 588977
+WARNING 2025-10-13 22:49:32,933 log 81893 13170143232 Not Found: /favicon.ico
+WARNING 2025-10-13 22:49:32,933 basehttp 81893 13170143232 "GET /favicon.ico HTTP/1.1" 404 6101
+INFO 2025-10-13 22:49:38,882 basehttp 81893 13170143232 "GET /accounts/admin/permissions/?search=&feature= HTTP/1.1" 200 36391
+INFO 2025-10-13 22:49:39,407 basehttp 81893 13170143232 "GET /accounts/admin/permissions/ HTTP/1.1" 200 36391
+INFO 2025-10-13 22:49:41,387 basehttp 81893 13170143232 "GET /donations/my-donations/ HTTP/1.1" 200 40725
+INFO 2025-10-13 22:49:42,620 basehttp 81893 13170143232 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:49:42,629 basehttp 81893 13170143232 "GET /membership/ HTTP/1.1" 200 70234
+WARNING 2025-10-13 22:49:42,789 log 81893 13170143232 Not Found: /sw.js
+WARNING 2025-10-13 22:49:42,790 log 81893 13203795968 Not Found: /manifest.json
+WARNING 2025-10-13 22:49:42,790 basehttp 81893 13170143232 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:49:42,790 basehttp 81893 13203795968 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:49:44,293 basehttp 81893 13170143232 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 22:49:48,495 basehttp 81893 6166409216 "GET / HTTP/1.1" 200 86286
+WARNING 2025-10-13 22:49:48,849 log 81893 6166409216 Not Found: /sw.js
+WARNING 2025-10-13 22:49:48,849 basehttp 81893 6166409216 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:49:49,622 basehttp 81893 6166409216 "GET /accounts/logout/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:49:49,625 basehttp 81893 6166409216 "GET /accounts/login/ HTTP/1.1" 200 66680
+WARNING 2025-10-13 22:49:49,652 log 81893 6166409216 Not Found: /sw.js
+WARNING 2025-10-13 22:49:49,653 basehttp 81893 6166409216 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:50:08,670 basehttp 81893 6166409216 "POST /accounts/login/ HTTP/1.1" 200 124
+INFO 2025-10-13 22:50:10,192 basehttp 81893 6166409216 "GET /accounts/verify-otp/ HTTP/1.1" 200 70731
+WARNING 2025-10-13 22:50:10,219 log 81893 6166409216 Not Found: /sw.js
+WARNING 2025-10-13 22:50:10,220 basehttp 81893 6166409216 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:50:13,509 basehttp 81893 6166409216 "POST /accounts/verify-otp/ HTTP/1.1" 200 99
+INFO 2025-10-13 22:50:14,541 basehttp 81893 6166409216 "GET /accounts/complete-profile/ HTTP/1.1" 200 39877
+INFO 2025-10-13 22:50:19,116 basehttp 81893 6166409216 "GET /accounts/admin/users/ HTTP/1.1" 200 64529
+INFO 2025-10-13 22:50:27,681 basehttp 81893 13170143232 "GET / HTTP/1.1" 200 86286
+WARNING 2025-10-13 22:50:28,366 log 81893 13203795968 Not Found: /manifest.json
+WARNING 2025-10-13 22:50:28,368 basehttp 81893 13203795968 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:50:28,370 log 81893 13170143232 Not Found: /sw.js
+WARNING 2025-10-13 22:50:28,370 basehttp 81893 13170143232 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:50:29,490 basehttp 81893 13170143232 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 22:50:32,909 basehttp 81893 13170143232 "GET /accounts/admin/permissions/ HTTP/1.1" 200 36391
+INFO 2025-10-13 22:50:37,175 basehttp 81893 13170143232 "POST /accounts/admin/permissions/2/revoke/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:50:37,187 basehttp 81893 13170143232 "GET /accounts/admin/permissions/ HTTP/1.1" 200 36180
+INFO 2025-10-13 22:50:38,972 basehttp 81893 6166409216 "GET /accounts/admin/users/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:50:38,985 basehttp 81893 6166409216 "GET /accounts/dashboard/ HTTP/1.1" 200 36366
+INFO 2025-10-13 22:50:43,203 basehttp 81893 6166409216 "GET /accounts/dashboard/ HTTP/1.1" 200 36366
+INFO 2025-10-13 22:52:24,536 basehttp 81893 13170143232 "GET /accounts/admin/permissions/ HTTP/1.1" 200 35844
+INFO 2025-10-13 22:52:24,558 basehttp 81893 13170143232 "GET /media/avatars/2c5c9cf1bb6cc344d5306057a6fa8090987601b2c0433734adb355ea34b37ae9_1.png HTTP/1.1" 200 588977
+WARNING 2025-10-13 22:52:24,879 log 81893 13170143232 Not Found: /favicon.ico
+WARNING 2025-10-13 22:52:24,880 basehttp 81893 13170143232 "GET /favicon.ico HTTP/1.1" 404 6101
+INFO 2025-10-13 22:52:33,589 autoreload 83480 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-13 22:53:05,487 basehttp 83480 6193295360 "GET /donations/my-donations/ HTTP/1.1" 200 40725
+INFO 2025-10-13 22:53:06,516 basehttp 83480 6193295360 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:53:06,529 basehttp 83480 6193295360 "GET /membership/ HTTP/1.1" 200 70234
+WARNING 2025-10-13 22:53:06,692 log 83480 6226948096 Not Found: /manifest.json
+WARNING 2025-10-13 22:53:06,693 log 83480 6193295360 Not Found: /sw.js
+WARNING 2025-10-13 22:53:06,693 basehttp 83480 6226948096 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:53:06,693 basehttp 83480 6193295360 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:53:15,944 basehttp 83480 6193295360 "GET / HTTP/1.1" 200 86286
+WARNING 2025-10-13 22:53:16,476 log 83480 6226948096 Not Found: /manifest.json
+WARNING 2025-10-13 22:53:16,476 basehttp 83480 6226948096 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:53:16,477 log 83480 6193295360 Not Found: /sw.js
+WARNING 2025-10-13 22:53:16,477 basehttp 83480 6193295360 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:53:23,225 basehttp 83480 6193295360 "GET /photo-gallery/ HTTP/1.1" 200 61280
+WARNING 2025-10-13 22:53:23,371 log 83480 6226948096 Not Found: /manifest.json
+WARNING 2025-10-13 22:53:23,372 log 83480 6193295360 Not Found: /sw.js
+WARNING 2025-10-13 22:53:23,372 basehttp 83480 6226948096 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:53:23,373 basehttp 83480 6193295360 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:53:24,749 basehttp 83480 6193295360 "GET /video-gallery/ HTTP/1.1" 200 65702
+WARNING 2025-10-13 22:53:24,862 log 83480 6226948096 Not Found: /manifest.json
+WARNING 2025-10-13 22:53:24,863 log 83480 6193295360 Not Found: /sw.js
+WARNING 2025-10-13 22:53:24,863 basehttp 83480 6226948096 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:53:24,864 basehttp 83480 6193295360 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:53:25,809 basehttp 83480 6193295360 "GET /news/ HTTP/1.1" 200 67337
+WARNING 2025-10-13 22:53:25,954 log 83480 6193295360 Not Found: /sw.js
+WARNING 2025-10-13 22:53:25,955 log 83480 6226948096 Not Found: /manifest.json
+WARNING 2025-10-13 22:53:25,955 basehttp 83480 6193295360 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:53:25,956 basehttp 83480 6226948096 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:53:26,899 basehttp 83480 6193295360 "GET /leadership/ HTTP/1.1" 200 64864
+WARNING 2025-10-13 22:53:27,056 log 83480 6226948096 Not Found: /manifest.json
+WARNING 2025-10-13 22:53:27,057 log 83480 6193295360 Not Found: /sw.js
+WARNING 2025-10-13 22:53:27,058 basehttp 83480 6226948096 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:53:27,058 basehttp 83480 6193295360 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:53:27,901 basehttp 83480 6193295360 "GET /about/ HTTP/1.1" 200 62496
+WARNING 2025-10-13 22:53:28,044 log 83480 6226948096 Not Found: /manifest.json
+WARNING 2025-10-13 22:53:28,045 log 83480 6193295360 Not Found: /sw.js
+WARNING 2025-10-13 22:53:28,045 basehttp 83480 6226948096 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:53:28,045 basehttp 83480 6193295360 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:53:29,078 basehttp 83480 6193295360 "GET /vision/ HTTP/1.1" 200 65616
+WARNING 2025-10-13 22:53:29,226 log 83480 6226948096 Not Found: /manifest.json
+WARNING 2025-10-13 22:53:29,226 log 83480 6193295360 Not Found: /sw.js
+WARNING 2025-10-13 22:53:29,226 basehttp 83480 6226948096 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:53:29,227 basehttp 83480 6193295360 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:53:33,150 autoreload 83480 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/accounts/views.py changed, reloading.
+INFO 2025-10-13 22:53:33,524 autoreload 83802 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-13 22:53:37,864 basehttp 83802 6200881152 "GET /photo-gallery/ HTTP/1.1" 200 61280
+WARNING 2025-10-13 22:53:38,016 log 83802 6234533888 Not Found: /manifest.json
+WARNING 2025-10-13 22:53:38,017 log 83802 6200881152 Not Found: /sw.js
+WARNING 2025-10-13 22:53:38,017 basehttp 83802 6200881152 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:53:38,017 basehttp 83802 6234533888 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:53:39,226 basehttp 83802 6200881152 "GET /photo-gallery/?category=community HTTP/1.1" 200 61280
+WARNING 2025-10-13 22:53:39,340 log 83802 6234533888 Not Found: /manifest.json
+WARNING 2025-10-13 22:53:39,342 log 83802 6200881152 Not Found: /sw.js
+WARNING 2025-10-13 22:53:39,342 basehttp 83802 6234533888 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:53:39,342 basehttp 83802 6200881152 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:53:40,204 basehttp 83802 6200881152 "GET /photo-gallery/?category=events HTTP/1.1" 200 61280
+WARNING 2025-10-13 22:53:40,336 log 83802 6200881152 Not Found: /sw.js
+WARNING 2025-10-13 22:53:40,337 log 83802 6234533888 Not Found: /manifest.json
+WARNING 2025-10-13 22:53:40,338 basehttp 83802 6200881152 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:53:40,338 basehttp 83802 6234533888 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:53:41,346 basehttp 83802 6200881152 "GET /photo-gallery/?category=meetings HTTP/1.1" 200 61280
+WARNING 2025-10-13 22:53:41,491 log 83802 6234533888 Not Found: /manifest.json
+WARNING 2025-10-13 22:53:41,492 log 83802 6200881152 Not Found: /sw.js
+WARNING 2025-10-13 22:53:41,492 basehttp 83802 6234533888 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:53:41,492 basehttp 83802 6200881152 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:53:41,936 basehttp 83802 6200881152 "GET /photo-gallery/?category=leadership HTTP/1.1" 200 61280
+WARNING 2025-10-13 22:53:42,063 log 83802 6200881152 Not Found: /sw.js
+WARNING 2025-10-13 22:53:42,064 log 83802 6234533888 Not Found: /manifest.json
+WARNING 2025-10-13 22:53:42,064 basehttp 83802 6200881152 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:53:42,064 basehttp 83802 6234533888 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:53:42,305 basehttp 83802 6200881152 "GET /photo-gallery/?category=rallies HTTP/1.1" 200 61280
+WARNING 2025-10-13 22:53:42,446 log 83802 6234533888 Not Found: /manifest.json
+WARNING 2025-10-13 22:53:42,446 basehttp 83802 6234533888 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:53:42,448 log 83802 6200881152 Not Found: /sw.js
+WARNING 2025-10-13 22:53:42,448 basehttp 83802 6200881152 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:53:43,790 basehttp 83802 6200881152 "GET /membership/ HTTP/1.1" 200 69865
+WARNING 2025-10-13 22:53:43,905 log 83802 6200881152 Not Found: /sw.js
+WARNING 2025-10-13 22:53:43,907 log 83802 6234533888 Not Found: /manifest.json
+WARNING 2025-10-13 22:53:43,907 basehttp 83802 6200881152 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:53:43,907 basehttp 83802 6234533888 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:53:44,879 basehttp 83802 6200881152 "GET /donations/ HTTP/1.1" 200 37778
+INFO 2025-10-13 22:53:47,879 basehttp 83802 6200881152 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 22:54:20,584 basehttp 83802 6200881152 "GET / HTTP/1.1" 200 86286
+WARNING 2025-10-13 22:54:21,262 log 83802 6234533888 Not Found: /manifest.json
+WARNING 2025-10-13 22:54:21,264 basehttp 83802 6234533888 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:54:21,267 log 83802 6200881152 Not Found: /sw.js
+WARNING 2025-10-13 22:54:21,267 basehttp 83802 6200881152 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:55:19,538 basehttp 83802 6200881152 "GET / HTTP/1.1" 200 86286
+WARNING 2025-10-13 22:55:20,131 log 83802 6234533888 Not Found: /manifest.json
+WARNING 2025-10-13 22:55:20,132 log 83802 6200881152 Not Found: /sw.js
+WARNING 2025-10-13 22:55:20,132 basehttp 83802 6200881152 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:55:20,133 basehttp 83802 6234533888 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:55:20,939 basehttp 83802 6200881152 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 22:55:24,697 basehttp 83802 6200881152 "GET /donations/donate/ HTTP/1.1" 200 38363
+INFO 2025-10-13 22:55:37,608 basehttp 83802 6200881152 "GET /donations/my-donations/ HTTP/1.1" 200 40725
+INFO 2025-10-13 22:55:38,157 autoreload 83802 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/accounts/views.py changed, reloading.
+INFO 2025-10-13 22:55:38,482 autoreload 84403 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-13 22:55:41,725 basehttp 84403 6133460992 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 22:55:45,322 basehttp 84403 6133460992 "GET /accounts/admin/users/ HTTP/1.1" 200 66512
+INFO 2025-10-13 22:55:50,747 basehttp 84403 6133460992 "GET /accounts/admin/permissions/ HTTP/1.1" 200 46814
+INFO 2025-10-13 22:56:11,633 basehttp 84403 6133460992 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 22:56:14,638 basehttp 84403 6133460992 "GET /membership/card/ HTTP/1.1" 200 30173
+INFO 2025-10-13 22:56:16,048 basehttp 84403 6133460992 "GET /donations/my-donations/ HTTP/1.1" 200 40725
+INFO 2025-10-13 22:56:16,546 basehttp 84403 6133460992 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 22:56:18,569 basehttp 84403 6133460992 "GET /donations/my-donations/ HTTP/1.1" 200 40725
+INFO 2025-10-13 22:56:24,002 basehttp 84403 6133460992 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 22:56:26,570 basehttp 84403 6133460992 "GET /donations/my-donations/ HTTP/1.1" 200 40725
+INFO 2025-10-13 22:56:29,160 basehttp 84403 6133460992 "GET /campaigns/events/ HTTP/1.1" 200 34162
+INFO 2025-10-13 22:56:29,895 basehttp 84403 6133460992 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:56:29,909 basehttp 84403 6133460992 "GET /membership/ HTTP/1.1" 200 70234
+WARNING 2025-10-13 22:56:30,060 log 84403 6167113728 Not Found: /manifest.json
+WARNING 2025-10-13 22:56:30,062 log 84403 6133460992 Not Found: /sw.js
+WARNING 2025-10-13 22:56:30,062 basehttp 84403 6167113728 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:56:30,062 basehttp 84403 6133460992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:56:34,222 basehttp 84403 6133460992 "GET /photo-gallery/ HTTP/1.1" 200 61280
+WARNING 2025-10-13 22:56:34,335 log 84403 6167113728 Not Found: /manifest.json
+WARNING 2025-10-13 22:56:34,337 log 84403 6133460992 Not Found: /sw.js
+WARNING 2025-10-13 22:56:34,337 basehttp 84403 6167113728 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:56:34,337 basehttp 84403 6133460992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:56:34,999 basehttp 84403 6133460992 "GET /campaigns/events/ HTTP/1.1" 200 34162
+INFO 2025-10-13 22:56:38,248 basehttp 84403 6133460992 "GET /campaigns/event/rally-aa88f81b/ HTTP/1.1" 200 32852
+INFO 2025-10-13 22:56:41,753 basehttp 84403 6133460992 "GET / HTTP/1.1" 200 86286
+WARNING 2025-10-13 22:56:42,336 log 84403 6167113728 Not Found: /manifest.json
+WARNING 2025-10-13 22:56:42,343 basehttp 84403 6167113728 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:56:42,345 log 84403 6133460992 Not Found: /sw.js
+WARNING 2025-10-13 22:56:42,351 basehttp 84403 6133460992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:56:43,313 basehttp 84403 6133460992 "GET /donations/ HTTP/1.1" 200 37778
+INFO 2025-10-13 22:56:49,275 basehttp 84403 6133460992 "GET /accounts/logout/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:56:49,282 basehttp 84403 6133460992 "GET /accounts/login/ HTTP/1.1" 200 66680
+WARNING 2025-10-13 22:56:49,405 log 84403 6167113728 Not Found: /manifest.json
+WARNING 2025-10-13 22:56:49,406 log 84403 6133460992 Not Found: /sw.js
+WARNING 2025-10-13 22:56:49,406 basehttp 84403 6167113728 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:56:49,406 basehttp 84403 6133460992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:56:50,910 basehttp 84403 6133460992 "GET /donations/ HTTP/1.1" 200 30302
+INFO 2025-10-13 22:56:57,063 basehttp 84403 6133460992 "GET /donations/donate/ HTTP/1.1" 200 34845
+INFO 2025-10-13 22:57:00,679 basehttp 84403 6133460992 "GET /accounts/dashboard/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:57:00,684 basehttp 84403 6133460992 "GET /accounts/login/?next=/accounts/dashboard/ HTTP/1.1" 200 66311
+WARNING 2025-10-13 22:57:00,825 log 84403 6133460992 Not Found: /sw.js
+WARNING 2025-10-13 22:57:00,827 log 84403 6167113728 Not Found: /manifest.json
+WARNING 2025-10-13 22:57:00,827 basehttp 84403 6133460992 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:57:00,828 basehttp 84403 6167113728 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:57:02,740 basehttp 84403 6133460992 "GET / HTTP/1.1" 200 85214
+WARNING 2025-10-13 22:57:03,365 log 84403 6133460992 Not Found: /sw.js
+WARNING 2025-10-13 22:57:03,367 log 84403 6167113728 Not Found: /manifest.json
+WARNING 2025-10-13 22:57:03,367 basehttp 84403 6167113728 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:57:03,367 basehttp 84403 6133460992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:57:08,608 basehttp 84403 6133460992 "GET /campaigns/events/ HTTP/1.1" 200 30342
+INFO 2025-10-13 22:57:12,609 basehttp 84403 6133460992 "GET /donations/ HTTP/1.1" 200 30302
+INFO 2025-10-13 22:57:14,205 basehttp 84403 6133460992 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:57:14,209 basehttp 84403 6133460992 "GET /accounts/login/?next=/membership/apply/ HTTP/1.1" 200 66311
+WARNING 2025-10-13 22:57:14,341 log 84403 6167113728 Not Found: /manifest.json
+WARNING 2025-10-13 22:57:14,341 basehttp 84403 6167113728 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:57:14,343 log 84403 6133460992 Not Found: /sw.js
+WARNING 2025-10-13 22:57:14,343 basehttp 84403 6133460992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:57:17,331 basehttp 84403 6133460992 "GET /privacy-policy/ HTTP/1.1" 200 64865
+WARNING 2025-10-13 22:57:17,713 log 84403 6133460992 Not Found: /sw.js
+WARNING 2025-10-13 22:57:17,715 basehttp 84403 6133460992 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:57:17,718 log 84403 6167113728 Not Found: /manifest.json
+WARNING 2025-10-13 22:57:17,718 basehttp 84403 6167113728 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:57:32,169 basehttp 84403 6133460992 "GET /donations/ HTTP/1.1" 200 30302
+INFO 2025-10-13 22:57:39,158 basehttp 84403 6133460992 "GET /accounts/dashboard/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:57:39,167 basehttp 84403 6133460992 "GET /accounts/login/?next=/accounts/dashboard/ HTTP/1.1" 200 66311
+WARNING 2025-10-13 22:57:39,324 log 84403 6133460992 Not Found: /sw.js
+WARNING 2025-10-13 22:57:39,326 log 84403 6167113728 Not Found: /manifest.json
+WARNING 2025-10-13 22:57:39,326 basehttp 84403 6133460992 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:57:39,327 basehttp 84403 6167113728 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:57:43,830 basehttp 84403 6133460992 "GET /privacy-policy/ HTTP/1.1" 200 64865
+WARNING 2025-10-13 22:57:43,951 log 84403 6167113728 Not Found: /manifest.json
+WARNING 2025-10-13 22:57:43,953 log 84403 6133460992 Not Found: /sw.js
+WARNING 2025-10-13 22:57:43,953 basehttp 84403 6167113728 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:57:43,953 basehttp 84403 6133460992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:58:01,193 basehttp 84403 6133460992 "GET /leadership/ HTTP/1.1" 200 63792
+WARNING 2025-10-13 22:58:01,339 log 84403 6167113728 Not Found: /manifest.json
+WARNING 2025-10-13 22:58:01,340 log 84403 6133460992 Not Found: /sw.js
+WARNING 2025-10-13 22:58:01,340 basehttp 84403 6167113728 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:58:01,340 basehttp 84403 6133460992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:58:05,221 basehttp 84403 6133460992 "GET /membership/ HTTP/1.1" 302 0
+INFO 2025-10-13 22:58:05,227 basehttp 84403 6133460992 "GET /accounts/login/?next=/membership/ HTTP/1.1" 200 66311
+WARNING 2025-10-13 22:58:05,351 log 84403 6167113728 Not Found: /manifest.json
+WARNING 2025-10-13 22:58:05,352 log 84403 6133460992 Not Found: /sw.js
+WARNING 2025-10-13 22:58:05,353 basehttp 84403 6167113728 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:58:05,353 basehttp 84403 6133460992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:58:09,392 basehttp 84403 6133460992 "GET /sitemap/ HTTP/1.1" 200 59171
+WARNING 2025-10-13 22:58:09,520 log 84403 6133460992 Not Found: /sw.js
+WARNING 2025-10-13 22:58:09,520 basehttp 84403 6133460992 "GET /sw.js HTTP/1.1" 404 6083
+WARNING 2025-10-13 22:58:09,522 log 84403 6167113728 Not Found: /manifest.json
+WARNING 2025-10-13 22:58:09,522 basehttp 84403 6167113728 "GET /manifest.json HTTP/1.1" 404 6107
+INFO 2025-10-13 22:58:55,579 basehttp 84403 6133460992 "GET /video-gallery/ HTTP/1.1" 200 64630
+WARNING 2025-10-13 22:58:55,770 log 84403 6167113728 Not Found: /manifest.json
+WARNING 2025-10-13 22:58:55,771 basehttp 84403 6167113728 "GET /manifest.json HTTP/1.1" 404 6107
+WARNING 2025-10-13 22:58:55,773 log 84403 6133460992 Not Found: /sw.js
+WARNING 2025-10-13 22:58:55,773 basehttp 84403 6133460992 "GET /sw.js HTTP/1.1" 404 6083
+INFO 2025-10-13 22:59:47,880 autoreload 84403 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/core/views.py changed, reloading.
+INFO 2025-10-13 22:59:48,154 autoreload 85452 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-13 22:59:57,513 autoreload 85452 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/core/urls.py changed, reloading.
+INFO 2025-10-13 22:59:57,826 autoreload 85516 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-13 22:59:59,179 basehttp 85516 6129954816 "GET / HTTP/1.1" 200 85214
+WARNING 2025-10-13 22:59:59,860 log 85516 6129954816 Not Found: /sw.js
+WARNING 2025-10-13 22:59:59,861 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 22:59:59,862 basehttp 85516 6129954816 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-13 22:59:59,862 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+INFO 2025-10-13 23:00:17,869 basehttp 85516 6129954816 "GET /donations/my-donations/ HTTP/1.1" 302 0
+INFO 2025-10-13 23:00:17,879 basehttp 85516 6129954816 "GET /accounts/login/?next=/donations/my-donations/ HTTP/1.1" 200 66311
+WARNING 2025-10-13 23:00:18,195 log 85516 6129954816 Not Found: /sw.js
+WARNING 2025-10-13 23:00:18,195 basehttp 85516 6129954816 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-13 23:00:18,198 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:00:18,198 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+INFO 2025-10-13 23:00:21,233 basehttp 85516 6129954816 "GET /video-gallery/ HTTP/1.1" 200 64630
+WARNING 2025-10-13 23:00:21,360 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:00:21,361 log 85516 6129954816 Not Found: /sw.js
+WARNING 2025-10-13 23:00:21,362 basehttp 85516 6129954816 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-13 23:00:21,362 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+INFO 2025-10-13 23:00:25,201 basehttp 85516 6129954816 "GET /leadership/ HTTP/1.1" 200 63792
+WARNING 2025-10-13 23:00:25,328 log 85516 6129954816 Not Found: /sw.js
+WARNING 2025-10-13 23:00:25,329 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:00:25,329 basehttp 85516 6129954816 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-13 23:00:25,329 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+INFO 2025-10-13 23:00:28,264 basehttp 85516 6129954816 "GET / HTTP/1.1" 200 85214
+WARNING 2025-10-13 23:00:28,916 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:00:28,916 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-13 23:00:28,919 log 85516 6129954816 Not Found: /sw.js
+WARNING 2025-10-13 23:00:28,920 basehttp 85516 6129954816 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:00:34,958 basehttp 85516 6129954816 "GET /membership/ HTTP/1.1" 302 0
+INFO 2025-10-13 23:00:34,963 basehttp 85516 6129954816 "GET /accounts/login/?next=/membership/ HTTP/1.1" 200 66311
+WARNING 2025-10-13 23:00:35,124 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:00:35,125 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-13 23:00:35,126 log 85516 6129954816 Not Found: /sw.js
+WARNING 2025-10-13 23:00:35,126 basehttp 85516 6129954816 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:00:41,008 basehttp 85516 6129954816 "GET /accounts/login/ HTTP/1.1" 200 66311
+WARNING 2025-10-13 23:00:41,174 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:00:41,175 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-13 23:00:41,175 log 85516 6129954816 Not Found: /sw.js
+WARNING 2025-10-13 23:00:41,176 basehttp 85516 6129954816 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:00:43,026 basehttp 85516 6129954816 "GET /membership/ HTTP/1.1" 302 0
+INFO 2025-10-13 23:00:43,031 basehttp 85516 6129954816 "GET /accounts/login/?next=/membership/ HTTP/1.1" 200 66311
+WARNING 2025-10-13 23:00:43,163 log 85516 6129954816 Not Found: /sw.js
+WARNING 2025-10-13 23:00:43,165 basehttp 85516 6129954816 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-13 23:00:43,167 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:00:43,167 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+INFO 2025-10-13 23:00:44,570 basehttp 85516 6129954816 "GET /donations/ HTTP/1.1" 200 30302
+INFO 2025-10-13 23:00:46,836 basehttp 85516 6129954816 "GET /accounts/dashboard/ HTTP/1.1" 302 0
+INFO 2025-10-13 23:00:46,845 basehttp 85516 6129954816 "GET /accounts/login/?next=/accounts/dashboard/ HTTP/1.1" 200 66311
+WARNING 2025-10-13 23:00:46,984 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:00:46,985 log 85516 6129954816 Not Found: /sw.js
+WARNING 2025-10-13 23:00:46,985 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-13 23:00:46,985 basehttp 85516 6129954816 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:00:55,065 basehttp 85516 6129954816 "POST /accounts/login/?next=/accounts/dashboard/ HTTP/1.1" 200 124
+INFO 2025-10-13 23:00:56,590 basehttp 85516 6129954816 "GET /accounts/verify-otp/ HTTP/1.1" 200 70731
+WARNING 2025-10-13 23:00:56,756 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:00:56,757 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-13 23:00:56,760 log 85516 6129954816 Not Found: /sw.js
+WARNING 2025-10-13 23:00:56,760 basehttp 85516 6129954816 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:00:59,251 basehttp 85516 6129954816 "POST /accounts/verify-otp/ HTTP/1.1" 200 73
+INFO 2025-10-13 23:01:00,272 basehttp 85516 6129954816 "GET / HTTP/1.1" 200 86286
+WARNING 2025-10-13 23:01:00,757 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:01:00,759 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-13 23:01:00,760 log 85516 6129954816 Not Found: /sw.js
+WARNING 2025-10-13 23:01:00,760 basehttp 85516 6129954816 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:01:02,527 basehttp 85516 6129954816 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 23:01:15,623 basehttp 85516 13035925504 "GET /accounts/dashboard/ HTTP/1.1" 200 36366
+INFO 2025-10-13 23:01:17,882 basehttp 85516 13035925504 "GET /donations/my-donations/ HTTP/1.1" 200 26102
+INFO 2025-10-13 23:01:18,654 basehttp 85516 13035925504 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 23:01:18,664 basehttp 85516 13035925504 "GET /membership/ HTTP/1.1" 200 73004
+WARNING 2025-10-13 23:01:18,765 log 85516 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 23:01:18,765 basehttp 85516 13035925504 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:01:20,518 basehttp 85516 13035925504 "GET / HTTP/1.1" 200 86287
+WARNING 2025-10-13 23:01:20,841 log 85516 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 23:01:20,841 basehttp 85516 13035925504 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:01:27,789 basehttp 85516 6129954816 "GET / HTTP/1.1" 200 86286
+WARNING 2025-10-13 23:01:28,383 log 85516 6129954816 Not Found: /sw.js
+WARNING 2025-10-13 23:01:28,384 basehttp 85516 6129954816 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-13 23:01:28,387 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:01:28,388 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+INFO 2025-10-13 23:01:33,806 basehttp 85516 6129954816 "GET /leadership/ HTTP/1.1" 200 64864
+WARNING 2025-10-13 23:01:33,962 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:01:33,964 log 85516 6129954816 Not Found: /sw.js
+WARNING 2025-10-13 23:01:33,964 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-13 23:01:33,964 basehttp 85516 6129954816 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:01:42,243 basehttp 85516 6129954816 "GET /video-gallery/ HTTP/1.1" 200 65702
+WARNING 2025-10-13 23:01:42,360 log 85516 6129954816 Not Found: /sw.js
+WARNING 2025-10-13 23:01:42,360 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:01:42,360 basehttp 85516 6129954816 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-13 23:01:42,360 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+INFO 2025-10-13 23:01:46,615 basehttp 85516 6129954816 "GET /manifesto/ HTTP/1.1" 200 70800
+WARNING 2025-10-13 23:01:46,745 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:01:46,746 log 85516 6129954816 Not Found: /sw.js
+WARNING 2025-10-13 23:01:46,747 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-13 23:01:46,747 basehttp 85516 6129954816 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:01:57,036 basehttp 85516 6129954816 "GET /donations/ HTTP/1.1" 200 37778
+INFO 2025-10-13 23:02:02,292 basehttp 85516 6129954816 "GET /donations/donate/ HTTP/1.1" 200 38363
+INFO 2025-10-13 23:03:07,338 basehttp 85516 6129954816 "GET /donations/my-donations/ HTTP/1.1" 200 40725
+INFO 2025-10-13 23:03:29,550 basehttp 85516 6129954816 "GET /donations/donate/ HTTP/1.1" 200 38363
+INFO 2025-10-13 23:03:57,752 basehttp 85516 6129954816 "GET /donations/my-donations/ HTTP/1.1" 200 40725
+INFO 2025-10-13 23:04:59,591 basehttp 85516 6129954816 "GET /donations/donate/ HTTP/1.1" 200 38363
+INFO 2025-10-13 23:05:27,206 basehttp 85516 6129954816 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 23:05:28,184 basehttp 85516 6129954816 "GET /donations/my-donations/ HTTP/1.1" 200 40725
+INFO 2025-10-13 23:05:28,923 basehttp 85516 6129954816 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 23:05:28,932 basehttp 85516 6129954816 "GET /membership/ HTTP/1.1" 200 70234
+WARNING 2025-10-13 23:05:29,100 log 85516 6129954816 Not Found: /sw.js
+WARNING 2025-10-13 23:05:29,101 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:05:29,101 basehttp 85516 6129954816 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-13 23:05:29,101 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+INFO 2025-10-13 23:05:34,195 basehttp 85516 6129954816 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 23:05:40,560 basehttp 85516 6129954816 "GET /donations/my-donations/ HTTP/1.1" 200 40725
+INFO 2025-10-13 23:06:39,504 basehttp 85516 6129954816 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 23:06:39,513 basehttp 85516 6129954816 "GET /membership/ HTTP/1.1" 200 70234
+WARNING 2025-10-13 23:06:39,709 log 85516 6129954816 Not Found: /sw.js
+WARNING 2025-10-13 23:06:39,709 basehttp 85516 6129954816 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-13 23:06:39,713 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:06:39,713 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+INFO 2025-10-13 23:06:42,568 basehttp 85516 6129954816 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 23:15:03,525 basehttp 85516 6129954816 "GET /video-gallery/ HTTP/1.1" 200 65702
+INFO 2025-10-13 23:15:03,559 basehttp 85516 6129954816 "GET /static/images/nishad-party-logo.png HTTP/1.1" 200 352190
+WARNING 2025-10-13 23:15:03,914 log 85516 6129954816 Not Found: /sw.js
+WARNING 2025-10-13 23:15:03,918 basehttp 85516 6129954816 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:15:03,918 basehttp 85516 6129954816 - Broken pipe from ('127.0.0.1', 56983)
+WARNING 2025-10-13 23:15:03,919 log 85516 6146781184 Not Found: /favicon.ico
+WARNING 2025-10-13 23:15:03,921 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:15:03,921 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-13 23:15:03,921 basehttp 85516 6146781184 "GET /favicon.ico HTTP/1.1" 404 6279
+INFO 2025-10-13 23:15:04,878 basehttp 85516 6146781184 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 23:15:09,047 basehttp 85516 6146781184 "GET /donations/my-donations/ HTTP/1.1" 200 40725
+INFO 2025-10-13 23:15:14,661 basehttp 85516 6146781184 "GET /donations/receipt/2f6e5589-c647-42f6-b58f-7b29898c48d0/ HTTP/1.1" 200 59512
+WARNING 2025-10-13 23:15:15,043 log 85516 6146781184 Not Found: /sw.js
+WARNING 2025-10-13 23:15:15,044 basehttp 85516 6146781184 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-13 23:15:15,046 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:15:15,046 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+INFO 2025-10-13 23:15:17,662 basehttp 85516 6146781184 "GET /donations/ HTTP/1.1" 200 37778
+INFO 2025-10-13 23:15:20,422 basehttp 85516 6146781184 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 23:18:06,400 basehttp 85516 6146781184 "GET /donations/ HTTP/1.1" 200 37778
+INFO 2025-10-13 23:18:08,544 basehttp 85516 6146781184 "GET /gatepass/ HTTP/1.1" 200 48637
+INFO 2025-10-13 23:18:11,748 basehttp 85516 6146781184 "GET /gatepass/permissions/ HTTP/1.1" 200 57229
+WARNING 2025-10-13 23:18:11,907 log 85516 6146781184 Not Found: /sw.js
+WARNING 2025-10-13 23:18:11,909 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:18:11,909 basehttp 85516 6146781184 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-13 23:18:11,909 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+INFO 2025-10-13 23:18:15,677 basehttp 85516 6146781184 "GET / HTTP/1.1" 200 86286
+WARNING 2025-10-13 23:18:16,284 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:18:16,286 log 85516 6146781184 Not Found: /sw.js
+WARNING 2025-10-13 23:18:16,286 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-13 23:18:16,286 basehttp 85516 6146781184 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:18:19,638 basehttp 85516 6146781184 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 23:18:23,184 basehttp 85516 6146781184 "GET /accounts/admin/permissions/ HTTP/1.1" 200 46814
+INFO 2025-10-13 23:18:30,958 basehttp 85516 6146781184 "GET /membership/ HTTP/1.1" 200 69865
+WARNING 2025-10-13 23:18:31,084 log 85516 6146781184 Not Found: /sw.js
+WARNING 2025-10-13 23:18:31,085 basehttp 85516 6146781184 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-13 23:18:31,087 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:18:31,087 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+INFO 2025-10-13 23:18:32,360 basehttp 85516 6146781184 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 23:18:33,792 basehttp 85516 6146781184 "GET /donations/my-donations/ HTTP/1.1" 200 40725
+INFO 2025-10-13 23:18:39,043 basehttp 85516 6146781184 "GET /donations/ HTTP/1.1" 200 37778
+INFO 2025-10-13 23:18:43,321 basehttp 85516 6146781184 "GET /donations/my-donations/ HTTP/1.1" 200 40725
+INFO 2025-10-13 23:18:46,054 basehttp 85516 6146781184 "GET /donations/ HTTP/1.1" 200 37778
+INFO 2025-10-13 23:18:50,605 basehttp 85516 6146781184 "GET /campaigns/events/ HTTP/1.1" 200 34162
+INFO 2025-10-13 23:18:52,335 basehttp 85516 6146781184 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 23:18:52,344 basehttp 85516 6146781184 "GET /membership/ HTTP/1.1" 200 70234
+WARNING 2025-10-13 23:18:52,482 log 85516 6146781184 Not Found: /sw.js
+WARNING 2025-10-13 23:18:52,482 basehttp 85516 6146781184 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-13 23:18:52,486 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:18:52,486 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+INFO 2025-10-13 23:18:54,609 basehttp 85516 6146781184 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 23:18:55,898 basehttp 85516 6146781184 "GET /donations/my-donations/ HTTP/1.1" 200 40725
+INFO 2025-10-13 23:19:28,941 basehttp 85516 6146781184 "GET /gatepass/ HTTP/1.1" 200 48637
+INFO 2025-10-13 23:19:34,903 basehttp 85516 6146781184 "GET /donations/my-donations/ HTTP/1.1" 200 40725
+INFO 2025-10-13 23:19:39,198 basehttp 85516 6146781184 "GET /donations/instructions/77045eca-3c0f-48c5-abf9-b1290bc3a661/ HTTP/1.1" 200 35348
+INFO 2025-10-13 23:19:47,463 basehttp 85516 6146781184 "GET /accounts/dashboard/ HTTP/1.1" 200 42102
+INFO 2025-10-13 23:19:54,984 basehttp 85516 6146781184 "GET / HTTP/1.1" 200 86286
+WARNING 2025-10-13 23:19:55,592 log 85516 6163607552 Not Found: /manifest.json
+WARNING 2025-10-13 23:19:55,592 basehttp 85516 6163607552 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-13 23:19:55,599 log 85516 6146781184 Not Found: /sw.js
+WARNING 2025-10-13 23:19:55,600 basehttp 85516 6146781184 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:20:21,151 basehttp 85516 13035925504 "GET /accounts/dashboard/ HTTP/1.1" 200 36366
+INFO 2025-10-13 23:20:25,309 basehttp 85516 13035925504 "GET /donations/my-donations/ HTTP/1.1" 200 26102
+INFO 2025-10-13 23:20:28,818 basehttp 85516 13035925504 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 23:20:28,828 basehttp 85516 13035925504 "GET /membership/ HTTP/1.1" 200 72625
+WARNING 2025-10-13 23:20:28,924 log 85516 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 23:20:28,924 basehttp 85516 13035925504 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:21:19,637 basehttp 85516 13035925504 "GET /accounts/dashboard/ HTTP/1.1" 200 36366
+INFO 2025-10-13 23:21:22,626 basehttp 85516 13035925504 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 23:21:22,636 basehttp 85516 13035925504 "GET /membership/ HTTP/1.1" 200 72625
+WARNING 2025-10-13 23:21:22,683 log 85516 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 23:21:22,683 basehttp 85516 13035925504 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:21:24,462 basehttp 85516 13035925504 "GET /accounts/dashboard/ HTTP/1.1" 200 36366
+INFO 2025-10-13 23:21:26,128 basehttp 85516 13035925504 "GET /donations/my-donations/ HTTP/1.1" 200 26102
+INFO 2025-10-13 23:21:46,009 basehttp 85516 13035925504 "GET /accounts/dashboard/ HTTP/1.1" 200 36366
+INFO 2025-10-13 23:21:49,606 basehttp 85516 13035925504 "GET /donations/my-donations/ HTTP/1.1" 200 26102
+INFO 2025-10-13 23:21:51,030 basehttp 85516 13035925504 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 23:21:51,039 basehttp 85516 13035925504 "GET /membership/ HTTP/1.1" 200 72625
+WARNING 2025-10-13 23:21:51,134 log 85516 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 23:21:51,134 basehttp 85516 13035925504 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:21:57,946 basehttp 85516 13035925504 "GET /about/ HTTP/1.1" 200 62497
+WARNING 2025-10-13 23:21:57,975 log 85516 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 23:21:57,975 basehttp 85516 13035925504 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:21:59,850 basehttp 85516 13035925504 "GET /accounts/dashboard/ HTTP/1.1" 200 36366
+INFO 2025-10-13 23:22:06,002 basehttp 85516 13035925504 "GET /membership/card/ HTTP/1.1" 200 27423
+INFO 2025-10-13 23:22:06,941 basehttp 85516 13035925504 "GET /accounts/dashboard/ HTTP/1.1" 200 36366
+INFO 2025-10-13 23:22:17,462 basehttp 85516 13035925504 "GET /accounts/complete-profile/ HTTP/1.1" 200 39186
+INFO 2025-10-13 23:22:26,831 basehttp 85516 13035925504 "GET /donations/my-donations/ HTTP/1.1" 200 32284
+INFO 2025-10-13 23:22:41,875 basehttp 85516 13035925504 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 23:22:41,888 basehttp 85516 13035925504 "GET /membership/ HTTP/1.1" 200 72625
+WARNING 2025-10-13 23:22:41,928 log 85516 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 23:22:41,928 basehttp 85516 13035925504 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:22:45,048 basehttp 85516 13035925504 "GET /accounts/dashboard/ HTTP/1.1" 200 36366
+INFO 2025-10-13 23:22:46,296 basehttp 85516 13035925504 "GET /gatepass/ HTTP/1.1" 200 30084
+INFO 2025-10-13 23:22:48,207 basehttp 85516 13035925504 "GET /campaigns/events/ HTTP/1.1" 200 31358
+INFO 2025-10-13 23:22:51,485 basehttp 85516 13035925504 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 23:22:51,491 basehttp 85516 13035925504 "GET /membership/ HTTP/1.1" 200 72625
+WARNING 2025-10-13 23:22:51,590 log 85516 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 23:22:51,590 basehttp 85516 13035925504 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:22:53,062 basehttp 85516 13035925504 "GET /accounts/dashboard/ HTTP/1.1" 200 36366
+INFO 2025-10-13 23:22:53,743 basehttp 85516 13035925504 "GET /donations/my-donations/ HTTP/1.1" 200 32284
+INFO 2025-10-13 23:23:05,058 basehttp 85516 13035925504 "GET /accounts/complete-profile/ HTTP/1.1" 200 39186
+INFO 2025-10-13 23:23:56,770 basehttp 85516 13035925504 "GET /accounts/dashboard/ HTTP/1.1" 200 36366
+INFO 2025-10-13 23:24:01,714 basehttp 85516 13035925504 "GET / HTTP/1.1" 200 86287
+WARNING 2025-10-13 23:24:02,057 log 85516 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 23:24:02,057 basehttp 85516 13035925504 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:24:03,559 basehttp 85516 13035925504 "GET /accounts/dashboard/ HTTP/1.1" 200 36366
+INFO 2025-10-13 23:24:07,520 basehttp 85516 13035925504 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-13 23:24:07,529 basehttp 85516 13035925504 "GET /membership/ HTTP/1.1" 200 72625
+WARNING 2025-10-13 23:24:07,551 log 85516 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 23:24:07,551 basehttp 85516 13035925504 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:24:09,788 basehttp 85516 13035925504 "GET /leadership/ HTTP/1.1" 200 64865
+WARNING 2025-10-13 23:24:09,810 log 85516 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 23:24:09,810 basehttp 85516 13035925504 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:24:18,615 basehttp 85516 13035925504 "GET /photo-gallery/ HTTP/1.1" 200 61281
+WARNING 2025-10-13 23:24:18,638 log 85516 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 23:24:18,639 basehttp 85516 13035925504 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:24:19,664 basehttp 85516 13035925504 "GET /photo-gallery/?category=community HTTP/1.1" 200 61281
+WARNING 2025-10-13 23:24:19,686 log 85516 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 23:24:19,686 basehttp 85516 13035925504 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:24:20,374 basehttp 85516 13035925504 "GET /photo-gallery/?category=meetings HTTP/1.1" 200 61281
+WARNING 2025-10-13 23:24:20,395 log 85516 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 23:24:20,395 basehttp 85516 13035925504 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:24:20,841 basehttp 85516 13035925504 "GET /photo-gallery/?category=leadership HTTP/1.1" 200 61281
+WARNING 2025-10-13 23:24:20,861 log 85516 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 23:24:20,861 basehttp 85516 13035925504 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-13 23:24:21,093 basehttp 85516 13035925504 "GET /photo-gallery/?category=rallies HTTP/1.1" 200 61281
+WARNING 2025-10-13 23:24:21,112 log 85516 13035925504 Not Found: /sw.js
+WARNING 2025-10-13 23:24:21,113 basehttp 85516 13035925504 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-14 11:53:59,071 autoreload 16012 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-14 11:54:00,910 basehttp 16012 6192656384 "GET / HTTP/1.1" 200 85214
+INFO 2025-10-14 11:54:00,977 basehttp 16012 6192656384 "GET /static/images/nishad-party-logo.png HTTP/1.1" 200 352190
+INFO 2025-10-14 11:54:01,198 basehttp 16012 6192656384 "GET /static/images/banner_nishad_party.png HTTP/1.1" 200 5081361
+WARNING 2025-10-14 11:54:02,842 log 16012 6226309120 Not Found: /manifest.json
+WARNING 2025-10-14 11:54:02,843 log 16012 6192656384 Not Found: /favicon.ico
+WARNING 2025-10-14 11:54:02,844 basehttp 16012 6226309120 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-14 11:54:02,844 basehttp 16012 6192656384 "GET /favicon.ico HTTP/1.1" 404 6279
+WARNING 2025-10-14 11:54:02,851 log 16012 6192656384 Not Found: /sw.js
+WARNING 2025-10-14 11:54:02,851 basehttp 16012 6192656384 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-14 11:54:04,137 basehttp 16012 6192656384 "GET /accounts/login/ HTTP/1.1" 200 66311
+WARNING 2025-10-14 11:54:04,270 log 16012 6226309120 Not Found: /manifest.json
+WARNING 2025-10-14 11:54:04,271 log 16012 6192656384 Not Found: /sw.js
+WARNING 2025-10-14 11:54:04,272 basehttp 16012 6226309120 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-14 11:54:04,272 basehttp 16012 6192656384 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-14 11:54:07,497 basehttp 16012 6192656384 "POST /accounts/login/ HTTP/1.1" 200 124
+INFO 2025-10-14 11:54:09,017 basehttp 16012 6192656384 "GET /accounts/verify-otp/ HTTP/1.1" 200 70731
+WARNING 2025-10-14 11:54:09,152 log 16012 6226309120 Not Found: /manifest.json
+WARNING 2025-10-14 11:54:09,154 log 16012 6192656384 Not Found: /sw.js
+WARNING 2025-10-14 11:54:09,154 basehttp 16012 6226309120 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-14 11:54:09,154 basehttp 16012 6192656384 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-14 11:54:11,883 basehttp 16012 6192656384 "POST /accounts/verify-otp/ HTTP/1.1" 200 73
+INFO 2025-10-14 11:54:12,906 basehttp 16012 6192656384 "GET / HTTP/1.1" 200 86286
+WARNING 2025-10-14 11:54:13,414 log 16012 6226309120 Not Found: /manifest.json
+WARNING 2025-10-14 11:54:13,416 basehttp 16012 6226309120 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-14 11:54:13,417 log 16012 6192656384 Not Found: /sw.js
+WARNING 2025-10-14 11:54:13,418 basehttp 16012 6192656384 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-14 11:54:14,574 basehttp 16012 6192656384 "GET /accounts/dashboard/ HTTP/1.1" 200 42103
+INFO 2025-10-14 11:54:14,593 basehttp 16012 6192656384 "GET /media/avatars/2c5c9cf1bb6cc344d5306057a6fa8090987601b2c0433734adb355ea34b37ae9_1.png HTTP/1.1" 200 588977
+INFO 2025-10-14 11:54:19,080 basehttp 16012 6192656384 "GET /donations/my-donations/ HTTP/1.1" 200 46907
+INFO 2025-10-14 11:54:23,054 basehttp 16012 6192656384 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-14 11:54:23,062 basehttp 16012 6192656384 "GET /membership/ HTTP/1.1" 200 70234
+WARNING 2025-10-14 11:54:23,171 log 16012 6192656384 Not Found: /sw.js
+WARNING 2025-10-14 11:54:23,171 basehttp 16012 6192656384 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-14 11:54:23,172 log 16012 6226309120 Not Found: /manifest.json
+WARNING 2025-10-14 11:54:23,172 basehttp 16012 6226309120 "GET /manifest.json HTTP/1.1" 404 6285
+INFO 2025-10-14 11:54:25,937 basehttp 16012 6192656384 "GET /accounts/dashboard/ HTTP/1.1" 200 42103
+INFO 2025-10-14 11:54:28,403 basehttp 16012 6192656384 "GET /donations/ HTTP/1.1" 200 37778
+INFO 2025-10-14 11:54:32,071 basehttp 16012 6192656384 "GET /accounts/dashboard/ HTTP/1.1" 200 42103
+INFO 2025-10-14 15:52:29,037 autoreload 43513 8485232832 Watching for file changes with StatReloader
+WARNING 2025-10-14 15:52:31,235 basehttp 43513 6139736064 "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 404 1840
+WARNING 2025-10-14 15:52:31,237 basehttp 43513 6122909696 "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 404 1846
+WARNING 2025-10-14 15:52:31,391 basehttp 43513 6122909696 "GET /static/debug_toolbar/css/print.css HTTP/1.1" 404 1840
+WARNING 2025-10-14 15:52:31,552 basehttp 43513 6139736064 "GET /static/images/icon-192.png HTTP/1.1" 404 1816
+WARNING 2025-10-14 15:52:31,556 log 43513 6122909696 Not Found: /favicon.ico
+WARNING 2025-10-14 15:52:31,557 basehttp 43513 6122909696 "GET /favicon.ico HTTP/1.1" 404 6279
+WARNING 2025-10-14 15:52:33,087 log 43513 6122909696 Not Found: /sw.js
+WARNING 2025-10-14 15:52:33,088 basehttp 43513 6122909696 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-14 15:52:42,223 autoreload 43818 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-14 15:52:44,111 basehttp 43818 6198734848 "GET / HTTP/1.1" 200 85214
+INFO 2025-10-14 15:52:44,161 basehttp 43818 6198734848 "GET /static/images/nishad-party-logo.png HTTP/1.1" 200 352190
+INFO 2025-10-14 15:52:44,442 basehttp 43818 6198734848 "GET /static/images/banner_nishad_party.png HTTP/1.1" 200 5081361
+WARNING 2025-10-14 15:52:45,564 log 43818 6198734848 Not Found: /favicon.ico
+WARNING 2025-10-14 15:52:45,566 log 43818 6232387584 Not Found: /manifest.json
+WARNING 2025-10-14 15:52:45,566 basehttp 43818 6198734848 "GET /favicon.ico HTTP/1.1" 404 6279
+WARNING 2025-10-14 15:52:45,570 basehttp 43818 6232387584 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-14 15:52:45,577 log 43818 6198734848 Not Found: /sw.js
+WARNING 2025-10-14 15:52:45,577 basehttp 43818 6198734848 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-14 15:52:50,749 basehttp 43818 6198734848 "GET /accounts/login/ HTTP/1.1" 200 66311
+WARNING 2025-10-14 15:52:50,886 log 43818 6232387584 Not Found: /manifest.json
+WARNING 2025-10-14 15:52:50,887 log 43818 6198734848 Not Found: /sw.js
+WARNING 2025-10-14 15:52:50,887 basehttp 43818 6232387584 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-14 15:52:50,887 basehttp 43818 6198734848 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-14 15:52:54,564 basehttp 43818 6198734848 "POST /accounts/login/ HTTP/1.1" 200 124
+INFO 2025-10-14 15:52:56,084 basehttp 43818 6198734848 "GET /accounts/verify-otp/ HTTP/1.1" 200 70731
+WARNING 2025-10-14 15:52:56,233 log 43818 6232387584 Not Found: /manifest.json
+WARNING 2025-10-14 15:52:56,235 basehttp 43818 6232387584 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-14 15:52:56,249 log 43818 6198734848 Not Found: /sw.js
+WARNING 2025-10-14 15:52:56,249 basehttp 43818 6198734848 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-14 15:53:00,422 basehttp 43818 6198734848 "POST /accounts/verify-otp/ HTTP/1.1" 200 73
+INFO 2025-10-14 15:53:01,445 basehttp 43818 6198734848 "GET / HTTP/1.1" 200 86286
+WARNING 2025-10-14 15:53:02,177 log 43818 6232387584 Not Found: /manifest.json
+WARNING 2025-10-14 15:53:02,177 basehttp 43818 6232387584 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-14 15:53:02,180 log 43818 6198734848 Not Found: /sw.js
+WARNING 2025-10-14 15:53:02,181 basehttp 43818 6198734848 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-14 15:53:03,410 basehttp 43818 6198734848 "GET /accounts/dashboard/ HTTP/1.1" 200 42103
+INFO 2025-10-14 15:53:03,435 basehttp 43818 6198734848 "GET /media/avatars/2c5c9cf1bb6cc344d5306057a6fa8090987601b2c0433734adb355ea34b37ae9_1.png HTTP/1.1" 200 588977
+INFO 2025-10-14 15:53:45,661 basehttp 43818 6198734848 "GET /donations/my-donations/ HTTP/1.1" 200 46907
+INFO 2025-10-14 15:53:59,774 basehttp 43818 6198734848 "GET /campaigns/events/ HTTP/1.1" 200 34162
+INFO 2025-10-14 15:54:06,594 basehttp 43818 6198734848 "GET /donations/my-donations/ HTTP/1.1" 200 46907
+INFO 2025-10-14 15:54:08,514 basehttp 43818 6198734848 "GET /membership/apply/ HTTP/1.1" 302 0
+INFO 2025-10-14 15:54:08,527 basehttp 43818 6198734848 "GET /membership/ HTTP/1.1" 200 70234
+WARNING 2025-10-14 15:54:08,734 log 43818 6198734848 Not Found: /sw.js
+WARNING 2025-10-14 15:54:08,735 log 43818 6232387584 Not Found: /manifest.json
+WARNING 2025-10-14 15:54:08,736 basehttp 43818 6198734848 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-14 15:54:08,737 basehttp 43818 6232387584 "GET /manifest.json HTTP/1.1" 404 6285
+INFO 2025-10-14 15:54:10,105 basehttp 43818 6198734848 "GET /accounts/dashboard/ HTTP/1.1" 200 42103
+INFO 2025-10-14 15:54:12,902 basehttp 43818 6198734848 "GET / HTTP/1.1" 200 86286
+WARNING 2025-10-14 15:54:13,488 log 43818 6232387584 Not Found: /manifest.json
+WARNING 2025-10-14 15:54:13,490 basehttp 43818 6232387584 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-14 15:54:13,491 log 43818 6198734848 Not Found: /sw.js
+WARNING 2025-10-14 15:54:13,492 basehttp 43818 6198734848 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-14 15:54:15,394 basehttp 43818 6198734848 "GET /accounts/logout/ HTTP/1.1" 302 0
+INFO 2025-10-14 15:54:15,400 basehttp 43818 6198734848 "GET /accounts/login/ HTTP/1.1" 200 66680
+WARNING 2025-10-14 15:54:15,536 log 43818 6198734848 Not Found: /sw.js
+WARNING 2025-10-14 15:54:15,537 basehttp 43818 6198734848 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-14 15:54:15,538 log 43818 6232387584 Not Found: /manifest.json
+WARNING 2025-10-14 15:54:15,539 basehttp 43818 6232387584 "GET /manifest.json HTTP/1.1" 404 6285
+INFO 2025-10-14 15:54:20,271 basehttp 43818 6198734848 "GET /about/ HTTP/1.1" 200 61424
+WARNING 2025-10-14 15:54:20,408 log 43818 6198734848 Not Found: /sw.js
+WARNING 2025-10-14 15:54:20,409 basehttp 43818 6198734848 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-14 15:54:20,411 log 43818 6232387584 Not Found: /manifest.json
+WARNING 2025-10-14 15:54:20,412 basehttp 43818 6232387584 "GET /manifest.json HTTP/1.1" 404 6285
+INFO 2025-10-14 15:54:23,305 basehttp 43818 6198734848 "GET / HTTP/1.1" 200 85214
+WARNING 2025-10-14 15:54:23,784 log 43818 6232387584 Not Found: /manifest.json
+WARNING 2025-10-14 15:54:23,785 basehttp 43818 6232387584 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-14 15:54:23,787 log 43818 6198734848 Not Found: /sw.js
+WARNING 2025-10-14 15:54:23,787 basehttp 43818 6198734848 "GET /sw.js HTTP/1.1" 404 6261

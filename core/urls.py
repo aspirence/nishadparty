@@ -17,6 +17,7 @@ urlpatterns = [
     path('privacy-policy/', views.privacy_policy_view, name='privacy_policy'),
     path('terms/', views.terms_view, name='terms'),
     path('sitemap/', views.sitemap_view, name='sitemap'),
+    path('sitemap.xml', views.sitemap_xml, name='sitemap_xml'),
     path('change-language/', views.change_language_view, name='change_language'),
     path('api/kejriwal-videos/', views.kejriwal_videos_api, name='kejriwal_videos_api'),
 ]
