@@ -65,7 +65,7 @@ class User(AbstractUser):
     objects = UserManager()
 
     USERNAME_FIELD = 'phone_number'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
+    REQUIRED_FIELDS = []  # Remove required fields for easier superuser creation
     
     def __str__(self):
         return f"{self.get_full_name()} ({self.phone_number})"
