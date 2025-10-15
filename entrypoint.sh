@@ -14,9 +14,6 @@ done
 
 echo "PostgreSQL is up - continuing..."
 
-# Create logs directory if it doesn't exist
-mkdir -p /app/logs
-
 # Run database migrations
 echo "Running database migrations..."
 python manage.py migrate --noinput

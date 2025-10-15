@@ -22,13 +22,16 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 COPY . /app/
 
 # Create necessary directories
-RUN mkdir -p /app/staticfiles /app/media /app/logs
+RUN mkdir -p /app/staticfiles /app/media
 
 # Make entrypoint script executable
 RUN chmod +x /app/entrypoint.sh
 
 # Expose port
-EXPOSE 8000
+EXPOSE 8020
 
 # Run entrypoint script
 ENTRYPOINT ["/app/entrypoint.sh"]
+
+# Default command
+CMD ["gunicorn", "nishadparty.wsgi:application", "--bind", "0.0.0.0:8020", "--workers", "3"]
