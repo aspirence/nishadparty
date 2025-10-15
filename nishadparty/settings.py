@@ -13,10 +13,24 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', "django-insecure-g3szm*j^#hd#zc
 DEBUG = ENVIRONMENT == 'development'
 
 # Allowed hosts
-if ENVIRONMENT == 'production':
-    ALLOWED_HOSTS = ["*"]
-else:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
+ALLOWED_HOSTS = ['*', 'nishadparty.org', 'www.nishadparty.org', 'localhost', '127.0.0.1']
+
+# CSRF Settings
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8020",
+    "http://127.0.0.1:8020",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://nishadparty.org",
+    "http://nishadparty.org",
+    "https://www.nishadparty.org",
+    "http://www.nishadparty.org"
+]
+
+CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_USE_SESSIONS = False
 
 # Application definition
 DJANGO_APPS = [
@@ -30,7 +44,6 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     'rest_framework',
-    'corsheaders',
     'django_extensions',
 ]
 
@@ -52,7 +65,6 @@ LOCAL_APPS = [
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -129,6 +141,9 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+# Static files storage
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
@@ -157,79 +172,16 @@ TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
 TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
 TWILIO_PHONE_NUMBER = os.environ.get('TWILIO_PHONE_NUMBER')
 
-# Celery Configuration
-CELERY_BROKER_URL = 'redis://redis:6379/0'
-CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = TIME_ZONE
-
-# Environment-specific configurations
+# Email Configuration
 if ENVIRONMENT == 'production':
-    # Security Settings
-    SECURE_SSL_REDIRECT = True
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
-
-    # Email Configuration
     EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
     DEFAULT_FROM_EMAIL = 'noreply@nishadparty.org'
-
-    # Static Files
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-    # CORS Settings
-    CORS_ALLOWED_ORIGINS = [
-        "https://nishadparty.org",
-        "https://www.nishadparty.org",
-    ]
-    CORS_ALLOW_CREDENTIALS = True
-
-    # Cache Configuration - Redis
-    CACHES = {
-        "default": {
-            "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": 'redis://redis:6379/1',
-            "OPTIONS": {
-                "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            }
-        }
-    }
-
-    # Session Configuration - Redis
-    SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-    SESSION_CACHE_ALIAS = 'default'
-    SESSION_COOKIE_AGE = 86400  # 24 hours
-
-else:  # Development
-    # Disable HTTPS redirects in development
-    SECURE_SSL_REDIRECT = False
-
-    # Email Backend for Development
+else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-    # CORS Settings for Development
-    CORS_ALLOW_ALL_ORIGINS = True
-    CORS_ALLOW_CREDENTIALS = True
-
-    # Use local memory cache instead of Redis for development
-    CACHES = {
-        "default": {
-            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-            "LOCATION": "unique-snowflake",
-        }
-    }
-
-    # Use database sessions instead of Redis for development
-    SESSION_ENGINE = 'django.contrib.sessions.backends.db'
-    SESSION_COOKIE_AGE = 86400  # 24 hours
+# Session Configuration
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 86400  # 24 hours
 
 # Logging Configuration
 LOGGING = {
