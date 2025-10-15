@@ -5,25 +5,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
-# Database - Using SQLite for development for simplicity
+# Database - PostgreSQL
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'nishadpartyprod',
+        'USER': 'nishadparty_user',
+        'PASSWORD': 'nishadpartydbprod',
+        'HOST': '45.159.230.101',
+        'PORT': '6546',
     }
 }
-
-# For PostgreSQL in development, uncomment below:
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.getenv('DB_NAME', 'nishadparty_dev'),
-#         'USER': os.getenv('DB_USER', 'postgres'),
-#         'PASSWORD': os.getenv('DB_PASSWORD', 'password'),
-#         'HOST': os.getenv('DB_HOST', 'localhost'),
-#         'PORT': os.getenv('DB_PORT', '5432'),
-#     }
-# }
 
 # Django Debug Toolbar (commented out for now to avoid issues)
 # if DEBUG:

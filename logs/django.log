@@ -19183,3 +19183,50 @@ WARNING 2025-10-14 15:54:23,784 log 43818 6232387584 Not Found: /manifest.json
 WARNING 2025-10-14 15:54:23,785 basehttp 43818 6232387584 "GET /manifest.json HTTP/1.1" 404 6285
 WARNING 2025-10-14 15:54:23,787 log 43818 6198734848 Not Found: /sw.js
 WARNING 2025-10-14 15:54:23,787 basehttp 43818 6198734848 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-15 11:32:13,635 autoreload 56186 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 11:32:15,591 basehttp 56186 6127480832 "GET / HTTP/1.1" 200 85214
+INFO 2025-10-15 11:32:15,856 basehttp 56186 6127480832 "GET /static/images/nishad-party-logo.png HTTP/1.1" 304 0
+INFO 2025-10-15 11:32:15,892 basehttp 56186 6127480832 "GET /static/images/banner_nishad_party.png HTTP/1.1" 200 5081361
+WARNING 2025-10-15 11:32:17,332 log 56186 6161133568 Not Found: /manifest.json
+WARNING 2025-10-15 11:32:17,333 log 56186 6144307200 Not Found: /sw.js
+WARNING 2025-10-15 11:32:17,335 log 56186 6127480832 Not Found: /favicon.ico
+WARNING 2025-10-15 11:32:17,335 basehttp 56186 6144307200 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-15 11:32:17,335 basehttp 56186 6161133568 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-15 11:32:17,336 basehttp 56186 6127480832 "GET /favicon.ico HTTP/1.1" 404 6279
+INFO 2025-10-15 11:32:17,888 basehttp 56186 6127480832 "GET /accounts/login/ HTTP/1.1" 200 66311
+WARNING 2025-10-15 11:32:18,073 log 56186 6161133568 Not Found: /manifest.json
+WARNING 2025-10-15 11:32:18,075 log 56186 6127480832 Not Found: /sw.js
+WARNING 2025-10-15 11:32:18,076 basehttp 56186 6161133568 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-15 11:32:18,076 basehttp 56186 6127480832 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-15 11:32:21,430 basehttp 56186 6127480832 "GET /sitemap/ HTTP/1.1" 200 59171
+WARNING 2025-10-15 11:32:21,617 log 56186 6127480832 Not Found: /sw.js
+WARNING 2025-10-15 11:32:21,618 basehttp 56186 6127480832 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-15 11:32:21,620 log 56186 6161133568 Not Found: /manifest.json
+WARNING 2025-10-15 11:32:21,621 basehttp 56186 6161133568 "GET /manifest.json HTTP/1.1" 404 6285
+INFO 2025-10-15 11:32:23,730 basehttp 56186 6127480832 "GET / HTTP/1.1" 200 85214
+WARNING 2025-10-15 11:32:23,757 log 56186 6127480832 Not Found: /sw.js
+WARNING 2025-10-15 11:32:23,758 basehttp 56186 6127480832 "GET /sw.js HTTP/1.1" 404 6261
+WARNING 2025-10-15 11:32:23,759 log 56186 6161133568 Not Found: /manifest.json
+WARNING 2025-10-15 11:32:23,760 basehttp 56186 6161133568 "GET /manifest.json HTTP/1.1" 404 6285
+INFO 2025-10-15 11:50:07,045 basehttp 56186 6127480832 "GET / HTTP/1.1" 200 85214
+INFO 2025-10-15 12:38:13,109 autoreload 56186 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/nishadparty/settings/development.py changed, reloading.
+INFO 2025-10-15 12:38:13,580 autoreload 83344 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:38:13,580 autoreload 83345 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:38:13,580 autoreload 83343 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:38:13,580 autoreload 83342 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:39:01,871 autoreload 84073 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:39:05,033 basehttp 84073 6128906240 "GET / HTTP/1.1" 200 85214
+INFO 2025-10-15 12:39:05,197 basehttp 84073 6128906240 "GET /static/images/nishad-party-logo.png HTTP/1.1" 200 352190
+INFO 2025-10-15 12:39:05,259 basehttp 84073 6128906240 "GET /static/images/banner_nishad_party.png HTTP/1.1" 200 5081361
+WARNING 2025-10-15 12:39:05,692 log 84073 6128906240 Not Found: /favicon.ico
+WARNING 2025-10-15 12:39:05,693 log 84073 6162558976 Not Found: /manifest.json
+WARNING 2025-10-15 12:39:05,696 basehttp 84073 6128906240 "GET /favicon.ico HTTP/1.1" 404 6279
+WARNING 2025-10-15 12:39:05,697 basehttp 84073 6162558976 "GET /manifest.json HTTP/1.1" 404 6285
+WARNING 2025-10-15 12:39:05,700 log 84073 6145732608 Not Found: /sw.js
+WARNING 2025-10-15 12:39:05,701 basehttp 84073 6145732608 "GET /sw.js HTTP/1.1" 404 6261
+INFO 2025-10-15 12:42:05,462 autoreload 83343 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/nishadparty/settings/base.py changed, reloading.
+INFO 2025-10-15 12:42:05,466 autoreload 83342 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/nishadparty/settings/base.py changed, reloading.
+INFO 2025-10-15 12:42:05,466 autoreload 83345 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/nishadparty/settings/base.py changed, reloading.
+INFO 2025-10-15 12:42:05,943 autoreload 85805 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:42:05,943 autoreload 85807 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:42:05,943 autoreload 85806 8485232832 Watching for file changes with StatReloader

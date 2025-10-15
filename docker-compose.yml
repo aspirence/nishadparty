@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: gunicorn nishadparty.wsgi:application --bind 0.0.0.0:8000 --workers 3
+    volumes:
+      - .:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+      - logs_volume:/app/logs
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=nishadparty.settings.production
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-change-this-in-production}
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  celery:
+    build: .
+    command: celery -A nishadparty worker -l info
+    volumes:
+      - .:/app
+      - logs_volume:/app/logs
+    environment:
+      - DJANGO_SETTINGS_MODULE=nishadparty.settings.production
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-change-this-in-production}
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  celery-beat:
+    build: .
+    command: celery -A nishadparty beat -l info
+    volumes:
+      - .:/app
+      - logs_volume:/app/logs
+    environment:
+      - DJANGO_SETTINGS_MODULE=nishadparty.settings.production
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-change-this-in-production}
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+volumes:
+  static_volume:
+  media_volume:
+  logs_volume:

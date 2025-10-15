@@ -19,14 +19,11 @@ SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT', '5432'),
-        'OPTIONS': {
-            'sslmode': 'require',
-        },
+        'NAME': 'nishadpartyprod',
+        'USER': 'nishadparty_user',
+        'PASSWORD': 'nishadpartydbprod',
+        'HOST': '45.159.230.101',
+        'PORT': '6546',
     }
 }
 
