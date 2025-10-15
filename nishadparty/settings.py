@@ -15,21 +15,13 @@ DEBUG = ENVIRONMENT == 'development'
 # Allowed hosts
 ALLOWED_HOSTS = ['*', 'nishadparty.org', 'www.nishadparty.org', 'localhost', '127.0.0.1']
 
-# CSRF Settings
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:8020",
-    "http://127.0.0.1:8020",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "https://nishadparty.org",
-    "http://nishadparty.org",
-    "https://www.nishadparty.org",
-    "http://www.nishadparty.org"
-]
+# CSRF Settings - Allow all for development/testing
+# For production, you should specify exact domains
+CSRF_TRUSTED_ORIGINS = ['*']
 
 CSRF_COOKIE_SECURE = False
-CSRF_COOKIE_HTTPONLY = True
-CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SAMESITE = None
 CSRF_USE_SESSIONS = False
 
 # CORS Settings
