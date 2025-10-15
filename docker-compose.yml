@@ -12,7 +12,8 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DJANGO_SETTINGS_MODULE=nishadparty.settings.production
+      - DJANGO_SETTINGS_MODULE=nishadparty.settings
+      - DJANGO_ENV=production
       - SECRET_KEY=${SECRET_KEY:-django-insecure-change-this-in-production}
     depends_on:
       - redis
@@ -31,7 +32,8 @@ services:
       - .:/app
       - logs_volume:/app/logs
     environment:
-      - DJANGO_SETTINGS_MODULE=nishadparty.settings.production
+      - DJANGO_SETTINGS_MODULE=nishadparty.settings
+      - DJANGO_ENV=production
       - SECRET_KEY=${SECRET_KEY:-django-insecure-change-this-in-production}
     depends_on:
       - redis
@@ -44,7 +46,8 @@ services:
       - .:/app
       - logs_volume:/app/logs
     environment:
-      - DJANGO_SETTINGS_MODULE=nishadparty.settings.production
+      - DJANGO_SETTINGS_MODULE=nishadparty.settings
+      - DJANGO_ENV=production
       - SECRET_KEY=${SECRET_KEY:-django-insecure-change-this-in-production}
     depends_on:
       - redis
