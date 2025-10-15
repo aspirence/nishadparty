@@ -1,10 +1,22 @@
 import os
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Environment: 'development' or 'production'
+ENVIRONMENT = os.environ.get('DJANGO_ENV', 'development')
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', "django-insecure-g3szm*j^#hd#zcg&av5l2v^w#ms3)tiuzt1ldmon7ntwxe8()b")
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', "django-insecure-g3szm*j^#hd#zcg&av5l2v^w#ms3)tiuzt1ldmon7ntwxe8()b")
+
+# Debug mode based on environment
+DEBUG = ENVIRONMENT == 'development'
+
+# Allowed hosts
+if ENVIRONMENT == 'production':
+    ALLOWED_HOSTS = ["*"]
+else:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
 # Application definition
 DJANGO_APPS = [
@@ -74,6 +86,18 @@ WSGI_APPLICATION = "nishadparty.wsgi.application"
 # Custom User Model
 AUTH_USER_MODEL = 'accounts.User'
 
+# Database Configuration
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'nishadpartyprod',
+        'USER': 'nishadparty_user',
+        'PASSWORD': 'nishadpartydbprod',
+        'HOST': '45.159.230.101',
+        'PORT': '6546',
+    }
+}
+
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -123,39 +147,89 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20
 }
 
-# Third-party API Keys (set via environment variables)
-RAZORPAY_KEY_ID = os.getenv('RAZORPAY_KEY_ID')
-RAZORPAY_KEY_SECRET = os.getenv('RAZORPAY_KEY_SECRET')
-MSG91_AUTH_KEY = os.getenv('MSG91_AUTH_KEY')
-MSG91_DEFAULT_TEMPLATE = os.getenv('MSG91_DEFAULT_TEMPLATE')
-SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
-TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
-TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
-TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER')
+# Third-party API Keys
+RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID')
+RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET')
+MSG91_AUTH_KEY = os.environ.get('MSG91_AUTH_KEY')
+MSG91_DEFAULT_TEMPLATE = os.environ.get('MSG91_DEFAULT_TEMPLATE')
+SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
+TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
+TWILIO_PHONE_NUMBER = os.environ.get('TWILIO_PHONE_NUMBER')
 
 # Celery Configuration
-CELERY_BROKER_URL = os.getenv('REDIS_URL', 'redis://redis:6379/0')
-CELERY_RESULT_BACKEND = os.getenv('REDIS_URL', 'redis://redis:6379/0')
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 
-# Cache Configuration
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": os.getenv('REDIS_URL', 'redis://redis:6379/1'),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+# Environment-specific configurations
+if ENVIRONMENT == 'production':
+    # Security Settings
+    SECURE_SSL_REDIRECT = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+
+    # Email Configuration
+    EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
+    DEFAULT_FROM_EMAIL = 'noreply@nishadparty.org'
+
+    # Static Files
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+    # CORS Settings
+    CORS_ALLOWED_ORIGINS = [
+        "https://nishadparty.org",
+        "https://www.nishadparty.org",
+    ]
+    CORS_ALLOW_CREDENTIALS = True
+
+    # Cache Configuration - Redis
+    CACHES = {
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": 'redis://redis:6379/1',
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            }
         }
     }
-}
 
-# Session Configuration
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-SESSION_CACHE_ALIAS = 'default'
-SESSION_COOKIE_AGE = 86400  # 24 hours
+    # Session Configuration - Redis
+    SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+    SESSION_CACHE_ALIAS = 'default'
+    SESSION_COOKIE_AGE = 86400  # 24 hours
+
+else:  # Development
+    # Disable HTTPS redirects in development
+    SECURE_SSL_REDIRECT = False
+
+    # Email Backend for Development
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+    # CORS Settings for Development
+    CORS_ALLOW_ALL_ORIGINS = True
+    CORS_ALLOW_CREDENTIALS = True
+
+    # Use local memory cache instead of Redis for development
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+            "LOCATION": "unique-snowflake",
+        }
+    }
+
+    # Use database sessions instead of Redis for development
+    SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+    SESSION_COOKIE_AGE = 86400  # 24 hours
 
 # Logging Configuration
 LOGGING = {
@@ -171,7 +245,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'logs' / 'django.log',
+            'filename': '/var/log/nishadparty/django.log' if ENVIRONMENT == 'production' else BASE_DIR / 'logs' / 'django.log',
             'formatter': 'verbose',
         },
         'console': {
@@ -183,7 +257,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['file', 'console'],
-            'level': 'INFO',
+            'level': 'WARNING' if ENVIRONMENT == 'production' else 'INFO',
             'propagate': True,
         },
         'accounts': {

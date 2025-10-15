@@ -19230,3 +19230,39 @@ INFO 2025-10-15 12:42:05,466 autoreload 83345 8485232832 /Users/vinaydubey/Docum
 INFO 2025-10-15 12:42:05,943 autoreload 85805 8485232832 Watching for file changes with StatReloader
 INFO 2025-10-15 12:42:05,943 autoreload 85807 8485232832 Watching for file changes with StatReloader
 INFO 2025-10-15 12:42:05,943 autoreload 85806 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:48:50,158 autoreload 85805 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/nishadparty/settings/base.py changed, reloading.
+INFO 2025-10-15 12:48:50,160 autoreload 85806 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/nishadparty/settings/base.py changed, reloading.
+INFO 2025-10-15 12:48:50,160 autoreload 85807 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/nishadparty/settings/base.py changed, reloading.
+INFO 2025-10-15 12:48:50,578 autoreload 89341 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:48:50,578 autoreload 89339 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:48:50,578 autoreload 89340 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:49:00,022 autoreload 89339 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/nishadparty/settings/base.py changed, reloading.
+INFO 2025-10-15 12:49:00,023 autoreload 89341 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/nishadparty/settings/base.py changed, reloading.
+INFO 2025-10-15 12:49:00,024 autoreload 89340 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/nishadparty/settings/base.py changed, reloading.
+INFO 2025-10-15 12:49:00,371 autoreload 89448 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:49:00,371 autoreload 89449 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:49:00,372 autoreload 89447 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:49:06,688 autoreload 89449 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/nishadparty/settings/base.py changed, reloading.
+INFO 2025-10-15 12:49:06,688 autoreload 89448 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/nishadparty/settings/base.py changed, reloading.
+INFO 2025-10-15 12:49:06,696 autoreload 89447 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/nishadparty/settings/base.py changed, reloading.
+INFO 2025-10-15 12:49:06,965 autoreload 89519 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:49:06,965 autoreload 89520 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:49:06,965 autoreload 89518 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:49:13,290 autoreload 89518 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/nishadparty/settings/base.py changed, reloading.
+INFO 2025-10-15 12:49:13,290 autoreload 89519 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/nishadparty/settings/base.py changed, reloading.
+INFO 2025-10-15 12:49:13,293 autoreload 89520 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/nishadparty/settings/base.py changed, reloading.
+INFO 2025-10-15 12:49:13,556 autoreload 89589 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:49:13,556 autoreload 89590 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:49:13,558 autoreload 89591 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:51:39,613 autoreload 89589 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/nishadparty/settings/base.py changed, reloading.
+INFO 2025-10-15 12:51:39,619 autoreload 89591 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/nishadparty/settings/base.py changed, reloading.
+INFO 2025-10-15 12:51:39,620 autoreload 89590 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/nishadparty/settings/base.py changed, reloading.
+INFO 2025-10-15 12:51:39,986 autoreload 90874 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:51:39,986 autoreload 90872 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:51:39,986 autoreload 90873 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:54:19,238 autoreload 90874 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/manage.py changed, reloading.
+INFO 2025-10-15 12:54:19,239 autoreload 90873 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/manage.py changed, reloading.
+INFO 2025-10-15 12:54:19,242 autoreload 90872 8485232832 /Users/vinaydubey/Documents/Vinay/Projects/Django/nishadparty/manage.py changed, reloading.
+INFO 2025-10-15 12:54:19,669 autoreload 92666 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:54:19,669 autoreload 92667 8485232832 Watching for file changes with StatReloader
+INFO 2025-10-15 12:54:19,669 autoreload 92665 8485232832 Watching for file changes with StatReloader
