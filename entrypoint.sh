@@ -33,11 +33,10 @@ User = get_user_model()
 if not User.objects.filter(is_superuser=True).exists():
     print("Creating superuser...")
     User.objects.create_superuser(
-        username='admin',
-        email='admin@nishadparty.org',
+        phone_number='9999999999',
         password='admin123'
     )
-    print("Superuser created: username=admin, password=admin123")
+    print("Superuser created: phone_number=9999999999, password=admin123")
 else:
     print("Superuser already exists")
 EOF
